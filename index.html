@@ -234,7 +234,7 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
   <p class="subtitle">Vorbereitung auf das persönliche Auswahlgespräch im Studiengang Public Administration</p>
 
   <div class="card msg hidden" id="msgCard">
-    <div class="msg-top"><span>Von Finn 💙</span>
+    <div class="msg-top"><span>Von Finn</span>
       <button class="msg-x" id="msgClose" aria-label="Nachricht ausblenden"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7"/></svg></button>
     </div>
     <p id="msgText"></p>
@@ -303,7 +303,7 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
     <div class="sec-head"><span>Meine Notizen</span></div>
     <ul class="list">
       <li><button class="row link" id="exportBtn"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6M6 9H4.5v8.5h11V9H14"/></svg></span><span class="main"><span class="txt">Antworten und Notizen sichern</span></span></button></li>
-      <li><button class="row link" id="msgShow"><span class="lead-ic">💙</span><span class="main"><span class="txt">Nachricht von Finn anzeigen</span></span></button></li>
+      <li><button class="row link" id="msgShow"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M10 3c4.4 0 7.5 2.7 7.5 6s-3.1 6-7.5 6c-.8 0-1.6-.1-2.3-.3L4 16.5l.9-3.1C3.4 12.3 2.5 10.8 2.5 9 2.5 5.7 5.6 3 10 3Z"/></svg></span><span class="main"><span class="txt">Nachricht von Finn anzeigen</span></span></button></li>
       <li><button class="row danger" id="resetBtn"><span class="lead-ic" style="color:var(--red)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5h13M8 5.5V3.5h4v2M5 5.5l.8 11h8.4l.8-11"/></svg></span><span class="main"><span class="txt">Fortschritt und Notizen zurücksetzen</span></span></button></li>
     </ul>
     <div class="sec-foot">Alles wird nur auf diesem iPhone gespeichert. Sichere deine Antworten ab und zu, zum Beispiel in der Notizen-App.</div>
@@ -672,8 +672,8 @@ function renderCountdown(){
   let big, sub, today=false;
   if(diff>1){big=diff+" Tage"; sub="bis zum Gespräch<br>"+date+" · "+time;}
   else if(diff===1){big="Morgen"; sub=time+" Uhr im RP Kassel";}
-  else if(diff===0&&now<d){big="Heute"; sub="um "+time+" Uhr<br>Viel Erfolg! 💙"; today=true;}
-  else{big="Geschafft"; sub="Das Gespräch ist vorbei 💙";}
+  else if(diff===0&&now<d){big="Heute"; sub="um "+time+" Uhr<br>Viel Erfolg!"; today=true;}
+  else{big="Geschafft"; sub="Das Gespräch ist vorbei";}
   $("countBig").textContent=big; $("countSub").innerHTML=sub;
   $("countTile").classList.toggle("today",today);
   $("dateInput").value=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes());
@@ -877,7 +877,7 @@ $("againBtn").onclick=()=>rate("again");
 function showFinal(){
   confetti(140);
   const o=document.createElement("div"); o.className="overlay"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true");
-  o.innerHTML='<div class="sheet"><div class="big-check">'+ICON.tick+'</div><h2>Alle '+ALL.length+' Fragen geübt!</h2><p>Du bist bereit für das Gespräch.</p><div class="card msg"><div class="msg-top"><span>Von Finn 💙</span></div><p></p></div><button class="btn filled" style="width:100%">Schließen</button></div>';
+  o.innerHTML='<div class="sheet"><div class="big-check">'+ICON.tick+'</div><h2>Alle '+ALL.length+' Fragen geübt!</h2><p>Du bist bereit für das Gespräch.</p><div class="card msg"><div class="msg-top"><span>Von Finn</span></div><p></p></div><button class="btn filled" style="width:100%">Schließen</button></div>';
   o.querySelector(".msg p").textContent=MSG;
   const close=()=>o.remove();
   o.querySelector("button").onclick=close;
