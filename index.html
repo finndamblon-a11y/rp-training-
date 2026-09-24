@@ -1766,7 +1766,23 @@ renderFinn();
 $("linksRP").innerHTML=LINKS_RP.map(l=>linkRow(...l)).join("");
 $("linksLaw").innerHTML=LINKS_LAW.map(l=>linkRow(...l)).join("");
 renderChecklist(); renderHome(); setNav(false); checkMoments();
-if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+// Offline-Modus und automatische Updates: Kommt die App aus dem Hintergrund zurück, wird nach
+// einer neuen Fassung gesucht. Ist eine da, lädt die App einmal neu (nicht während des Tippens).
+if('serviceWorker' in navigator){
+  const hadController=!!navigator.serviceWorker.controller;
+  let reg=null, reloading=false;
+  addEventListener('load',()=>navigator.serviceWorker.register('sw.js').then(r=>{reg=r;}).catch(()=>{}));
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden&&reg) reg.update().catch(()=>{});});
+  navigator.serviceWorker.addEventListener('controllerchange',()=>{
+    if(!hadController||reloading) return;
+    const tryReload=()=>{
+      const a=document.activeElement;
+      if(a&&(a.tagName==="TEXTAREA"||a.tagName==="INPUT")){setTimeout(tryReload,3000); return;}
+      reloading=true; save(); location.reload();
+    };
+    tryReload();
+  });
+}
 </script>
 </body>
 </html>
