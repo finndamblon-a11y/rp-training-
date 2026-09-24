@@ -1,6 +1,6 @@
 // Hält alle Dateien der App im Cache, damit sie ohne Internet startet.
 // Nach Änderungen an den Dateien die Versionsnummer erhöhen.
-const CACHE = 'rp-training-v16';
+const CACHE = 'rp-training-v17';
 const FILES = ['./', './index.html', './manifest.webmanifest',
                './app-icon-180-v2.png', './app-icon-192-v2.png', './app-icon-512-v2.png', './finn.jpg'];
 

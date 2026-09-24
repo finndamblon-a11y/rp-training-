@@ -1705,7 +1705,6 @@ $("restoreFile").addEventListener("change",async()=>{
 /* ---------- Tab "Finn": WhatsApp und Anruf ---------- */
 // Die Nummer steht bewusst nicht im Code (die Seite ist öffentlich), sondern wird
 // einmal auf dem iPhone eingetragen und nur dort gespeichert.
-const QUICK=["Kannst du mich kurz anrufen?","Ich bin aufgeregt 😅","Ich bin gleich dran!","Geschafft! 🎉"];
 // Macht aus 0170 …, +49 170 … oder 0049 170 … die Form 49170…, die WhatsApp braucht
 function normPhone(s){
   let d=(s||"").replace(/[^\d+]/g,"");
@@ -1736,12 +1735,9 @@ function renderFinn(editing){
     inp.addEventListener("keydown",e=>{if(e.key==="Enter") $("finnSave").click();});
     return;
   }
-  const waLink=text=>"https://wa.me/"+p+(text?"?text="+encodeURIComponent(text):"");
+  const waLink=()=>"https://wa.me/"+p;
   $("finnBody").innerHTML=banner
-    +'<div class="mock-actions"><a class="btn wa" target="_blank" rel="noopener" href="'+waLink("")+'">'+ICON.wa+'WhatsApp an Finn</a></div>'
-    +'<div class="section"><div class="sec-head"><span>Schnell schreiben</span></div><ul class="list">'
-    +QUICK.map(q=>'<li><a class="row link" target="_blank" rel="noopener" href="'+waLink(q)+'"><span class="main"><span class="txt">'+esc(q)+'</span>'+ICON.chev+'</span></a></li>').join("")
-    +'</ul><div class="sec-foot">Öffnet WhatsApp mit der Nachricht schon eingetippt. Du kannst sie vor dem Senden noch ändern.</div></div>'
+    +'<div class="mock-actions"><a class="btn wa" target="_blank" rel="noopener" href="'+waLink()+'">'+ICON.wa+'WhatsApp an Finn</a></div>'
     +'<div class="section"><ul class="list">'
     +'<li><a class="row link" href="tel:+'+p+'"><span class="lead-ic">'+ICON.phone+'</span><span class="main"><span class="txt">Finn anrufen<small>'+esc(showPhone(p))+'</small></span></span></a></li>'
     +'<li><button class="row link" id="finnEdit"><span class="main"><span class="txt">Nummer ändern</span></span></button></li>'
