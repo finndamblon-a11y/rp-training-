@@ -201,10 +201,10 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 .tabbar button:active{opacity:.6}
 
 /* Rückgängig-Leiste */
-.undo{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);z-index:41;display:flex;align-items:center;gap:14px;background:var(--label);color:var(--bg);font-size:15px;letter-spacing:-.24px;padding:8px 8px 8px 18px;border-radius:24px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:calc(100% - 32px);white-space:nowrap}
+.undo{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);z-index:41;display:flex;align-items:center;gap:14px;background:var(--label);color:var(--bg);font-size:15px;letter-spacing:-.24px;padding:8px 8px 8px 18px;border-radius:24px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:calc(100% - 32px);width:max-content;line-height:1.3}
 .undo.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
-.undo span{overflow:hidden;text-overflow:ellipsis}
-.undo button{font-weight:600;color:var(--bg);background:rgba(255,255,255,.18);border-radius:16px;padding:6px 12px;flex:none}
+.undo span{min-width:0}
+.undo button{white-space:nowrap;font-weight:600;color:var(--bg);background:rgba(255,255,255,.18);border-radius:16px;padding:6px 12px;flex:none}
 @media (prefers-color-scheme: dark){.undo button{background:rgba(0,0,0,.12)}}
 
 /* Hinweis, Konfetti und Abschlussfenster */
@@ -705,12 +705,14 @@ function daysLeft(){const d=interview(), n=new Date(); return Math.round((new Da
 // Rückgängig-Leiste wie in Apple Mail
 function showUndo(text,fn){
   const u=$("undo"); $("undoText").textContent=text; u.classList.add("on");
+  $("toast").classList.remove("on");
   $("undoBtn").onclick=()=>{u.classList.remove("on"); fn();};
   clearTimeout(showUndo.t); showUndo.t=setTimeout(()=>u.classList.remove("on"),4500);
 }
 
 function toast(text){
   const t=$("toast"); t.textContent=text; t.classList.add("on");
+  $("undo").classList.remove("on");
   clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("on"),2200);
 }
 // Kurzes Vibrieren: Android kann navigator.vibrate, iPhones (ab iOS 18) geben beim
@@ -848,7 +850,7 @@ function listRate(it,kind){
   state.seen.tip=1; save();
   const y=window.scrollY; renderHome(); window.scrollTo(0,y);
   const c=document.querySelector('.swipe[data-id="'+it.id+'"] .check'); if(c) c.classList.add("pop");
-  const text=kind==="good"?(state.done[it.id]?"Als „sitzt“ markiert":"Haken entfernt"):(state.again[it.id]?"Auf der Nochmal-Liste":"Von der Nochmal-Liste genommen");
+  const text=snap.msg||(kind==="good"?(state.done[it.id]?"Als „sitzt“ markiert":"Haken entfernt"):(state.again[it.id]?"Auf der Nochmal-Liste":"Von der Nochmal-Liste genommen"));
   if(!snap.big) showUndo(text,()=>{restoreRate(it.id,snap); const y2=window.scrollY; renderHome(); window.scrollTo(0,y2);});
 }
 
@@ -1020,7 +1022,7 @@ function updateRate(animate){
 // Setzt "Sitzt" oder "Nochmal" (erneutes Tippen nimmt es zurück) und löst Konfetti und
 // Nachrichten aus. Gibt den vorherigen Stand fürs Rückgängigmachen zurück.
 function applyRate(id,kind){
-  const snap={done:!!state.done[id],again:!!state.again[id],big:false};
+  const snap={done:!!state.done[id],again:!!state.again[id],big:false,msg:""};
   if(kind==="good"){ if(snap.done) delete state.done[id]; else{state.done[id]=true; delete state.again[id];} }
   else{ if(snap.again) delete state.again[id]; else{state.again[id]=true; delete state.done[id];} }
   save();
@@ -1041,13 +1043,14 @@ function celebrate(id,snap){
     showSheet({icon:"star",title:HALF.title,sub:doneN+" von "+ALL.length+" Fragen sitzen.",msg:HALF.msg,button:"Weiter"});
     return true;
   }
-  if(newlyDone&&ALL.filter(x=>x.cat===it.cat).every(x=>state.done[x.id])){confetti(60); toast("„"+it.cat+"“ geschafft! 🎉"); return false;}
+  if(newlyDone&&ALL.filter(x=>x.cat===it.cat).every(x=>state.done[x.id])){confetti(60); snap.msg="„"+it.cat+"“ geschafft! 🎉";}
   return false;
 }
 function rate(kind){
   const id=ALL[current].id;
-  applyRate(id,kind);
-  if(kind==="again"&&state.again[id]) toast("Kommt auf die Nochmal-Liste");
+  const snap=applyRate(id,kind);
+  if(snap.msg) toast(snap.msg);
+  else if(kind==="again"&&state.again[id]) toast("Kommt auf die Nochmal-Liste");
   updateRate(kind);
 }
 $("goodBtn").onclick=()=>rate("good");
