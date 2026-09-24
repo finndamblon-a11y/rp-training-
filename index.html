@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="RP Training">
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#11151C" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
 <title>Gesprächstraining RP Kassel</title>
 <style>
 /* Farben der bisherigen Seite: Weiß und RP-Blau, dunkel wie bisher */
@@ -23,12 +23,12 @@
 }
 @media (prefers-color-scheme: dark){
   :root{
-    --bg:#11151C; --cell:#1D232E; --cellpress:#29313F;
-    --label:#E9ECF1; --label2:#A0A9B7; --label3:rgba(160,169,183,.45);
-    --sep:#2E3644; --fill:#29313F; --fill2:#2E3644;
+    --bg:#000000; --cell:#1C1C1E; --cellpress:#2C2C2E;
+    --label:#FFFFFF; --label2:rgba(235,235,245,.62); --label3:rgba(235,235,245,.32);
+    --sep:#38383A; --fill:#2C2C2E; --fill2:#3A3A3C;
     /* Dunkelmodus: Rot der hessischen Flagge statt Blau, für Text etwas heller, damit er gut lesbar bleibt */
     --tint:#F0444C; --tintsoft:#3A1719; --tintfill:#D5202A; --ontint:#FFFFFF; --duo:#B3141C; --green:#55C08A; --greensoft:#1B3327;
-    --red:#FF6B61; --orange:#F0A33A; --orangesoft:#35280F; --navbg:rgba(17,21,28,.82);
+    --red:#FF6B61; --orange:#F0A33A; --orangesoft:#35280F; --navbg:rgba(0,0,0,.78);
   }
 }
 *,*::before,*::after{box-sizing:border-box}
@@ -116,7 +116,7 @@ a.btn{text-decoration:none}
 .seg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:12px;background:var(--fill);border-radius:9px;padding:2px}
 .seg button{height:30px;border-radius:7px;font-size:13px;font-weight:500;letter-spacing:-.08px;color:var(--label)}
 .seg button.on{background:var(--bg);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
-@media (prefers-color-scheme: dark){.seg button.on{background:#3A4454}}
+@media (prefers-color-scheme: dark){.seg button.on{background:#636366}}
 .tipline{color:var(--label2);font-size:13px;letter-spacing:-.08px;padding:10px 16px 0;text-align:center}
 .empty{text-align:center;color:var(--label2);padding:40px 16px 8px;font-size:15px}
 
