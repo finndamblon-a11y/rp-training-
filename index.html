@@ -229,6 +229,10 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 /* Tab "Finn" */
 .btn.wa{background:#25D366;color:#fff}
 .btn.wa svg{width:22px;height:22px}
+/* Titelbild: Graustufen-Foto über festem RP-Blau, "screen" ergibt Blau-Weiß wie in der Vorschau */
+.fbanner{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/2;background:#120169;margin-top:4px}
+.fbanner img{width:100%;height:100%;object-fit:cover;object-position:45% 60%;display:block;filter:grayscale(1) contrast(1.15) brightness(1.08);mix-blend-mode:screen}
+.fbanner .cap{position:absolute;left:16px;bottom:12px;color:#fff;font-family:var(--display);font-weight:700;font-size:28px;letter-spacing:.3px;text-shadow:0 1px 8px rgba(0,0,0,.35)}
 .finn-hero{text-align:center;padding:8px 0 4px}
 .finn-hero .avatar{width:84px;height:84px;border-radius:50%;background:var(--tintsoft);color:var(--tint);display:grid;place-items:center;margin:0 auto 10px;font-family:var(--display);font-size:36px;font-weight:700}
 .phone-in{width:100%;height:50px;border:0;border-radius:12px;background:var(--cell);color:var(--label);font:inherit;font-size:20px;letter-spacing:.5px;padding:0 16px;text-align:center;-webkit-appearance:none;appearance:none}
@@ -437,33 +441,7 @@ label.row{cursor:pointer}
   <p class="eyebrow">RP Kassel · Duales Studium</p>
   <h1 class="large">Finn</h1>
   <p class="subtitle">Wenn was ist: schreib mir einfach.</p>
-  <div class="finn-hero">
-    <div class="avatar" aria-hidden="true">F</div>
-  </div>
-  <div id="finnSetup" class="hidden">
-    <div class="section" style="margin-top:12px">
-      <div class="sec-head"><label for="finnPhoneIn">Finns Handynummer</label></div>
-      <input type="tel" class="phone-in" id="finnPhoneIn" inputmode="tel" autocomplete="off" placeholder="0170 …">
-      <div class="sec-foot">Einmal eintragen. Die Nummer wird nur auf diesem iPhone gespeichert.</div>
-    </div>
-    <div class="mock-actions"><button class="btn filled" id="finnSave">Speichern</button></div>
-  </div>
-  <div id="finnReady" class="hidden">
-  <div class="mock-actions">
-    <a class="btn wa" id="waOpen" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2A9.7 9.7 0 0 0 3.6 16.8L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2 4.6 4.6 0 0 0 1 2.5 10.6 10.6 0 0 0 4.1 3.6c1.5.7 2.1.7 2.9.6a2.4 2.4 0 0 0 1.6-1.1 2 2 0 0 0 .1-1.1c0-.2-.2-.2-.4-.3Z"/></svg>WhatsApp an Finn</a>
-  </div>
-  <div class="section">
-    <div class="sec-head"><span>Schnell schreiben</span></div>
-    <ul class="list" id="waQuick"></ul>
-    <div class="sec-foot">Öffnet WhatsApp mit der Nachricht schon eingetippt. Du kannst sie vor dem Senden noch ändern.</div>
-  </div>
-  <div class="section">
-    <ul class="list">
-      <li><a class="row link" id="finnCall" href="#"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 2.5 4 3.2c-1 .3-1.6 1.3-1.4 2.3 1.2 5.6 5.6 10 11.2 11.2 1 .2 2-.4 2.3-1.4l.7-2.5-3.5-1.8-1.8 1.8c-2-.9-3.6-2.5-4.5-4.5l1.8-1.8Z"/></svg></span><span class="main"><span class="txt">Finn anrufen<small id="finnNum"></small></span></span></a></li>
-      <li><button class="row link" id="finnEdit"><span class="main"><span class="txt">Nummer ändern</span></span></button></li>
-    </ul>
-  </div>
-  </div>
+  <div id="finnBody"></div>
 </section>
 
 <section id="mock" class="page hidden">
@@ -915,6 +893,8 @@ const ICON={
  stop:'<svg viewBox="0 0 20 20" fill="currentColor"><rect x="5" y="5" width="10" height="10" rx="2"/></svg>',
  dot:'<svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="6"/></svg>',
  x:'<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7"/></svg>',
+ wa:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2A9.7 9.7 0 0 0 3.6 16.8L2.3 21.7l5-1.3A9.7 9.7 0 1 0 12 2.2Zm0 17.7a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 19.9Zm4.4-6c-.2-.1-1.4-.7-1.7-.8-.2-.1-.4-.1-.5.1l-.8 1c-.1.2-.3.2-.5.1a6.6 6.6 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.5-.4h-.5a.9.9 0 0 0-.6.3 2.7 2.7 0 0 0-.8 2 4.6 4.6 0 0 0 1 2.5 10.6 10.6 0 0 0 4.1 3.6c1.5.7 2.1.7 2.9.6a2.4 2.4 0 0 0 1.6-1.1 2 2 0 0 0 .1-1.1c0-.2-.2-.2-.4-.3Z"/></svg>',
+ phone:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 2.5 4 3.2c-1 .3-1.6 1.3-1.4 2.3 1.2 5.6 5.6 10 11.2 11.2 1 .2 2-.4 2.3-1.4l.7-2.5-3.5-1.8-1.8 1.8c-2-.9-3.6-2.5-4.5-4.5l1.8-1.8Z"/></svg>',
  pencil:'<svg class="pencil" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.9 3.3a2.3 2.3 0 0 1 3.3 0l.5.5a2.3 2.3 0 0 1 0 3.3L8.6 19.2l-4.8 1.3a.5.5 0 0 1-.6-.6l1.3-4.8L16.9 3.3Z"/></svg>'
 };
 
@@ -1185,8 +1165,8 @@ function showTab(name){
   tabScroll[tab]=window.scrollY; tab=name;
   // Inhalt vorbereiten, solange die Seite noch verborgen ist
   if(name==="home") renderHome();
-  if(name==="finn") renderFinn();
   Object.keys(TABS).forEach(k=>$(k).classList.toggle("hidden",k!==name));
+  if(name==="finn") renderFinn();
   markTab(name);
   $("navTitle").textContent=TABS[name][1];
   if(name==="notes") growFree();
@@ -1734,25 +1714,40 @@ function normPhone(s){
   return d.length>=9&&d.length<=15?d:"";
 }
 const showPhone=d=>d.startsWith("49")?"0"+d.slice(2):"+"+d;
+// Der Tab wird bei jedem Öffnen komplett neu aufgebaut. Nur Ein- und Ausblenden fertiger
+// Bereiche hat Safari auf dem iPhone manchmal nicht neu gezeichnet (nur das Profilbild war zu sehen).
 // editing: Nummer wird geändert, die alte bleibt gespeichert, bis eine neue gespeichert ist
 function renderFinn(editing){
   const p=state.finnPhone, setup=!p||editing;
-  $("finnSetup").classList.toggle("hidden",!setup); $("finnReady").classList.toggle("hidden",setup);
-  if(!p) return;
+  const banner='<div class="fbanner"><img src="finn.jpg" alt="Finn und du am Bergsee" width="900" height="599"><span class="cap">Finn</span></div>';
+  if(setup){
+    $("finnBody").innerHTML=banner
+      +'<div class="section" style="margin-top:20px"><div class="sec-head"><label for="finnPhoneIn">Finns Handynummer</label></div>'
+      +'<input type="tel" class="phone-in" id="finnPhoneIn" inputmode="tel" autocomplete="off" placeholder="0170 …">'
+      +'<div class="sec-foot">Einmal eintragen. Die Nummer wird nur auf diesem iPhone gespeichert.</div></div>'
+      +'<div class="mock-actions"><button class="btn filled" id="finnSave">Speichern</button></div>';
+    const inp=$("finnPhoneIn");
+    if(editing) inp.value=showPhone(p);
+    $("finnSave").onclick=()=>{
+      const d=normPhone(inp.value);
+      if(!d){toast("Bitte eine gültige Handynummer eintragen"); inp.focus(); return;}
+      state.finnPhone=d; save(); inp.blur(); renderFinn(); toast("Nummer gespeichert");
+    };
+    inp.addEventListener("keydown",e=>{if(e.key==="Enter") $("finnSave").click();});
+    return;
+  }
   const waLink=text=>"https://wa.me/"+p+(text?"?text="+encodeURIComponent(text):"");
-  $("waOpen").href=waLink("");
-  $("finnCall").href="tel:+"+p;
-  $("finnNum").textContent=showPhone(p);
-  $("waQuick").innerHTML=QUICK.map(q=>'<li><a class="row link" target="_blank" rel="noopener" href="'+waLink(q)+'"><span class="main"><span class="txt"></span>'+ICON.chev+'</span></a></li>').join("");
-  document.querySelectorAll("#waQuick .txt").forEach((el,i)=>el.textContent=QUICK[i]);
+  $("finnBody").innerHTML=banner
+    +'<div class="mock-actions"><a class="btn wa" target="_blank" rel="noopener" href="'+waLink("")+'">'+ICON.wa+'WhatsApp an Finn</a></div>'
+    +'<div class="section"><div class="sec-head"><span>Schnell schreiben</span></div><ul class="list">'
+    +QUICK.map(q=>'<li><a class="row link" target="_blank" rel="noopener" href="'+waLink(q)+'"><span class="main"><span class="txt">'+esc(q)+'</span>'+ICON.chev+'</span></a></li>').join("")
+    +'</ul><div class="sec-foot">Öffnet WhatsApp mit der Nachricht schon eingetippt. Du kannst sie vor dem Senden noch ändern.</div></div>'
+    +'<div class="section"><ul class="list">'
+    +'<li><a class="row link" href="tel:+'+p+'"><span class="lead-ic">'+ICON.phone+'</span><span class="main"><span class="txt">Finn anrufen<small>'+esc(showPhone(p))+'</small></span></span></a></li>'
+    +'<li><button class="row link" id="finnEdit"><span class="main"><span class="txt">Nummer ändern</span></span></button></li>'
+    +'</ul></div>';
+  $("finnEdit").onclick=()=>{renderFinn(true); $("finnPhoneIn").focus();};
 }
-$("finnSave").onclick=()=>{
-  const d=normPhone($("finnPhoneIn").value);
-  if(!d){toast("Bitte eine gültige Handynummer eintragen"); $("finnPhoneIn").focus(); return;}
-  state.finnPhone=d; save(); $("finnPhoneIn").blur(); renderFinn(); toast("Nummer gespeichert");
-};
-$("finnPhoneIn").addEventListener("keydown",e=>{if(e.key==="Enter") $("finnSave").click();});
-$("finnEdit").onclick=()=>{$("finnPhoneIn").value=showPhone(state.finnPhone); renderFinn(true); $("finnPhoneIn").focus();};
 renderFinn();
 
 $("linksRP").innerHTML=LINKS_RP.map(l=>linkRow(...l)).join("");
