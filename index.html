@@ -225,6 +225,65 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 .sheet .choices{display:grid;gap:8px}
 .sheet .choices .btn{min-height:48px}
 
+/* Schalter wie in iOS */
+.switch{-webkit-appearance:none;appearance:none;flex:none;width:51px;height:31px;border-radius:16px;background:var(--fill2);position:relative;margin:0;cursor:pointer;transition:background .2s}
+.switch::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 3px 8px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.16);transition:transform .2s}
+.switch:checked{background:var(--green)}
+.switch:checked::after{transform:translateX(20px)}
+label.row{cursor:pointer}
+
+/* Probegespräch */
+.mockcard{display:flex;align-items:center;gap:14px;width:100%;padding:14px 16px;margin-top:12px;text-align:left}
+.mockcard:active{background:var(--cellpress)}
+.mockcard .mic{flex:none;width:40px;height:40px;border-radius:10px;background:var(--tint);color:var(--bg);display:grid;place-items:center}
+.mockcard .mic svg{width:22px;height:22px}
+.mockcard .tt{flex:1;min-width:0}
+.mockcard .tt b{display:block;font-weight:600}
+.mockcard .tt small{color:var(--label2);font-size:13px;letter-spacing:-.08px}
+#mock{padding-bottom:calc(40px + env(safe-area-inset-bottom,0px))}
+.seg.three{grid-template-columns:repeat(3,1fr);margin-top:0}
+.mock-q{font-family:var(--display);font-size:30px;font-weight:700;line-height:1.2;letter-spacing:.3px;margin:6px 0 0;min-height:3.6em}
+.mock-time{font-family:var(--display);font-size:64px;font-weight:300;font-variant-numeric:tabular-nums;text-align:center;letter-spacing:1px;padding:22px 0 4px}
+.mock-time.over{color:var(--orange)}
+.mock-status{text-align:center;color:var(--label2);font-size:15px;letter-spacing:-.24px;padding-bottom:18px}
+.mock-actions{display:grid;gap:10px;margin-top:20px}
+.res-row{display:flex;align-items:center;gap:8px;padding:0 10px 0 16px;position:relative}
+.list li+li .res-row::before{content:"";position:absolute;top:0;left:16px;right:0;height:.5px;background:var(--sep)}
+.res-row .open{flex:1;min-width:0;text-align:left;padding:11px 0}
+.res-row .open small{display:block;color:var(--label2);font-size:13px;letter-spacing:-.08px;margin-top:2px;font-variant-numeric:tabular-nums}
+.mini{flex:none;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--fill)}
+.mini svg{width:14px;height:14px}
+.mini.good{color:var(--green)} .mini.good.is{background:var(--green);color:var(--bg)}
+.mini.again{color:var(--orange)} .mini.again.is{background:var(--orange);color:var(--bg)}
+.big-center{text-align:center;padding-top:10px}
+.big-center .big-check{width:64px;height:64px;border-radius:50%;background:var(--green);color:var(--bg);display:grid;place-items:center;margin:0 auto 12px}
+.big-center .big-check svg{width:30px;height:30px}
+
+/* Aufnahme */
+.rec{display:flex;align-items:center;gap:10px;padding:10px 12px 10px 16px;margin-top:10px}
+.rec svg.tic{width:22px;height:22px;color:var(--red);flex:none}
+.rec .tt{flex:1;min-width:0}
+.rec .tt b{display:block;font-weight:600}
+.rec .tt small{color:var(--label2);font-size:13px;letter-spacing:-.08px}
+.rec .time{font-family:var(--display);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+.tbtn.recb{background:var(--red);color:#fff}
+.tbtn.recb.on{animation:pulse 1.2s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.55}}
+
+/* Checkliste und Anschrift */
+.lead-ic.pin{color:var(--red)}
+.xbtn{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:var(--label3)}
+.xbtn svg{width:10px;height:10px}
+.row .done-line{color:var(--label2);text-decoration:line-through}
+
+/* Formular im Fenster */
+.sheet.form{text-align:left}
+.sheet.form h2{text-align:center}
+.sheet label{display:block;color:var(--label2);font-size:13px;letter-spacing:-.08px;text-transform:uppercase;margin:12px 0 6px 4px}
+.sheet textarea{min-height:70px;background:var(--cell)}
+.sheet .choices{margin-top:18px}
+.danger-link{display:block;width:100%;text-align:center;color:var(--red);font-size:15px;padding:12px 0 0}
+
 /* Übergänge wie beim Navigieren in iOS */
 .push{animation:push .35s cubic-bezier(.2,.8,.2,1)}
 .pop-in{animation:popin .35s cubic-bezier(.2,.8,.2,1)}
@@ -243,7 +302,7 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 <header class="nav" id="nav">
   <div class="nav-in">
     <button class="nav-back hidden" id="backBtn" aria-label="Zurück zu allen Fragen">
-      <svg viewBox="0 0 13 21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2 2.5 10.5 11 19"/></svg>Fragen
+      <svg viewBox="0 0 13 21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2 2.5 10.5 11 19"/></svg><span id="backLabel">Fragen</span>
     </button>
     <div class="nav-title" id="navTitle">Gesprächstraining</div>
   </div>
@@ -292,12 +351,18 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
     </button>
   </div>
 
+  <button class="card mockcard" id="mockOpen">
+    <span class="mic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg></span>
+    <span class="tt"><b>Probegespräch</b><small>Fragen werden vorgelesen, du antwortest laut</small></span>
+    <svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5 6.5 6.5 1.5 11.5"/></svg>
+  </button>
+
   <div class="search">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
     <input type="search" id="q" placeholder="Fragen durchsuchen" autocomplete="off" enterkeyhint="search" aria-label="Fragen durchsuchen">
     <button class="clear hidden" id="qClear" aria-label="Suche löschen"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 2l6 6M8 2 2 8"/></svg></button>
   </div>
-  <div class="seg" role="group" aria-label="Fragen filtern">
+  <div class="seg" id="filterSeg" role="group" aria-label="Fragen filtern">
     <button data-f="all" class="on" aria-pressed="true">Alle</button>
     <button data-f="open" aria-pressed="false">Offen</button>
     <button data-f="again" aria-pressed="false">Nochmal</button>
@@ -313,8 +378,17 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 <section id="read" class="page tabpage hidden">
   <p class="eyebrow">RP Kassel · Duales Studium</p>
   <h1 class="large">Nachlesen</h1>
-  <p class="subtitle">Wichtige Seiten zum Regierungspräsidium Kassel und Gesetze im Wortlaut</p>
+  <p class="subtitle">Checkliste für den Gesprächstag, wichtige Seiten zum RP Kassel und Gesetze im Wortlaut</p>
   <div class="section" style="margin-top:8px">
+    <div class="sec-head"><span>Am Gesprächstag</span><span class="n" id="checkCount"></span></div>
+    <ul class="list">
+      <li><a class="row link" href="https://maps.apple.com/?q=Regierungspr%C3%A4sidium%20Kassel&amp;address=Am%20Alten%20Stadtschloss%201%2C%2034117%20Kassel" target="_blank" rel="noopener"><span class="lead-ic pin"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.5a6 6 0 0 0-6 6c0 4.3 5.1 10 5.4 10.3a.8.8 0 0 0 1.2 0C10.9 17.5 16 11.8 16 7.5a6 6 0 0 0-6-6Zm0 8.3a2.3 2.3 0 1 1 0-4.6 2.3 2.3 0 0 1 0 4.6Z"/></svg></span><span class="main"><span class="txt">Regierungspräsidium Kassel<small>Am Alten Stadtschloss 1, 34117 Kassel</small></span><svg class="ext" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 1.5h7.5V9M11.5 1.5 1.5 11.5"/></svg></span></a></li>
+      <li><a class="row link" href="tel:+495611060"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6.5 2.5 4 3.2c-1 .3-1.6 1.3-1.4 2.3 1.2 5.6 5.6 10 11.2 11.2 1 .2 2-.4 2.3-1.4l.7-2.5-3.5-1.8-1.8 1.8c-2-.9-3.6-2.5-4.5-4.5l1.8-1.8Z"/></svg></span><span class="main"><span class="txt">Zentrale anrufen<small>0561 106-0, falls etwas dazwischenkommt</small></span></span></a></li>
+    </ul>
+    <div class="sec-foot">Den genauen Ort und Raum findest du in deiner Einladung.</div>
+    <ul class="list" id="checkList" style="margin-top:14px"></ul>
+  </div>
+  <div class="section">
     <div class="sec-head"><span>Regierungspräsidium Kassel</span></div>
     <ul class="list" id="linksRP"></ul>
   </div>
@@ -326,11 +400,13 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
   <div class="section">
     <div class="sec-head"><span>Meine Notizen</span></div>
     <ul class="list">
-      <li><button class="row link" id="exportBtn"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6M6 9H4.5v8.5h11V9H14"/></svg></span><span class="main"><span class="txt">Antworten und Notizen sichern</span></span></button></li>
+      <li><button class="row link" id="exportBtn"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6M6 9H4.5v8.5h11V9H14"/></svg></span><span class="main"><span class="txt">Antworten als Text teilen<small>Zum Beispiel in die Notizen-App</small></span></span></button></li>
+      <li><button class="row link" id="backupBtn"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3.5h9l3 3v10H4Z"/><path d="M7 3.5v4h5v-4M7 16.5v-5h6v5"/></svg></span><span class="main"><span class="txt">Sicherungsdatei erstellen<small>Zum Beispiel in der Dateien-App speichern</small></span></span></button></li>
+      <li><button class="row link" id="restoreBtn"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10a6.5 6.5 0 1 0 1.9-4.6M3.5 3v3.5H7"/></svg></span><span class="main"><span class="txt">Sicherung wiederherstellen</span></span></button><input type="file" id="restoreFile" accept="application/json,.json" class="hidden"></li>
       <li><button class="row link" id="msgShow"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M10 3c4.4 0 7.5 2.7 7.5 6s-3.1 6-7.5 6c-.8 0-1.6-.1-2.3-.3L4 16.5l.9-3.1C3.4 12.3 2.5 10.8 2.5 9 2.5 5.7 5.6 3 10 3Z"/></svg></span><span class="main"><span class="txt">Nachricht von Finn anzeigen</span></span></button></li>
-      <li><button class="row danger" id="resetBtn"><span class="lead-ic" style="color:var(--red)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5h13M8 5.5V3.5h4v2M5 5.5l.8 11h8.4l.8-11"/></svg></span><span class="main"><span class="txt">Fortschritt und Notizen zurücksetzen</span></span></button></li>
+      <li><button class="row danger" id="resetBtn"><span class="lead-ic" style="color:var(--red)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5h13M8 5.5V3.5h4v2M5 5.5l.8 11h8.4l.8-11"/></svg></span><span class="main"><span class="txt">Fortschritt zurücksetzen</span></span></button></li>
     </ul>
-    <div class="sec-foot">Alles wird nur auf diesem iPhone gespeichert. Sichere deine Antworten ab und zu, zum Beispiel in der Notizen-App.</div>
+    <div class="sec-foot">Alles wird nur auf diesem iPhone gespeichert. Die Sicherungsdatei enthält Fortschritt, Antworten, Notizen, eigene Fragen und die Checkliste, aber keine Sprachaufnahmen.</div>
   </div>
   <p class="legal">Private Lernhilfe zur Gesprächsvorbereitung.<br>Kein Angebot des Regierungspräsidiums Kassel.</p>
 </section>
@@ -346,9 +422,61 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
   </div>
 </section>
 
+<section id="mock" class="page hidden">
+  <div id="mockStart">
+    <p class="eyebrow">Probegespräch</p>
+    <h1 class="large">Wie im echten Gespräch</h1>
+    <p class="subtitle">Die App liest dir die Fragen vor, du antwortest laut. Es geht los mit der Selbstvorstellung und endet mit den Fragen an die Kommission.</p>
+    <div class="section" style="margin-top:8px">
+      <div class="sec-head"><span>Anzahl Fragen</span></div>
+      <div class="seg three" id="mockSeg" role="group" aria-label="Anzahl Fragen">
+        <button data-n="5">5</button><button data-n="8">8</button><button data-n="12">12</button>
+      </div>
+    </div>
+    <div class="section">
+      <ul class="list">
+        <li><label class="row"><span class="main"><span class="txt">Fragen vorlesen<small>Lautsprecher einschalten</small></span><input type="checkbox" class="switch" id="mockVoice"></span></label></li>
+        <li><label class="row"><span class="main"><span class="txt">Vor allem offene Fragen<small>Fragen, die schon sitzen, kommen seltener</small></span><input type="checkbox" class="switch" id="mockOpenOnly"></span></label></li>
+      </ul>
+    </div>
+    <div class="mock-actions"><button class="btn filled" id="mockGo">Probegespräch starten</button></div>
+  </div>
+
+  <div id="mockRun" class="hidden">
+    <p class="eyebrow" id="mockPos"></p>
+    <h2 class="mock-q" id="mockQ"></h2>
+    <div class="card" style="margin-top:20px">
+      <div class="mock-time" id="mockTime">0:00</div>
+      <div class="mock-status" id="mockStatus"></div>
+    </div>
+    <div class="mock-actions">
+      <button class="btn filled" id="mockNext"></button>
+      <button class="btn tinted" id="mockSay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5ZM16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg>Nochmal vorlesen</button>
+    </div>
+  </div>
+
+  <div id="mockEnd" class="hidden">
+    <div class="big-center">
+      <div class="big-check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.3 4.8 9 10 3"/></svg></div>
+      <h1 class="large" style="font-size:28px;line-height:34px">Gut gemacht!</h1>
+      <p class="subtitle" id="mockSum"></p>
+    </div>
+    <div class="section" style="margin-top:8px">
+      <div class="sec-head"><span>Deine Antworten</span></div>
+      <ul class="list" id="mockList"></ul>
+      <div class="sec-foot">Frage antippen, um die Musterantwort anzusehen. Mit ✓ und ↻ markierst du, was sitzt und was du nochmal üben willst.</div>
+    </div>
+    <div class="mock-actions">
+      <button class="btn filled" id="mockDone">Fertig</button>
+      <button class="btn tinted" id="mockAgain">Neues Probegespräch</button>
+    </div>
+  </div>
+</section>
+
 <section id="card" class="page hidden">
   <div class="q-cat" id="tab"></div>
   <h2 class="q-title" id="qText"></h2>
+  <button class="textbtn hidden" id="editQ" style="padding-left:0">Frage bearbeiten</button>
 
   <div class="card timer">
     <svg class="tic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 2M10 2.5h4M18.5 6.5l1.5-1.5"/></svg>
@@ -356,6 +484,15 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
     <span class="time" id="timerTime">0:00</span>
     <button class="tbtn reset hidden" id="timerReset" aria-label="Zeit zurücksetzen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v3h3"/></svg></button>
     <button class="tbtn" id="timerBtn" aria-label="Zeit starten"></button>
+  </div>
+
+  <div class="card rec hidden" id="recCard">
+    <svg class="tic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>
+    <span class="tt"><b>Antwort aufnehmen</b><small id="recHint">Aufnehmen und anhören</small></span>
+    <span class="time hidden" id="recTime">0:00</span>
+    <button class="tbtn reset hidden" id="recDel" aria-label="Aufnahme löschen"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5h13M8 5.5V3.5h4v2M5 5.5l.8 11h8.4l.8-11"/></svg></button>
+    <button class="tbtn hidden" id="recPlay" aria-label="Aufnahme abspielen"></button>
+    <button class="tbtn recb" id="recBtn" aria-label="Aufnahme starten"></button>
   </div>
 
   <div class="section">
@@ -366,7 +503,7 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 
   <div class="answer hidden" id="answer">
     <div class="section">
-      <div class="sec-head"><span>Mögliche Antwort</span></div>
+      <div class="sec-head"><span id="aHead">Mögliche Antwort</span></div>
       <div class="card answer-body" id="aText"></div>
       <div class="sec-foot" id="aFoot"></div>
     </div>
@@ -663,15 +800,40 @@ const DEFAULT_DATE="2026-09-30T11:45";
 // Fragen mit Zielzeit für das laute Üben, in Sekunden
 const TARGET={"Stellen Sie sich bitte kurz vor.":60};
 
-const ALL = [];
-// key hält die ID einer Kategorie fest, damit gespeicherter Fortschritt nach dem Einfügen neuer Kategorien erhalten bleibt
-DATA.forEach((c,ci)=>c.items.forEach((it,ii)=>ALL.push({...it,cat:c.cat,id:(c.key??ci)+"-"+ii})));
+const CUSTOM_CAT="Eigene Fragen";
+// Checkliste für den Gesprächstag (feste Punkte, eigene kommen dazu)
+const CHECK=[
+ ["ein","Einladung zum Gespräch"],
+ ["ausweis","Personalausweis"],
+ ["unterlagen","Unterlagen, die in der Einladung genannt sind"],
+ ["stift","Stift und etwas Papier"],
+ ["wasser","Wasserflasche"],
+ ["anfahrt","Anfahrt geplant, etwa 15 Minuten früher da sein"],
+ ["handy","Handy auf lautlos"]
+];
 
 // Gleicher Speicher wie die bisherige Version, damit Fortschritt und Notizen erhalten bleiben
 const KEY="rp-kassel-training-v1";
-let state={done:{},notes:{},memo:{},again:{},hideMsgDay:"",date:"",seen:{},free:""};
-try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||localStorage.getItem(KEY); if(raw){const s=JSON.parse(raw); state.done=s.done||{}; state.notes=s.notes||{}; state.memo=s.memo||{}; state.again=s.again||{}; state.hideMsgDay=s.hideMsgDay||""; state.date=s.date||""; state.seen=s.seen||{}; state.free=s.free||"";}}catch(e){}
+function normState(s){
+  s=s||{};
+  return {done:s.done||{},notes:s.notes||{},memo:s.memo||{},again:s.again||{},hideMsgDay:s.hideMsgDay||"",date:s.date||"",
+    seen:s.seen||{},free:s.free||"",custom:Array.isArray(s.custom)?s.custom:[],check:s.check||{},checkExtra:Array.isArray(s.checkExtra)?s.checkExtra:[],
+    mockN:s.mockN||8,mockVoice:s.mockVoice!==false,mockOpenOnly:!!s.mockOpenOnly};
+}
+let state=normState();
+try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||localStorage.getItem(KEY); if(raw) state=normState(JSON.parse(raw));}catch(e){}
 function save(){const j=JSON.stringify(state);try{localStorage.setItem(KEY,j);}catch(e){}try{window.webkit.messageHandlers.rpstore.postMessage(j);}catch(e){}}
+
+// Alle Fragen: Katalog plus eigene Fragen (die IDs der eigenen Fragen beginnen mit "c")
+const ALL = [];
+function buildAll(){
+  ALL.length=0;
+  // key hält die ID einer Kategorie fest, damit gespeicherter Fortschritt nach dem Einfügen neuer Kategorien erhalten bleibt
+  DATA.forEach((c,ci)=>c.items.forEach((it,ii)=>ALL.push({...it,cat:c.cat,id:(c.key??ci)+"-"+ii})));
+  state.custom.forEach(c=>ALL.push({q:c.q,a:c.a||"",cat:CUSTOM_CAT,id:c.id,custom:true}));
+}
+buildAll();
+const cats=()=>DATA.map(c=>({cat:c.cat})).concat([{cat:CUSTOM_CAT,custom:true}]);
 
 const $=id=>document.getElementById(id);
 // seq: Reihenfolge der Fragen, durch die "Nächste" gerade führt (Indizes in ALL)
@@ -685,6 +847,11 @@ const ICON={
  next:'<svg viewBox="0 0 13 21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:17px"><path d="M2 2l8.5 8.5L2 19"/></svg>',
  tick:'<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.3 4.8 9 10 3"/></svg>',
  redo:'<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.8 6.2A3.9 3.9 0 1 1 8.6 3.3M9.6 1.2v2.4H7.2"/></svg>',
+ plus:'<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 4v12M4 10h12"/></svg>',
+ speaker:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5Z"/></svg>',
+ stop:'<svg viewBox="0 0 20 20" fill="currentColor"><rect x="5" y="5" width="10" height="10" rx="2"/></svg>',
+ dot:'<svg viewBox="0 0 20 20" fill="currentColor"><circle cx="10" cy="10" r="6"/></svg>',
+ x:'<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7"/></svg>',
  pencil:'<svg class="pencil" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.9 3.3a2.3 2.3 0 0 1 3.3 0l.5.5a2.3 2.3 0 0 1 0 3.3L8.6 19.2l-4.8 1.3a.5.5 0 0 1-.6-.6l1.3-4.8L16.9 3.3Z"/></svg>'
 };
 
@@ -800,10 +967,11 @@ function renderHome(){
   renderCountdown();
 
   const wrap=$("cats"); wrap.innerHTML=""; let shown=0;
-  DATA.forEach(c=>{
+  cats().forEach(c=>{
     const items=ALL.filter(x=>x.cat===c.cat);
     const vis=items.filter(matches);
-    if(!vis.length) return;
+    const showAdd=c.custom&&filter==="all"&&!query;
+    if(!vis.length&&!showAdd) return;
     shown+=vis.length;
     const d=items.filter(x=>state.done[x.id]).length;
     const sec=document.createElement("div"); sec.className="section";
@@ -811,12 +979,20 @@ function renderHome(){
     const ul=document.createElement("ul"); ul.className="list";
     // Oben in jeder Kategorie: nur diese (ggf. gefilterten) Fragen üben
     const pli=document.createElement("li");
+    if(!vis.length) pli.className="hidden";
     const pb=document.createElement("button"); pb.className="row link practice";
     const label=(filter==="all"&&!query)?"Nur diese Kategorie üben":(vis.length===1?"Diese Frage üben":"Diese "+vis.length+" Fragen üben");
     pb.innerHTML='<span class="lead-ic" aria-hidden="true">'+ICON.play+'</span><span class="main"><span class="txt">'+label+'</span>'+ICON.chev+'</span>';
     pb.onclick=()=>{const first=vis.find(x=>!state.done[x.id])||vis[0]; openQ(ALL.indexOf(first),idxs(vis));};
     pli.appendChild(pb); ul.appendChild(pli);
     vis.forEach(it=>ul.appendChild(questionRow(it,vis)));
+    if(showAdd){
+      const ali=document.createElement("li");
+      const ab=document.createElement("button"); ab.className="row link";
+      ab.innerHTML='<span class="lead-ic" aria-hidden="true">'+ICON.plus+'</span><span class="main"><span class="txt">Eigene Frage hinzufügen</span></span>';
+      ab.onclick=()=>editCustom(null);
+      ali.appendChild(ab); ul.appendChild(ali);
+    }
     sec.appendChild(ul); wrap.appendChild(sec);
   });
   $("empty").classList.toggle("hidden",shown>0);
@@ -885,10 +1061,10 @@ document.addEventListener("touchstart",e=>{if(openSwipe&&!openSwipe.contains(e.t
 
 function setFilter(f){
   filter=f;
-  document.querySelectorAll(".seg button").forEach(b=>{const on=b.dataset.f===f; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on);});
+  document.querySelectorAll("#filterSeg button").forEach(b=>{const on=b.dataset.f===f; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on);});
   renderHome();
 }
-document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>setFilter(b.dataset.f));
+document.querySelectorAll("#filterSeg button").forEach(b=>b.onclick=()=>setFilter(b.dataset.f));
 $("q").addEventListener("input",()=>{query=$("q").value.trim(); $("qClear").classList.toggle("hidden",!$("q").value); renderHome();});
 $("q").addEventListener("keydown",e=>{if(e.key==="Enter") $("q").blur();});
 $("qClear").onclick=()=>{$("q").value=""; query=""; $("qClear").classList.add("hidden"); renderHome(); $("q").focus();};
@@ -914,16 +1090,19 @@ $("msgShow").onclick=()=>{state.hideMsgDay=""; save(); showTab("home"); window.s
 
 
 /* Navigation */
-function setNav(onCard){
-  $("backBtn").classList.toggle("hidden",!onCard);
-  $("tabbar").classList.toggle("hidden",onCard);
-  $("toolbar").classList.toggle("hidden",!onCard);
-  $("nav").classList.toggle("always",onCard);
+// mode: false = Tabs, true = Frageansicht, "mock" = Probegespräch
+function setNav(mode){
+  const inner=!!mode;
+  $("backBtn").classList.toggle("hidden",!inner);
+  $("backLabel").textContent=mode==="mock"?"Beenden":"Fragen";
+  $("tabbar").classList.toggle("hidden",inner);
+  $("toolbar").classList.toggle("hidden",mode!==true);
+  $("nav").classList.toggle("always",inner);
   updateNav();
 }
 // Wie in iOS: Der kleine Titel erscheint erst, wenn der große Titel weggescrollt ist
 function updateNav(){
-  const onCard=!$("card").classList.contains("hidden");
+  const onCard=!$("card").classList.contains("hidden")||!$("mock").classList.contains("hidden");
   const past = onCard ? window.scrollY>4 : $(tab).querySelector(".large").getBoundingClientRect().bottom < $("nav").offsetHeight;
   $("nav").classList.toggle("solid",past);
 }
@@ -966,7 +1145,8 @@ function openQ(i,list){
   if(list) seq=list;
   if(!seq.includes(i)) seq=ALL.map((x,k)=>k);
   current=i; const it=ALL[i], pos=seq.indexOf(i);
-  Object.keys(TABS).forEach(k=>$(k).classList.add("hidden")); $("card").classList.remove("hidden");
+  mockStop(); recStop();
+  Object.keys(TABS).forEach(k=>$(k).classList.add("hidden")); $("mock").classList.add("hidden"); $("card").classList.remove("hidden");
   $("card").classList.remove("push"); void $("card").offsetWidth; $("card").classList.add("push");
   $("navTitle").textContent=(pos+1)+" von "+seq.length;
   const last=seq.length<ALL.length&&pos===seq.length-1;
@@ -974,6 +1154,9 @@ function openQ(i,list){
   $("nextBtn").setAttribute("aria-label",last?"Fertig, zurück zur Übersicht":"Nächste Frage");
   $("tab").textContent=it.cat;
   $("qText").textContent=it.q;
+  $("editQ").classList.toggle("hidden",!it.custom);
+  $("aHead").textContent=it.custom?"Deine hinterlegte Antwort":"Mögliche Antwort";
+  $("revealBtn").textContent=it.custom?"Hinterlegte Antwort zeigen":"Musterantwort zeigen";
   $("mine").value=state.notes[it.id]||"";
   $("saved").textContent="";
   $("memo").value=state.memo[it.id]||"";
@@ -982,7 +1165,7 @@ function openQ(i,list){
   $("revealBtn").classList.remove("hidden");
   $("aText").innerHTML = it.list
     ? '<ul>'+it.list.map(x=>'<li>'+fmt(x)+'</li>').join("")+'</ul>'
-    : '<p class="text">'+fmt(it.a)+'</p>';
+    : '<p class="text">'+(it.a?fmt(it.a):'<span style="color:var(--label2)">Noch keine Antwort hinterlegt. Über „Frage bearbeiten“ kannst du eine ergänzen.</span>')+'</p>';
   // Platzhalter wie [Monat] zählen und darauf hinweisen
   const ph=(answerText(it).match(/\[[^\]]+\]/g)||[]).length;
   $("aFoot").textContent = ph
@@ -992,15 +1175,17 @@ function openQ(i,list){
   const ql=QL[it.q];
   $("qlinksWrap").classList.toggle("hidden",!ql);
   $("qlinks").innerHTML=ql?ql.map(l=>linkRow(l[0],"",l[1])).join(""):"";
+  if(it.custom) $("aFoot").textContent="";
   timerReset();
+  recLoad(it.id);
   updateRate();
   window.scrollTo(0,0);
   setNav(true);
 }
 
 function goHome(){
-  timerStop();
-  $("card").classList.add("hidden"); $("home").classList.remove("hidden");
+  timerStop(); mockStop(); recStop();
+  $("card").classList.add("hidden"); $("mock").classList.add("hidden"); $("home").classList.remove("hidden");
   $("home").classList.remove("pop-in"); void $("home").offsetWidth; $("home").classList.add("pop-in");
   tab="home";
   markTab("home");
@@ -1137,7 +1322,13 @@ $("nextBtn").onclick=()=>{
   if(seq.length<ALL.length&&pos===seq.length-1){goHome();return;}
   openQ(seq[(pos+1)%seq.length]);
 };
-$("backBtn").onclick=goHome;
+$("backBtn").onclick=()=>{
+  if(!$("mock").classList.contains("hidden")){
+    if(!$("mockRun").classList.contains("hidden")&&!confirm("Probegespräch beenden?")) return;
+    goHome(); return;
+  }
+  goHome();
+};
 $("mine").addEventListener("input",()=>{
   state.notes[ALL[current].id]=$("mine").value;
   clearTimeout(saveTimer); saveTimer=setTimeout(()=>{save();$("saved").textContent="Gespeichert";},500);
@@ -1173,7 +1364,7 @@ $("randomBtn").onclick=()=>{
 
 /* Sichern und Zurücksetzen */
 $("exportBtn").onclick=async()=>{
-  const withContent=ALL.filter(hasNotes), free=(state.free||"").trim();
+  const withContent=ALL.filter(x=>hasNotes(x)||x.custom), free=(state.free||"").trim();
   if(!withContent.length&&!free){toast("Noch keine eigenen Antworten oder Notizen");return;}
   let text="Gesprächstraining RP Kassel\nMeine Antworten und Notizen, Stand "+new Date().toLocaleDateString("de-DE")+"\n";
   if(free) text+="\n\n== Meine Notizen ==\n\n"+free+"\n";
@@ -1182,6 +1373,7 @@ $("exportBtn").onclick=async()=>{
     if(it.cat!==cat){cat=it.cat; text+="\n\n== "+cat+" ==\n";}
     text+="\nFrage: "+it.q+"\nStatus: "+(state.done[it.id]?"sitzt":state.again[it.id]?"nochmal üben":"offen")+"\n";
     const m=(state.notes[it.id]||"").trim(), n=(state.memo[it.id]||"").trim();
+    if(it.custom&&it.a) text+="Hinterlegte Antwort:\n"+it.a+"\n";
     if(m) text+="Meine Antwort:\n"+m+"\n";
     if(n) text+="Meine Notizen:\n"+n+"\n";
   });
@@ -1197,14 +1389,252 @@ $("exportBtn").onclick=async()=>{
   }
 };
 $("resetBtn").onclick=()=>{
-  if(confirm("Fortschritt, eigene Antworten und Notizen zu den Fragen löschen? Deine Notizen im Tab „Notizen“ bleiben erhalten.")){
-    state={done:{},notes:{},memo:{},again:{},hideMsgDay:state.hideMsgDay,date:state.date,seen:state.seen,free:state.free}; save(); renderHome(); toast("Zurückgesetzt");
+  if(confirm("Fortschritt, deine Antworten, Notizen und Aufnahmen zu den Fragen löschen? Eigene Fragen, Checkliste und der Tab „Notizen“ bleiben erhalten.")){
+    state=normState({...state,done:{},notes:{},memo:{},again:{}}); save(); REC.clear(); renderHome(); toast("Zurückgesetzt");
   }
 };
 
+
+/* ---------- Eigene Fragen ---------- */
+function editCustom(it){
+  const ov=document.createElement("div"); ov.className="overlay"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true");
+  ov.innerHTML='<div class="sheet form"><h2></h2><label for="cq">Frage</label><textarea id="cq" placeholder="Zum Beispiel: Was wissen Sie über …?"></textarea>'
+    +'<label for="ca">Deine Antwort oder Stichpunkte</label><textarea id="ca" placeholder="Optional"></textarea>'
+    +'<div class="choices"><button class="btn filled" id="cSave">Speichern</button><button class="btn tinted" id="cCancel">Abbrechen</button></div>'
+    +(it?'<button class="danger-link" id="cDel">Frage löschen</button>':'')+'</div>';
+  ov.querySelector("h2").textContent=it?"Frage bearbeiten":"Eigene Frage";
+  const cq=ov.querySelector("#cq"), ca=ov.querySelector("#ca");
+  if(it){cq.value=it.q; ca.value=it.a||"";}
+  const close=()=>ov.remove();
+  ov.querySelector("#cCancel").onclick=close;
+  ov.querySelector("#cSave").onclick=()=>{
+    const q=cq.value.trim(); if(!q){cq.focus(); return;}
+    if(it){const c=state.custom.find(x=>x.id===it.id); c.q=q; c.a=ca.value.trim();}
+    else state.custom.push({id:"c"+Date.now(),q,a:ca.value.trim()});
+    save(); buildAll(); close();
+    if(it){const i=ALL.findIndex(x=>x.id===it.id); seq=ALL.map((x,k)=>k).filter(k=>ALL[k].custom); openQ(i,seq); toast("Gespeichert");}
+    else{renderHome(); toast("Frage hinzugefügt");}
+  };
+  if(it) ov.querySelector("#cDel").onclick=()=>{
+    if(!confirm("Diese Frage mit deinen Antworten und Notizen löschen?")) return;
+    state.custom=state.custom.filter(x=>x.id!==it.id);
+    ["done","again","notes","memo"].forEach(k=>delete state[k][it.id]);
+    REC.del(it.id); save(); buildAll(); close(); goHome(); toast("Frage gelöscht");
+  };
+  document.body.appendChild(ov); cq.focus();
+}
+$("editQ").onclick=()=>editCustom(ALL[current]);
+
+/* ---------- Checkliste für den Gesprächstag ---------- */
+function renderChecklist(){
+  const items=CHECK.map(([id,t])=>({id,t})).concat(state.checkExtra.map(x=>({id:x.id,t:x.t,extra:true})));
+  const ul=$("checkList"); ul.innerHTML="";
+  items.forEach(x=>{
+    const li=document.createElement("li"), on=!!state.check[x.id];
+    li.innerHTML='<div class="row"><span class="check'+(on?' on':'')+'" aria-hidden="true">'+(on?ICON.tick:'')+'</span><span class="main"><span class="txt'+(on?' done-line':'')+'"></span></span></div>';
+    li.querySelector(".txt").textContent=x.t;
+    const row=li.querySelector(".row"); row.setAttribute("role","checkbox"); row.setAttribute("aria-checked",on); row.tabIndex=0;
+    const toggle=()=>{if(state.check[x.id]) delete state.check[x.id]; else state.check[x.id]=true; save(); renderChecklist();};
+    row.onclick=e=>{if(!e.target.closest(".xbtn")) toggle();};
+    row.onkeydown=e=>{if(e.key===" "||e.key==="Enter"){e.preventDefault(); toggle();}};
+    if(x.extra){
+      const xb=document.createElement("button"); xb.className="xbtn"; xb.innerHTML=ICON.x; xb.setAttribute("aria-label","Punkt entfernen: "+x.t);
+      xb.onclick=()=>{state.checkExtra=state.checkExtra.filter(y=>y.id!==x.id); delete state.check[x.id]; save(); renderChecklist();};
+      li.querySelector(".main").appendChild(xb);
+    }
+    ul.appendChild(li);
+  });
+  const add=document.createElement("li");
+  add.innerHTML='<button class="row link"><span class="lead-ic" aria-hidden="true">'+ICON.plus+'</span><span class="main"><span class="txt">Eigenen Punkt hinzufügen</span></span></button>';
+  add.querySelector("button").onclick=()=>{
+    const t=(prompt("Neuer Punkt für die Checkliste")||"").trim(); if(!t) return;
+    state.checkExtra.push({id:"x"+Date.now(),t}); save(); renderChecklist();
+  };
+  ul.appendChild(add);
+  $("checkCount").textContent=items.filter(x=>state.check[x.id]).length+" von "+items.length;
+}
+
+/* ---------- Sprachaufnahme pro Frage (bleibt nur auf dem Gerät, in IndexedDB) ---------- */
+const REC={
+  db:null,
+  open(){
+    if(this.db) return Promise.resolve(this.db);
+    return new Promise((res,rej)=>{
+      const r=indexedDB.open("rp-training-rec",1);
+      r.onupgradeneeded=()=>r.result.createObjectStore("rec");
+      r.onsuccess=()=>{this.db=r.result; res(this.db);}; r.onerror=()=>rej(r.error);
+    });
+  },
+  async run(mode,fn){const db=await this.open(); return new Promise((res,rej)=>{const tx=db.transaction("rec",mode); const r=fn(tx.objectStore("rec")); tx.oncomplete=()=>res(r&&r.result); tx.onerror=()=>rej(tx.error);});},
+  get(id){return this.run("readonly",s=>s.get(id)).catch(()=>null);},
+  put(id,v){return this.run("readwrite",s=>s.put(v,id)).catch(()=>{});},
+  del(id){return this.run("readwrite",s=>s.delete(id)).catch(()=>{});},
+  clear(){return this.run("readwrite",s=>s.clear()).catch(()=>{});}
+};
+const canRecord=!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder&&window.indexedDB);
+let recId=null, recData=null, mr=null, recStream=null, recT0=0, recInt=null, recAudio=null, recURL=null;
+const fmtS=s=>Math.floor(s/60)+":"+pad(Math.floor(s%60));
+function recDraw(){
+  const rec=!!mr, has=!!recData, playing=recAudio&&!recAudio.paused;
+  $("recBtn").innerHTML=rec?ICON.stop:ICON.dot; $("recBtn").classList.toggle("on",rec);
+  $("recBtn").setAttribute("aria-label",rec?"Aufnahme beenden":(has?"Neu aufnehmen":"Aufnahme starten"));
+  $("recPlay").classList.toggle("hidden",rec||!has); $("recDel").classList.toggle("hidden",rec||!has);
+  $("recPlay").innerHTML=playing?ICON.pause:ICON.play; $("recPlay").setAttribute("aria-label",playing?"Anhalten":"Aufnahme abspielen");
+  $("recTime").classList.toggle("hidden",!rec&&!has);
+  if(rec){$("recTime").textContent=fmtS((Date.now()-recT0)/1000); $("recHint").textContent="Aufnahme läuft …";}
+  else if(has){$("recTime").textContent=fmtS(recData.dur||0); $("recHint").textContent="Aufnahme vom "+new Date(recData.date).toLocaleDateString("de-DE",{day:"numeric",month:"numeric"});}
+  else $("recHint").textContent="Aufnehmen und anhören";
+}
+async function recLoad(id){
+  $("recCard").classList.toggle("hidden",!canRecord);
+  if(!canRecord) return;
+  recPause(); recId=id; recData=null; recDraw();
+  const d=await REC.get(id); if(recId===id){recData=d||null; recDraw();}
+}
+function recPause(){if(recAudio){recAudio.pause(); recAudio=null;} if(recURL){URL.revokeObjectURL(recURL); recURL=null;}}
+function recStop(){if(mr&&mr.state!=="inactive") mr.stop(); recPause();}
+$("recBtn").onclick=async()=>{
+  if(mr){recStop(); return;}
+  recPause();
+  try{recStream=await navigator.mediaDevices.getUserMedia({audio:true});}
+  catch(e){toast("Kein Zugriff aufs Mikrofon. Bitte in den Einstellungen erlauben."); return;}
+  const id=recId, chunks=[];
+  mr=new MediaRecorder(recStream);
+  mr.ondataavailable=e=>{if(e.data&&e.data.size) chunks.push(e.data);};
+  mr.onstop=async()=>{
+    clearInterval(recInt); recStream.getTracks().forEach(tr=>tr.stop());
+    const dur=(Date.now()-recT0)/1000, blob=new Blob(chunks,{type:mr.mimeType||"audio/mp4"}); mr=null;
+    const v={blob,dur,date:Date.now()}; await REC.put(id,v);
+    if(recId===id){recData=v; recDraw();}
+  };
+  mr.start(); recT0=Date.now(); recInt=setInterval(()=>{recDraw(); if(Date.now()-recT0>300000) recStop();},250); recDraw();
+};
+$("recPlay").onclick=()=>{
+  if(recAudio&&!recAudio.paused){recAudio.pause(); recDraw(); return;}
+  if(!recAudio){recURL=URL.createObjectURL(recData.blob); recAudio=new Audio(recURL); recAudio.onended=recDraw; recAudio.onpause=recDraw;}
+  recAudio.play().then(recDraw).catch(()=>toast("Abspielen nicht möglich"));
+};
+$("recDel").onclick=async()=>{if(!confirm("Aufnahme löschen?")) return; recPause(); await REC.del(recId); recData=null; recDraw();};
+
+/* ---------- Probegespräch ---------- */
+let mock=null, mockInt=null, mockFallback=null;
+function speak(text,done){
+  if(!state.mockVoice||!("speechSynthesis" in window)){done&&done(); return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text); u.lang="de-DE"; u.rate=.97;
+  const v=speechSynthesis.getVoices().find(x=>x.lang&&x.lang.toLowerCase().startsWith("de")); if(v) u.voice=v;
+  let fired=false; const go=()=>{if(!fired){fired=true; clearTimeout(mockFallback); done&&done();}};
+  u.onend=go; u.onerror=go; mockFallback=setTimeout(go,Math.min(15000,1500+text.length*90));
+  speechSynthesis.speak(u);
+}
+function mockStop(){clearInterval(mockInt); clearTimeout(mockFallback); mockInt=null; if("speechSynthesis" in window) speechSynthesis.cancel();}
+function mockShow(part){["mockStart","mockRun","mockEnd"].forEach(p=>$(p).classList.toggle("hidden",p!==part)); window.scrollTo(0,0);}
+function openMock(){
+  homeScroll=window.scrollY; timerStop(); recStop();
+  Object.keys(TABS).forEach(k=>$(k).classList.add("hidden")); $("card").classList.add("hidden"); $("mock").classList.remove("hidden");
+  $("mock").classList.remove("push"); void $("mock").offsetWidth; $("mock").classList.add("push");
+  document.querySelectorAll("#mockSeg button").forEach(b=>{const on=+b.dataset.n===state.mockN; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on);});
+  $("mockVoice").checked=state.mockVoice; $("mockOpenOnly").checked=state.mockOpenOnly;
+  $("navTitle").textContent="Probegespräch";
+  mockShow("mockStart"); setNav("mock");
+}
+$("mockOpen").onclick=openMock;
+document.querySelectorAll("#mockSeg button").forEach(b=>b.onclick=()=>{state.mockN=+b.dataset.n; save(); openMockSeg();});
+function openMockSeg(){document.querySelectorAll("#mockSeg button").forEach(b=>{const on=+b.dataset.n===state.mockN; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on);});}
+$("mockVoice").onchange=()=>{state.mockVoice=$("mockVoice").checked; save();};
+$("mockOpenOnly").onchange=()=>{state.mockOpenOnly=$("mockOpenOnly").checked; save();};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]];} return a;}
+function startMock(){
+  const intro=ALL.findIndex(x=>x.q==="Stellen Sie sich bitte kurz vor.");
+  const outro=ALL.findIndex(x=>x.cat==="Fragen an die Kommission");
+  let pool=ALL.map((x,i)=>i).filter(i=>i!==intro&&i!==outro);
+  pool=shuffle(pool);
+  // Auf Wunsch zuerst offene und Nochmal-Fragen, dann erst die, die schon sitzen
+  if(state.mockOpenOnly) pool=pool.filter(i=>!state.done[ALL[i].id]).concat(pool.filter(i=>state.done[ALL[i].id]));
+  const n=state.mockN, mid=pool.slice(0,Math.max(0,n-2));
+  const list=[intro].concat(mid).concat(outro>=0?[outro]:[]).filter(i=>i>=0);
+  mock={list,i:0,times:list.map(()=>0)};
+  mockShow("mockRun"); mockQ();
+}
+$("mockGo").onclick=startMock;
+$("mockAgain").onclick=()=>{mockShow("mockStart"); $("navTitle").textContent="Probegespräch";};
+function mockQ(){
+  mockStop();
+  const it=ALL[mock.list[mock.i]], n=mock.list.length, last=mock.i===n-1;
+  $("mockPos").textContent="Frage "+(mock.i+1)+" von "+n;
+  $("navTitle").textContent=(mock.i+1)+" von "+n;
+  $("mockQ").textContent=it.q;
+  $("mockTime").textContent="0:00"; $("mockTime").classList.remove("over");
+  $("mockNext").textContent=last?"Zur Auswertung":"Nächste Frage";
+  $("mockSay").classList.toggle("hidden",!state.mockVoice||!("speechSynthesis" in window));
+  $("mockStatus").textContent=state.mockVoice?"Die Frage wird vorgelesen …":"Antworte laut, die Zeit läuft";
+  window.scrollTo(0,0);
+  const target=TARGET[it.q];
+  speak(it.q,()=>{
+    if(!mock) return;
+    const t0=Date.now(); mock.t0=t0;
+    $("mockStatus").textContent=target?"Antworte laut, Ziel etwa "+(target===60?"1 Minute":target+" Sekunden"):"Antworte laut, die Zeit läuft";
+    clearInterval(mockInt);
+    mockInt=setInterval(()=>{const s=(Date.now()-t0)/1000; $("mockTime").textContent=fmtS(s); $("mockTime").classList.toggle("over",!!target&&s>target);},250);
+  });
+}
+$("mockSay").onclick=()=>{if(mock) speak(ALL[mock.list[mock.i]].q);};
+$("mockNext").onclick=()=>{
+  if(!mock) return;
+  mock.times[mock.i]=mock.t0?(Date.now()-mock.t0)/1000:0; mock.t0=0;
+  mockStop();
+  if(mock.i<mock.list.length-1){mock.i++; mockQ();} else mockEnd();
+};
+function mockEnd(){
+  const total=mock.times.reduce((a,b)=>a+b,0), n=mock.list.length;
+  $("navTitle").textContent="Auswertung";
+  $("mockSum").textContent=n+" Fragen in "+fmtS(total)+" Minuten beantwortet";
+  confetti(60);
+  renderMockList(); mockShow("mockEnd");
+}
+function renderMockList(){
+  const ul=$("mockList"); ul.innerHTML="";
+  mock.list.forEach((idx,k)=>{
+    const it=ALL[idx], d=!!state.done[it.id], a=!!state.again[it.id];
+    const li=document.createElement("li");
+    li.innerHTML='<div class="res-row"><button class="open"><span class="q"></span><small>'+fmtS(mock.times[k])+' Min.</small></button>'
+      +'<button class="mini good'+(d?' is':'')+'" aria-pressed="'+d+'" aria-label="Sitzt">'+ICON.tick+'</button>'
+      +'<button class="mini again'+(a?' is':'')+'" aria-pressed="'+a+'" aria-label="Nochmal üben">'+ICON.redo+'</button></div>';
+    li.querySelector(".q").textContent=it.q;
+    li.querySelector(".open").onclick=()=>openQ(idx,mock.list);
+    li.querySelector(".mini.good").onclick=()=>{const s=applyRate(it.id,"good"); if(s.msg) toast(s.msg); renderMockList();};
+    li.querySelector(".mini.again").onclick=()=>{applyRate(it.id,"again"); renderMockList();};
+    ul.appendChild(li);
+  });
+}
+$("mockDone").onclick=()=>{mock=null; goHome();};
+
+/* ---------- Sicherungsdatei erstellen und wiederherstellen ---------- */
+$("backupBtn").onclick=async()=>{
+  const data={app:"rp-training",version:1,created:new Date().toISOString(),state};
+  const name="RP-Training-Sicherung-"+todayKey()+".json";
+  const file=new File([JSON.stringify(data)],name,{type:"application/json"});
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{await navigator.share({files:[file],title:"RP Training Sicherung"});}catch(e){}
+    return;
+  }
+  const a=document.createElement("a"); a.href=URL.createObjectURL(file); a.download=name; a.click();
+  toast("Sicherung gespeichert");
+};
+$("restoreBtn").onclick=()=>$("restoreFile").click();
+$("restoreFile").addEventListener("change",async()=>{
+  const f=$("restoreFile").files[0]; $("restoreFile").value=""; if(!f) return;
+  let data=null; try{data=JSON.parse(await f.text());}catch(e){}
+  if(!data||data.app!=="rp-training"||!data.state){toast("Das ist keine Sicherung dieser App"); return;}
+  const when=new Date(data.created).toLocaleDateString("de-DE");
+  if(!confirm("Sicherung vom "+when+" laden? Der aktuelle Stand wird dabei ersetzt.")) return;
+  state=normState(data.state); save(); buildAll();
+  $("freeNotes").value=state.free; renderChecklist(); renderHome(); toast("Sicherung geladen");
+});
+
 $("linksRP").innerHTML=LINKS_RP.map(l=>linkRow(...l)).join("");
 $("linksLaw").innerHTML=LINKS_LAW.map(l=>linkRow(...l)).join("");
-renderHome(); updateNav(); checkMoments();
+renderChecklist(); renderHome(); updateNav(); checkMoments();
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>
 </body>
