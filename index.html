@@ -4,241 +4,376 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="RP Training">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#11151C" media="(prefers-color-scheme: dark)">
 <title>Gesprächstraining RP Kassel</title>
-
-
-
 <style>
+/* Farben der bisherigen Seite: Weiß und RP-Blau, dunkel wie bisher */
 :root{
-  --bg:#FFFFFF; --band:#F1F2F4; --card:#FFFFFF; --ink:#1A1F29; --muted:#5B6472; --line:#D9DDE3;
-  --red:#120169; --redhover:#0B0047; --redsoft:#EEECF7; --done:#1F7A4D; --donesoft:#E5F2EA; --chip:#E9ECF0;
-  --font:"Source Sans 3", -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --bg:#FFFFFF; --cell:#F1F2F4; --cellpress:#E3E5E9;
+  --label:#1A1F29; --label2:#5B6472; --label3:rgba(91,100,114,.45);
+  --sep:#D9DDE3; --fill:#E9ECF0; --fill2:#E1E4E9;
+  --tint:#120169; --tintsoft:#EEECF7; --green:#1F7A4D; --greensoft:#E5F2EA;
+  --red:#C62828; --orange:#B26A00; --orangesoft:#FBF0DF; --navbg:rgba(255,255,255,.82);
+  --font:-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  --display:-apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+  color-scheme:light dark;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#11151C; --band:#181D26; --card:#1D232E; --ink:#E9ECF1; --muted:#A0A9B7; --line:#2E3644;
-    --red:#A99EFF; --redhover:#C2BAFF; --redsoft:#221C44; --done:#55C08A; --donesoft:#1B3327; --chip:#29313F;
+  :root{
+    --bg:#11151C; --cell:#1D232E; --cellpress:#29313F;
+    --label:#E9ECF1; --label2:#A0A9B7; --label3:rgba(160,169,183,.45);
+    --sep:#2E3644; --fill:#29313F; --fill2:#2E3644;
+    --tint:#A99EFF; --tintsoft:#221C44; --green:#55C08A; --greensoft:#1B3327;
+    --red:#FF6B61; --orange:#F0A33A; --orangesoft:#35280F; --navbg:rgba(17,21,28,.82);
   }
 }
-:root[data-theme="dark"]{
-  --bg:#11151C; --band:#181D26; --card:#1D232E; --ink:#E9ECF1; --muted:#A0A9B7; --line:#2E3644;
-  --red:#A99EFF; --redhover:#C2BAFF; --redsoft:#221C44; --done:#55C08A; --donesoft:#1B3327; --chip:#29313F;
-}
-:root{box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px);}
-*,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.55}
-button{font:inherit;color:inherit;cursor:pointer}
-button:focus-visible,textarea:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--label);font-family:var(--font);font-size:17px;line-height:1.35;letter-spacing:-.41px;-webkit-font-smoothing:antialiased}
+button{font:inherit;letter-spacing:inherit;color:inherit;cursor:pointer;background:none;border:0;padding:0}
+button:focus-visible,textarea:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--tint);outline-offset:2px;border-radius:8px}
 .hidden{display:none!important}
+svg{display:block}
+.page{max-width:680px;margin:0 auto;padding:0 16px}
+.tabpage{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 
-/* Kopfzeile */
-.masthead{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
-.masthead .in{max-width:720px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:12px}
-.mark{display:flex;flex-direction:column;gap:3px;flex:none}
-.mark i{display:block;width:26px;height:6px;background:var(--red)}
-.mark i:nth-child(2){width:18px}
-.mark i:nth-child(3){width:10px}
-.brand{line-height:1.1;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
-.brand b{font-family:"Plus Jakarta Sans",var(--font);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;color:var(--red)}
-.brand span{font-size:.92rem;font-weight:600;color:var(--muted)}
-.redline{height:4px;background:var(--red)}
+/* Navigationsleiste mit Milchglas */
+.nav{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top,0px);background:transparent;transition:background .2s}
+.nav.solid{background:var(--navbg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 .5px 0 var(--sep)}
+.nav-in{max-width:680px;margin:0 auto;height:44px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 8px}
+.nav-title{grid-column:2;font-weight:600;font-size:17px;text-align:center;opacity:0;transition:opacity .2s;white-space:nowrap}
+.nav.solid .nav-title,.nav.always .nav-title{opacity:1}
+.nav-back{grid-column:1;display:flex;align-items:center;gap:3px;color:var(--tint);font-size:17px;padding:8px 8px 8px 2px;justify-self:start}
+.nav-back svg{width:13px;height:21px}
+.nav-back:active{opacity:.35}
 
-.wrap{max-width:720px;margin:0 auto;padding:0 18px}
+/* Kopf */
+.eyebrow{color:var(--tint);font-size:13px;font-weight:700;letter-spacing:.2px;text-transform:uppercase;margin:6px 0 0}
+.large{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:.37px;line-height:41px;margin:2px 0 0}
+.subtitle{color:var(--label2);font-size:15px;letter-spacing:-.24px;margin:2px 0 20px}
+.card{background:var(--cell);border-radius:12px}
 
-/* Startbereich */
-.hero{background:var(--band);border-bottom:1px solid var(--line)}
-.hero .wrap{padding-top:26px;padding-bottom:26px}
-.kicker{display:inline-block;background:var(--red);color:var(--bg);font-size:.82rem;font-weight:600;padding:3px 10px;margin-bottom:12px}
-.hero h1{font-family:"Plus Jakarta Sans",var(--font);font-size:1.95rem;line-height:1.15;font-weight:800;margin:0 0 6px;letter-spacing:-.02em;color:var(--red)}
-.hero p{margin:0;color:var(--muted)}
-.progress{margin-top:22px;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--red);padding:14px 16px}
-.progress .count{font-size:.98rem;color:var(--muted)}
-.progress .count b{color:var(--ink);font-size:1.5rem;font-weight:700;margin-right:2px}
-.bar{height:8px;background:var(--chip);overflow:hidden;margin-top:10px}
-.bar i{display:block;height:100%;background:var(--done);width:0;transition:width .4s ease}
-.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
-.btn{border:0;border-radius:3px;padding:13px 18px;font-weight:600;font-size:1rem;line-height:1.2}
-.btn.primary{background:var(--red);color:var(--bg);flex:1 1 180px}
-.btn.primary:hover{background:var(--redhover)}
-.btn.ghost{background:var(--card);border:2px solid var(--ink);color:var(--ink);flex:1 1 140px}
+/* Nachricht */
+.msg{padding:14px 16px 16px;margin-bottom:12px;background:var(--tintsoft)}
+.msg-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.msg-top span{color:var(--tint);font-size:13px;font-weight:700;letter-spacing:.2px;text-transform:uppercase}
+.msg-x{width:28px;height:28px;border-radius:50%;background:var(--fill2);color:var(--label2);display:grid;place-items:center;margin:-4px -6px 0 0}
+.msg-x svg{width:10px;height:10px}
+.msg p{margin:0;font-family:var(--display);font-size:22px;font-weight:700;line-height:1.25;letter-spacing:.2px;color:var(--label)}
 
-/* Verzeichnis */
-.dir{padding-top:28px;padding-bottom:12px}
-.dir-title{font-size:1.35rem;font-weight:700;margin:0 0 18px;padding-left:12px;border-left:5px solid var(--red)}
-.cat{background:var(--card);border:1px solid var(--line);margin-bottom:18px}
-.cat h2{margin:0;padding:14px 16px;font-size:1.08rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
-.cat h2 span{font-weight:600;font-size:.82rem;color:var(--muted);background:var(--chip);padding:2px 9px;white-space:nowrap}
-.cat h2 span.full{background:var(--donesoft);color:var(--done)}
-.qlist{list-style:none;margin:0;padding:0}
-.qlist li+li button{border-top:1px solid var(--line)}
-.qlist li button{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;padding:13px 16px}
-.qlist li button:hover{background:var(--band)}
-.dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);margin-top:3px;display:grid;place-items:center}
-.dot.done{background:var(--done);border-color:var(--done)}
-.dot.done::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
-.qt{font-size:1rem}
-.done-t{color:var(--muted)}
-.pen{flex:none;margin-left:auto;font-size:.75rem;font-weight:600;color:var(--red);background:var(--redsoft);padding:2px 7px;margin-top:2px}
-.foot{border-top:1px solid var(--line);background:var(--band);margin-top:20px}
-.foot .wrap{padding-top:18px;padding-bottom:28px;font-size:.88rem;color:var(--muted)}
-.reset{background:none;border:0;color:var(--red);text-decoration:underline;font-size:.92rem;padding:4px 0;margin-bottom:10px;font-weight:600}
+/* Kacheln wie Widgets */
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{padding:14px;display:flex;flex-direction:column;gap:6px;text-align:left;min-height:132px}
+.tile:active{background:var(--cellpress)}
+.tile-label{display:flex;align-items:center;gap:6px;color:var(--label2);font-size:13px;font-weight:600;letter-spacing:-.08px}
+.tile-label svg{width:16px;height:16px;color:var(--tint)}
+.tile-big{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:.36px;line-height:1.1;font-variant-numeric:tabular-nums}
+.tile-sub{color:var(--label2);font-size:13px;letter-spacing:-.08px;line-height:1.3;margin-top:auto}
+.tile.today .tile-big{color:var(--tint)}
+.ringrow{display:flex;align-items:center;gap:10px}
+.ring{flex:none;width:52px;height:52px;position:relative}
+.ring svg{width:52px;height:52px;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:7}
+.ring .track{stroke:var(--fill2)}
+.ring .val{stroke:var(--green);stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+.again-n{color:var(--orange);font-weight:600}
+.tilewrap{position:relative;display:grid}
+.dateinput{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;margin:0;font-size:16px;cursor:pointer;-webkit-appearance:none;appearance:none}
+.tilewrap:active .tile{background:var(--cellpress)}
+
+/* Knöpfe */
+.actions{display:flex;gap:10px;margin:12px 0 0}
+.btn{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;min-height:50px;border-radius:12px;font-size:17px;font-weight:600;padding:0 14px;transition:transform .1s,opacity .1s}
+.btn:active{transform:scale(.97);opacity:.8}
+.btn svg{width:19px;height:19px;flex:none}
+.btn.filled{background:var(--tint);color:var(--bg)}
+.btn.tinted{background:var(--tintsoft);color:var(--tint)}
+
+/* Suche und Filter */
+.search{position:relative;margin-top:24px}
+.search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--label2)}
+.search input{width:100%;height:38px;border:0;border-radius:10px;background:var(--fill);color:var(--label);font:inherit;font-size:17px;letter-spacing:-.41px;padding:0 34px 0 34px;-webkit-appearance:none;appearance:none}
+.search input::placeholder{color:var(--label2)}
+.search input::-webkit-search-cancel-button,.search input::-webkit-search-decoration{-webkit-appearance:none;display:none}
+.search input:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
+.search .clear{position:absolute;right:8px;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:var(--label3);color:var(--bg);display:grid;place-items:center}
+.search .clear svg{position:static;transform:none;width:8px;height:8px;color:var(--bg)}
+.seg{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:12px;background:var(--fill);border-radius:9px;padding:2px}
+.seg button{height:30px;border-radius:7px;font-size:13px;font-weight:500;letter-spacing:-.08px;color:var(--label)}
+.seg button.on{background:var(--bg);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
+@media (prefers-color-scheme: dark){.seg button.on{background:#3A4454}}
+.empty{text-align:center;color:var(--label2);padding:40px 16px 8px;font-size:15px}
+
+/* Gruppierte Listen */
+.section{margin-top:28px}
+.sec-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:0 16px 7px;color:var(--label2);font-size:13px;letter-spacing:-.08px;text-transform:uppercase}
+.sec-head .n{text-transform:none;font-variant-numeric:tabular-nums;white-space:nowrap}
+.sec-head .n.full{color:var(--green);font-weight:600}
+.sec-foot{padding:7px 16px 0;color:var(--label2);font-size:13px;letter-spacing:-.08px}
+.list{list-style:none;margin:0;padding:0;background:var(--cell);border-radius:12px;overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:0 0 0 16px;text-align:left;color:var(--label);text-decoration:none;position:relative}
+.row:active{background:var(--cellpress)}
+.row .main{flex:1;min-width:0;display:flex;align-items:center;gap:8px;padding:11px 16px 11px 0;position:relative}
+.list li+li .row .main::before{content:"";position:absolute;top:0;left:0;right:0;height:.5px;background:var(--sep)}
+.row .txt{flex:1;min-width:0}
+.row .txt small{display:block;color:var(--label2);font-size:15px;letter-spacing:-.24px;margin-top:1px}
+.row .done-t{color:var(--label2)}
+.row mark{background:var(--tintsoft);color:inherit;border-radius:3px;padding:0 1px}
+.chev{flex:none;width:8px;height:13px;color:var(--label3)}
+.ext{flex:none;width:13px;height:13px;color:var(--label3)}
+.check{flex:none;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--label3);display:grid;place-items:center}
+.check.on{background:var(--green);border-color:var(--green)}
+.check.on svg{width:12px;height:12px;color:var(--bg)}
+.check.again{background:var(--orange);border-color:var(--orange)}
+.check.again svg{width:12px;height:12px;color:var(--bg)}
+.pencil{flex:none;width:17px;height:17px;color:var(--orange)}
+.row.link{color:var(--tint)}
+.row.practice{font-weight:600}
+.lead-ic{flex:none;width:22px;height:22px;display:grid;place-items:center;color:var(--tint)}
+.lead-ic svg{width:17px;height:17px}
+.row.danger{color:var(--red)}
+.legal{color:var(--label2);font-size:13px;letter-spacing:-.08px;text-align:center;padding:16px 16px 40px}
 
 /* Frageansicht */
-.crumbs{padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.92rem}
-.back{background:none;border:0;padding:6px 0;font-weight:600;color:var(--red)}
-.pos{color:var(--muted)}
-.qcard{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--red);margin-top:12px;position:relative;overflow:hidden}
-.qhead{padding:18px 18px 4px}
-.tab{display:inline-block;background:var(--chip);font-size:.82rem;font-weight:600;padding:3px 10px;margin-bottom:12px;color:var(--muted)}
-.question{font-size:1.45rem;line-height:1.3;font-weight:700;margin:0 0 6px;padding-right:70px}
-.qbody{padding:12px 18px 18px}
-label.lbl{display:block;font-size:.95rem;font-weight:600;margin-bottom:6px}
-textarea{width:100%;min-height:140px;resize:vertical;border:1px solid var(--muted);border-radius:3px;padding:12px;font:inherit;font-size:16px;background:var(--bg);color:var(--ink);line-height:1.5}
-.saved{font-size:.8rem;color:var(--done);height:1.2em;margin-top:4px;font-weight:600}
-.reveal{width:100%;margin-top:12px;background:var(--ink);color:var(--bg)}
-.answer{margin-top:18px;animation:open .3s ease}
-.answer-box{background:var(--redsoft);border-left:5px solid var(--red);padding:14px 16px}
-.answer-box h3{margin:0 0 4px;font-size:1rem;font-weight:700}
-.note{font-size:.88rem;font-style:italic;color:var(--muted);margin:0 0 10px}
-.answer p.text{margin:0;font-size:1.05rem;line-height:1.65}
-.answer ul{margin:4px 0 0;padding-left:20px;font-size:1.05rem;line-height:1.65}
-.ph{background:var(--chip);padding:0 5px;font-size:.92em;color:var(--muted)}
-.tip{margin-top:12px;background:var(--band);border:1px solid var(--line);padding:12px 14px;font-size:.95rem}
-.tip b{display:block;margin-bottom:2px}
-.memo{margin-top:18px}
-.memo textarea{min-height:120px}
-.memo-hint{font-size:.88rem;color:var(--muted);margin:0 0 8px}
-.memo-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px}
-.copy{background:none;border:0;padding:4px 0;color:var(--red);font-size:.9rem;font-weight:600;text-align:left;text-decoration:underline}
-.links{padding-top:8px;padding-bottom:12px}
-.lgroup{background:var(--card);border:1px solid var(--line);margin-bottom:18px}
-.lgroup h3{margin:0;padding:12px 16px;font-size:1rem;font-weight:700;border-bottom:1px solid var(--line)}
-.lgroup a{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;color:var(--red);text-decoration:none;font-weight:600}
-.lgroup a+a{border-top:1px solid var(--line)}
-.lgroup a small{display:block;font-weight:400;color:var(--muted);font-size:.85rem}
-.lgroup a:hover{background:var(--band)}
-.lgroup a::after{content:"↗";flex:none}
-.qlinks{margin-top:12px;font-size:.95rem}
-.qlinks b{display:block;margin-bottom:4px}
-.qlinks a{display:block;color:var(--red);font-weight:600;padding:3px 0}
-@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-.stamp{position:absolute;top:22px;right:14px;border:2.5px solid var(--done);color:var(--done);font-weight:700;font-size:.8rem;letter-spacing:.04em;padding:3px 9px;border-radius:3px;transform:rotate(-8deg);opacity:0;pointer-events:none}
-.stamp.on{opacity:.9;animation:stamp .35s ease}
-@keyframes stamp{from{transform:rotate(-8deg) scale(1.6);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:.9}}
-.footer-actions{display:flex;gap:10px;margin:16px 0 36px}
-.footer-actions .btn{flex:1}
-.btn.mark{background:var(--donesoft);color:var(--done);border:2px solid var(--done)}
-.btn.mark.is{background:var(--done);color:#fff}
-.btn.next{background:var(--red);color:var(--bg)}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+#card{padding-bottom:calc(96px + env(safe-area-inset-bottom,0px))}
+.q-cat{color:var(--tint);font-size:13px;font-weight:600;letter-spacing:-.08px;text-transform:uppercase;margin:6px 0 4px}
+.q-title{font-family:var(--display);font-size:28px;font-weight:700;letter-spacing:.36px;line-height:34px;margin:0}
+.timer{display:flex;align-items:center;gap:12px;padding:10px 12px 10px 16px;margin-top:20px}
+.timer svg.tic{width:22px;height:22px;color:var(--tint);flex:none}
+.timer .tt{flex:1;min-width:0}
+.timer .tt b{display:block;font-weight:600}
+.timer .tt small{color:var(--label2);font-size:13px;letter-spacing:-.08px}
+.timer .time{font-family:var(--display);font-size:22px;font-weight:600;font-variant-numeric:tabular-nums;min-width:58px;text-align:right}
+.timer .time.over{color:var(--orange)}
+.timer .tbtn{width:36px;height:36px;border-radius:50%;background:var(--tint);color:var(--bg);display:grid;place-items:center;flex:none}
+.timer .tbtn svg{width:14px;height:14px}
+.timer .tbtn.reset{background:var(--fill2);color:var(--label)}
+textarea{display:block;width:100%;min-height:120px;resize:vertical;border:0;border-radius:12px;padding:12px 16px;font:inherit;font-size:17px;letter-spacing:-.41px;line-height:1.35;background:var(--cell);color:var(--label)}
+textarea::placeholder{color:var(--label3)}
+textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
+.saved{color:var(--green);font-weight:600}
+.reveal{width:100%;margin-top:20px}
+.answer{animation:rise .35s cubic-bezier(.2,.8,.2,1)}
+.answer-body{padding:14px 16px}
+.answer-body p.text{margin:0;font-size:17px;line-height:1.45}
+.answer-body ul{margin:0;padding-left:20px;line-height:1.45}
+.answer-body li+li{margin-top:6px}
+.ph{background:var(--orangesoft);color:var(--orange);border-radius:5px;padding:0 5px;font-size:.94em;font-weight:500}
+.tip{display:flex;gap:12px;padding:14px 16px;align-items:flex-start}
+.tip svg{flex:none;width:22px;height:22px;color:var(--orange);margin-top:1px}
+.tip b{display:block;font-weight:600;margin-bottom:2px}
+.tip span{color:var(--label);font-size:15px;letter-spacing:-.24px;line-height:1.4}
+.textbtn{color:var(--tint);font-size:15px;letter-spacing:-.24px;padding:7px 16px 0}
+.textbtn:active{opacity:.35}
+
+/* Werkzeugleiste unten in der Frageansicht */
+.toolbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--navbg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 -.5px 0 var(--sep);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
+.toolbar .in{max-width:648px;margin:0 auto;display:flex;gap:8px}
+.btn.rate{font-size:16px;padding:0 10px}
+.btn.again{background:var(--orangesoft);color:var(--orange)}
+.btn.again.is{background:var(--orange);color:var(--bg)}
+.btn.good{background:var(--greensoft);color:var(--green)}
+.btn.good.is{background:var(--green);color:var(--bg)}
+.btn.nextb{flex:0 0 auto;min-width:64px;padding:0 16px}
+.btn.pop{animation:pop .3s ease}
+
+/* Tab-Leiste */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--navbg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 -.5px 0 var(--sep);padding:6px 0 calc(4px + env(safe-area-inset-bottom,0px))}
+.tabbar .in{max-width:480px;margin:0 auto;display:flex}
+.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--label2);font-size:10px;font-weight:500;letter-spacing:.1px;padding:2px 0 4px}
+.tabbar button svg{width:26px;height:26px}
+.tabbar button.on{color:var(--tint)}
+.tabbar button:active{opacity:.6}
+
+/* Hinweis, Konfetti und Abschlussfenster */
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);z-index:40;background:var(--label);color:var(--bg);font-size:15px;font-weight:600;letter-spacing:-.24px;padding:10px 18px;border-radius:22px;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
+.confetti i{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;animation:fall linear forwards}
+@keyframes fall{to{transform:translate(var(--dx),110vh) rotate(var(--r));opacity:.9}}
+.overlay{position:fixed;inset:0;z-index:45;background:rgba(0,0,0,.4);display:grid;place-items:center;padding:24px;animation:fade .25s ease}
+.sheet{background:var(--bg);border-radius:20px;padding:28px 22px 20px;max-width:360px;width:100%;text-align:center;animation:rise .35s cubic-bezier(.2,.8,.2,1)}
+.sheet .big-check{width:64px;height:64px;border-radius:50%;background:var(--green);color:var(--bg);display:grid;place-items:center;margin:0 auto 14px}
+.sheet .big-check svg{width:30px;height:30px}
+.sheet h2{font-family:var(--display);font-size:24px;font-weight:700;margin:0 0 6px}
+.sheet p{margin:0 0 14px;color:var(--label2);font-size:15px;letter-spacing:-.24px}
+.sheet .msg{text-align:left;margin:0 0 18px}
+
+/* Übergänge wie beim Navigieren in iOS */
+.push{animation:push .35s cubic-bezier(.2,.8,.2,1)}
+.pop-in{animation:popin .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes push{from{transform:translateX(40%);opacity:0}to{transform:none;opacity:1}}
+@keyframes popin{from{transform:translateX(-25%);opacity:0}to{transform:none;opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes pop{50%{transform:scale(1.05)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.confetti{display:none}}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="icon" type="image/png" href="icon-192.png">
 </head>
 <body>
-<header class="masthead">
-  <div class="in">
-    <div class="brand"><b>RP Kassel</b><span>Gesprächstraining</span></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <button class="nav-back hidden" id="backBtn" aria-label="Zurück zu allen Fragen">
+      <svg viewBox="0 0 13 21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2 2.5 10.5 11 19"/></svg>Fragen
+    </button>
+    <div class="nav-title" id="navTitle">Gesprächstraining</div>
   </div>
 </header>
 
 <main>
-<section id="home">
-  <div class="hero">
-    <div class="wrap">
-      <span class="kicker">Duales Studium</span>
-      <h1>Public Administration</h1>
-      <p>Vorbereitung auf das persönliche Auswahlgespräch</p>
-      <div class="progress">
-        <div class="count" id="count"></div>
-        <div class="bar"><i id="barfill"></i></div>
-      </div>
-      <div class="actions">
-        <button class="btn primary" id="continueBtn">Weiter üben</button>
-        <button class="btn ghost" id="randomBtn">Zufällige Frage</button>
-      </div>
+<section id="home" class="page tabpage">
+  <p class="eyebrow">RP Kassel · Duales Studium</p>
+  <h1 class="large">Gesprächstraining</h1>
+  <p class="subtitle">Vorbereitung auf das persönliche Auswahlgespräch im Studiengang Public Administration</p>
+
+  <div class="card msg hidden" id="msgCard">
+    <div class="msg-top"><span>Von Finn 💙</span>
+      <button class="msg-x" id="msgClose" aria-label="Nachricht ausblenden"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7"/></svg></button>
     </div>
+    <p id="msgText"></p>
   </div>
-  <div class="wrap dir">
-    <h2 class="dir-title">Alle Fragen nach Themen</h2>
-    <div id="cats"></div>
-  </div>
-  <div class="wrap links">
-    <h2 class="dir-title">Zum Nachschauen</h2>
-    <div class="lgroup">
-      <h3>Regierungspräsidium Kassel</h3>
-      <a href="https://rp-kassel.hessen.de/arbeitgeber-rp-kassel/ausbildung-duales-studium-praktika-referendariat" target="_blank" rel="noopener"><span>Ausbildung und duales Studium<small>Ablauf, Voraussetzungen, Ansprechpersonen</small></span></a>
-      <a href="https://rp-kassel.hessen.de/ueber-uns/aufbau-und-struktur" target="_blank" rel="noopener"><span>Aufbau und Struktur<small>Abteilungen und Organigramm</small></span></a>
-      <a href="https://rp-kassel.hessen.de/arbeitgeber-rp-kassel/leitbild" target="_blank" rel="noopener"><span>Leitbild<small>Werte und Selbstverständnis der Behörde</small></span></a>
-      <a href="https://rp-kassel.hessen.de/nordosthessen/regierungsbezirk-kassel" target="_blank" rel="noopener"><span>Regierungsbezirk Kassel<small>Zuständigkeitsgebiet in Nordosthessen</small></span></a>
-      <a href="https://rp-kassel.hessen.de/ueber-uns/regierungspraesident" target="_blank" rel="noopener"><span>Behördenleitung<small>Regierungspräsident und Vizepräsident</small></span></a>
-      <a href="https://rp-kassel.hessen.de/Aktuelles" target="_blank" rel="noopener"><span>Aktuelle Meldungen<small>Gut für Gesprächseinstieg und Smalltalk</small></span></a>
-      <a href="https://rp-kassel.hessen.de/Themen-A-Z" target="_blank" rel="noopener"><span>Themen A bis Z<small>Alle Aufgabenbereiche im Überblick</small></span></a>
+
+  <div class="tiles">
+    <div class="tilewrap">
+    <div class="card tile" id="countTile" aria-hidden="true">
+      <span class="tile-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>Gespräch</span>
+      <span class="tile-big" id="countBig"></span>
+      <span class="tile-sub" id="countSub"></span>
     </div>
-    <div class="lgroup">
-      <h3>Gesetze im Wortlaut</h3>
-      <a href="https://www.gesetze-im-internet.de/gg/art_20.html" target="_blank" rel="noopener"><span>Art. 20 Grundgesetz<small>Gesetzmäßigkeit der Verwaltung</small></span></a>
-      <a href="https://www.gesetze-im-internet.de/vwvfg/__35.html" target="_blank" rel="noopener"><span>§ 35 VwVfG<small>Definition Verwaltungsakt</small></span></a>
-      <a href="https://www.gesetze-im-internet.de/vwgo/__70.html" target="_blank" rel="noopener"><span>§ 70 VwGO<small>Form und Frist des Widerspruchs</small></span></a>
-      <a href="https://www.gesetze-im-internet.de/beamtstg/" target="_blank" rel="noopener"><span>Beamtenstatusgesetz<small>Rechte und Pflichten, Remonstration in § 36</small></span></a>
+    <input type="datetime-local" class="dateinput" id="dateInput" aria-label="Termin des Gesprächs ändern">
     </div>
+    <button class="card tile" id="progTile" aria-label="Fragen zum Nochmal-Üben anzeigen">
+      <span class="tile-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="m8.5 12.2 2.4 2.4 4.8-5"/></svg>Fortschritt</span>
+      <span class="ringrow">
+        <span class="ring" aria-hidden="true">
+          <svg viewBox="0 0 52 52"><circle class="track" cx="26" cy="26" r="22"/><circle class="val" id="ring" cx="26" cy="26" r="22" stroke-dasharray="138.23" stroke-dashoffset="138.23"/></svg>
+          <b id="pct">0%</b>
+        </span>
+        <span class="tile-big" id="count" style="font-size:22px"></span>
+      </span>
+      <span class="tile-sub" id="progSub"></span>
+    </button>
   </div>
-  <div class="foot">
-    <div class="wrap">
-      <button class="reset" id="resetBtn">Fortschritt und Notizen zurücksetzen</button>
-      <div>Private Lernhilfe zur Gesprächsvorbereitung. Kein Angebot des Regierungspräsidiums Kassel.</div>
-    </div>
+
+  <div class="actions">
+    <button class="btn filled" id="continueBtn">Weiter üben</button>
+    <button class="btn tinted" id="randomBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>Zufall
+    </button>
   </div>
+
+  <div class="search">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="7" cy="7" r="5"/><path d="m11 11 3.5 3.5"/></svg>
+    <input type="search" id="q" placeholder="Fragen durchsuchen" autocomplete="off" enterkeyhint="search" aria-label="Fragen durchsuchen">
+    <button class="clear hidden" id="qClear" aria-label="Suche löschen"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 2l6 6M8 2 2 8"/></svg></button>
+  </div>
+  <div class="seg" role="group" aria-label="Fragen filtern">
+    <button data-f="all" class="on" aria-pressed="true">Alle</button>
+    <button data-f="open" aria-pressed="false">Offen</button>
+    <button data-f="again" aria-pressed="false">Nochmal</button>
+    <button data-f="notes" aria-pressed="false">Notizen</button>
+  </div>
+
+  <div id="cats"></div>
+  <p class="empty hidden" id="empty">Keine passenden Fragen.</p>
+  <p class="legal">Private Lernhilfe zur Gesprächsvorbereitung.<br>Kein Angebot des Regierungspräsidiums Kassel.</p>
 </section>
 
-<section id="card" class="hidden">
-  <div class="wrap">
-    <div class="crumbs">
-      <button class="back" id="backBtn">‹ Zum Verzeichnis</button>
-      <span class="pos" id="pos"></span>
+<section id="read" class="page tabpage hidden">
+  <p class="eyebrow">RP Kassel · Duales Studium</p>
+  <h1 class="large">Nachlesen</h1>
+  <p class="subtitle">Wichtige Seiten zum Regierungspräsidium Kassel und Gesetze im Wortlaut</p>
+  <div class="section" style="margin-top:8px">
+    <div class="sec-head"><span>Regierungspräsidium Kassel</span></div>
+    <ul class="list" id="linksRP"></ul>
+  </div>
+  <div class="section">
+    <div class="sec-head"><span>Gesetze im Wortlaut</span></div>
+    <ul class="list" id="linksLaw"></ul>
+    <div class="sec-foot">Die Links öffnen die jeweilige Website. Dafür ist eine Internetverbindung nötig.</div>
+  </div>
+  <div class="section">
+    <div class="sec-head"><span>Meine Notizen</span></div>
+    <ul class="list">
+      <li><button class="row link" id="exportBtn"><span class="lead-ic"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12.5V2.5M6.5 6 10 2.5 13.5 6M6 9H4.5v8.5h11V9H14"/></svg></span><span class="main"><span class="txt">Antworten und Notizen sichern</span></span></button></li>
+      <li><button class="row link" id="msgShow"><span class="lead-ic">💙</span><span class="main"><span class="txt">Nachricht von Finn anzeigen</span></span></button></li>
+      <li><button class="row danger" id="resetBtn"><span class="lead-ic" style="color:var(--red)"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 5.5h13M8 5.5V3.5h4v2M5 5.5l.8 11h8.4l.8-11"/></svg></span><span class="main"><span class="txt">Fortschritt und Notizen zurücksetzen</span></span></button></li>
+    </ul>
+    <div class="sec-foot">Alles wird nur auf diesem iPhone gespeichert. Sichere deine Antworten ab und zu, zum Beispiel in der Notizen-App.</div>
+  </div>
+  <p class="legal">Private Lernhilfe zur Gesprächsvorbereitung.<br>Kein Angebot des Regierungspräsidiums Kassel.</p>
+</section>
+
+<section id="card" class="page hidden">
+  <div class="q-cat" id="tab"></div>
+  <h2 class="q-title" id="qText"></h2>
+
+  <div class="card timer">
+    <svg class="tic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.5 2M10 2.5h4M18.5 6.5l1.5-1.5"/></svg>
+    <span class="tt"><b>Laut üben</b><small id="timerHint">Sprechen und Zeit messen</small></span>
+    <span class="time" id="timerTime">0:00</span>
+    <button class="tbtn reset hidden" id="timerReset" aria-label="Zeit zurücksetzen"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 8a5.5 5.5 0 1 0 1.6-3.9M2.5 2.5v3h3"/></svg></button>
+    <button class="tbtn" id="timerBtn" aria-label="Zeit starten"></button>
+  </div>
+
+  <div class="section">
+    <div class="sec-head"><label for="mine">Deine Antwort</label><span class="n saved" id="saved"></span></div>
+    <textarea id="mine" placeholder="Erst selbst formulieren, dann vergleichen"></textarea>
+  </div>
+  <button class="btn tinted reveal" id="revealBtn">Musterantwort zeigen</button>
+
+  <div class="answer hidden" id="answer">
+    <div class="section">
+      <div class="sec-head"><span>Mögliche Antwort</span></div>
+      <div class="card answer-body" id="aText"></div>
+      <div class="sec-foot" id="aFoot"></div>
     </div>
-    <article class="qcard">
-      <div class="stamp" id="stamp">GEÜBT</div>
-      <div class="qhead">
-        <span class="tab" id="tab"></span>
-        <h2 class="question" id="qText"></h2>
+    <div class="section hidden" id="tip">
+      <div class="card tip">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2Zm-2.5 18h5a.5.5 0 0 1 .5.5v.5a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-.5a.5.5 0 0 1 .5-.5Z"/></svg>
+        <div><b>Worauf es ankommt</b><span id="tipText"></span></div>
       </div>
-      <div class="qbody">
-        <label class="lbl" for="mine">Deine Antwort</label>
-        <textarea id="mine" placeholder="Erst selbst formulieren, dann vergleichen"></textarea>
-        <div class="saved" id="saved"></div>
-        <button class="btn reveal" id="revealBtn">Musterantwort zeigen</button>
-        <div class="answer hidden" id="answer">
-          <div class="answer-box">
-            <h3>Mögliche Antwort</h3>
-            <p class="note">Das ist nur eine mögliche Antwort. Formuliere sie in deinen eigenen Worten und mit eigenen Beispielen.</p>
-            <div id="aText"></div>
-          </div>
-          <div class="tip hidden" id="tip"><b>Worauf es ankommt</b><span id="tipText"></span></div>
-          <div class="qlinks hidden" id="qlinks"></div>
-          <div class="memo">
-            <label class="lbl" for="memo">Meine Notizen und meine Lernversion</label>
-            <p class="memo-hint">Hier kannst du festhalten, was du aus deiner Antwort und der Musterantwort mitnehmen willst, oder die Musterantwort in deine eigenen Worte bringen.</p>
-            <textarea id="memo" placeholder="Zum Beispiel eigene Beispiele, Stichpunkte oder deine überarbeitete Antwort"></textarea>
-            <div class="memo-row">
-              <button class="copy" id="copyBtn">Musterantwort als Vorlage übernehmen</button>
-              <span class="saved" id="memoSaved"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-    <div class="footer-actions">
-      <button class="btn mark" id="markBtn">Als geübt markieren</button>
-      <button class="btn next" id="nextBtn">Nächste Frage</button>
+    </div>
+    <div class="section hidden" id="qlinksWrap">
+      <div class="sec-head"><span>Zum Nachlesen</span></div>
+      <ul class="list" id="qlinks"></ul>
+    </div>
+    <div class="section">
+      <div class="sec-head"><label for="memo">Meine Notizen</label><span class="n saved" id="memoSaved"></span></div>
+      <textarea id="memo" placeholder="Eigene Beispiele, Stichpunkte oder deine überarbeitete Antwort"></textarea>
+      <button class="textbtn" id="copyBtn">Musterantwort als Vorlage übernehmen</button>
     </div>
   </div>
+
 </section>
 </main>
+
+<div class="toolbar hidden" id="toolbar">
+  <div class="in">
+    <button class="btn rate again" id="againBtn"></button>
+    <button class="btn rate good" id="goodBtn"></button>
+    <button class="btn filled nextb" id="nextBtn"></button>
+  </div>
+</div>
+
+<nav class="tabbar" id="tabbar" aria-label="Bereiche">
+  <div class="in">
+    <button class="on" id="tabTrain" aria-current="page">
+      <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5 6.8 8.3 10 5M5 13.5l1.8 1.8L10 12M5 20.5l1.8 1.8L10 19M13.5 7h8M13.5 14h8M13.5 21h8"/></svg>Training
+    </button>
+    <button id="tabRead">
+      <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7.5c-2.2-1.6-5.2-2.3-9-2.2v14.4c3.8-.1 6.8.6 9 2.2 2.2-1.6 5.2-2.3 9-2.2V5.3c-3.8-.1-6.8.6-9 2.2ZM13 7.5v14.4"/></svg>Nachlesen
+    </button>
+  </div>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
 const DATA = [
 {cat:"Einstieg und Selbstvorstellung", items:[
@@ -449,52 +584,231 @@ const QL={
  "Was wissen Sie über aktuelle Themen des RP Kassel?":[["Aktuelle Meldungen",RP+"/Aktuelles"],["Forsten",RP+"/forsten-und-landwirtschaft/forsten"]],
  "In welchem Dezernat würden Sie gern eine Praxisphase machen?":[["Aufbau und Struktur",RP+"/ueber-uns/aufbau-und-struktur"]]
 };
+const LINKS_RP=[
+ ["Ausbildung und duales Studium","Ablauf, Voraussetzungen, Ansprechpersonen",RP+"/arbeitgeber-rp-kassel/ausbildung-duales-studium-praktika-referendariat"],
+ ["Aufbau und Struktur","Abteilungen und Organigramm",RP+"/ueber-uns/aufbau-und-struktur"],
+ ["Leitbild","Werte und Selbstverständnis der Behörde",RP+"/arbeitgeber-rp-kassel/leitbild"],
+ ["Regierungsbezirk Kassel","Zuständigkeitsgebiet in NordOstHessen",RP+"/nordosthessen/regierungsbezirk-kassel"],
+ ["Behördenleitung","Regierungspräsident und Vizepräsident",RP+"/ueber-uns/regierungspraesident"],
+ ["Aktuelle Meldungen","Gut für Gesprächseinstieg und Smalltalk",RP+"/Aktuelles"],
+ ["Themen A bis Z","Alle Aufgabenbereiche im Überblick",RP+"/Themen-A-Z"]
+];
+const LINKS_LAW=[
+ ["Art. 20 Grundgesetz","Gesetzmäßigkeit der Verwaltung","https://www.gesetze-im-internet.de/gg/art_20.html"],
+ ["§ 35 VwVfG","Definition Verwaltungsakt","https://www.gesetze-im-internet.de/vwvfg/__35.html"],
+ ["§ 70 VwGO","Form und Frist des Widerspruchs","https://www.gesetze-im-internet.de/vwgo/__70.html"],
+ ["Beamtenstatusgesetz","Rechte und Pflichten, Remonstration in § 36","https://www.gesetze-im-internet.de/beamtstg/"]
+];
+
+// Persönliche Nachricht und Termin des Gesprächs
+const MSG="Hab dich lieb. Ich glaube an dich. Viel Erfolg!";
+const DEFAULT_DATE="2026-09-30T11:45";
+// Fragen mit Zielzeit für das laute Üben, in Sekunden
+const TARGET={"Stellen Sie sich bitte kurz vor.":60};
+
 const ALL = [];
 // key hält die ID einer Kategorie fest, damit gespeicherter Fortschritt nach dem Einfügen neuer Kategorien erhalten bleibt
 DATA.forEach((c,ci)=>c.items.forEach((it,ii)=>ALL.push({...it,cat:c.cat,id:(c.key??ci)+"-"+ii})));
 
+// Gleicher Speicher wie die bisherige Version, damit Fortschritt und Notizen erhalten bleiben
 const KEY="rp-kassel-training-v1";
-let state={done:{},notes:{},memo:{}};
-try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||localStorage.getItem(KEY); if(raw){const s=JSON.parse(raw); state.done=s.done||{}; state.notes=s.notes||{}; state.memo=s.memo||{};}}catch(e){}
+let state={done:{},notes:{},memo:{},again:{},hideMsg:false,date:""};
+try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||localStorage.getItem(KEY); if(raw){const s=JSON.parse(raw); state.done=s.done||{}; state.notes=s.notes||{}; state.memo=s.memo||{}; state.again=s.again||{}; state.hideMsg=!!s.hideMsg; state.date=s.date||"";}}catch(e){}
 function save(){const j=JSON.stringify(state);try{localStorage.setItem(KEY,j);}catch(e){}try{window.webkit.messageHandlers.rpstore.postMessage(j);}catch(e){}}
 
 const $=id=>document.getElementById(id);
-let current=0, saveTimer=null;
+// seq: Reihenfolge der Fragen, durch die "Nächste" gerade führt (Indizes in ALL)
+let current=0, saveTimer=null, homeScroll=0, tab="home", seq=[], filter="all", query="";
+
+const ICON={
+ chev:'<svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5 6.5 6.5 1.5 11.5"/></svg>',
+ ext:'<svg class="ext" viewBox="0 0 13 13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 1.5h7.5V9M11.5 1.5 1.5 11.5"/></svg>',
+ play:'<svg viewBox="0 0 20 20" fill="currentColor"><path d="M6 3.8v12.4a.8.8 0 0 0 1.2.7l10-6.2a.8.8 0 0 0 0-1.4l-10-6.2A.8.8 0 0 0 6 3.8Z"/></svg>',
+ pause:'<svg viewBox="0 0 20 20" fill="currentColor"><rect x="4.5" y="3.5" width="4" height="13" rx="1"/><rect x="11.5" y="3.5" width="4" height="13" rx="1"/></svg>',
+ next:'<svg viewBox="0 0 13 21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="width:10px;height:17px"><path d="M2 2l8.5 8.5L2 19"/></svg>',
+ tick:'<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.3 4.8 9 10 3"/></svg>',
+ redo:'<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.8 6.2A3.9 3.9 0 1 1 8.6 3.3M9.6 1.2v2.4H7.2"/></svg>',
+ pencil:'<svg class="pencil" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.9 3.3a2.3 2.3 0 0 1 3.3 0l.5.5a2.3 2.3 0 0 1 0 3.3L8.6 19.2l-4.8 1.3a.5.5 0 0 1-.6-.6l1.3-4.8L16.9 3.3Z"/></svg>'
+};
 
 function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 function fmt(s){return esc(s).replace(/\[([^\]]+)\]/g,'<span class="ph">$1</span>');}
+function linkRow(title,sub,url){
+  return '<li><a class="row link" href="'+url+'" target="_blank" rel="noopener"><span class="main"><span class="txt">'+esc(title)+(sub?'<small>'+esc(sub)+'</small>':'')+'</span>'+ICON.ext+'</span></a></li>';
+}
+const hasNotes=it=>!!((state.memo[it.id]||"").trim()||(state.notes[it.id]||"").trim());
+const answerText=it=>it.list?it.list.join(" "):(it.a||"");
+const idxs=list=>list.map(x=>ALL.indexOf(x));
+
+function toast(text){
+  const t=$("toast"); t.textContent=text; t.classList.add("on");
+  clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("on"),2200);
+}
+function confetti(n){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const box=document.createElement("div"); box.className="confetti";
+  const cs=getComputedStyle(document.documentElement);
+  const colors=[cs.getPropertyValue("--tint"),cs.getPropertyValue("--green"),cs.getPropertyValue("--orange"),"#FF2D55","#5AC8FA"];
+  for(let i=0;i<n;i++){
+    const p=document.createElement("i");
+    p.style.left=Math.random()*100+"vw";
+    p.style.background=colors[i%colors.length];
+    p.style.setProperty("--dx",(Math.random()*160-80)+"px");
+    p.style.setProperty("--r",(Math.random()*720-360)+"deg");
+    p.style.animationDuration=(1.6+Math.random()*1.4)+"s";
+    p.style.animationDelay=(Math.random()*.4)+"s";
+    box.appendChild(p);
+  }
+  document.body.appendChild(box); setTimeout(()=>box.remove(),3600);
+}
+
+/* Countdown bis zum Gespräch */
+function renderCountdown(){
+  const d=new Date(state.date||DEFAULT_DATE), now=new Date();
+  const day=x=>new Date(x.getFullYear(),x.getMonth(),x.getDate());
+  const diff=Math.round((day(d)-day(now))/864e5);
+  const time=d.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"});
+  const date=d.toLocaleDateString("de-DE",{weekday:"short",day:"numeric",month:"short"});
+  let big, sub, today=false;
+  if(diff>1){big=diff+" Tage"; sub="bis zum Gespräch<br>"+date+" · "+time;}
+  else if(diff===1){big="Morgen"; sub=time+" Uhr im RP Kassel";}
+  else if(diff===0&&now<d){big="Heute"; sub="um "+time+" Uhr<br>Viel Erfolg! 💙"; today=true;}
+  else{big="Geschafft"; sub="Das Gespräch ist vorbei 💙";}
+  $("countBig").textContent=big; $("countSub").innerHTML=sub;
+  $("countTile").classList.toggle("today",today);
+  $("dateInput").value=d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())+"T"+pad(d.getHours())+":"+pad(d.getMinutes());
+}
+function pad(n){return String(n).padStart(2,"0");}
+$("dateInput").addEventListener("click",()=>{try{$("dateInput").showPicker();}catch(e){}});
+$("dateInput").addEventListener("change",()=>{
+  if(!$("dateInput").value) return;
+  state.date=$("dateInput").value; save(); renderCountdown(); toast("Termin gespeichert");
+});
+setInterval(renderCountdown,60000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden) renderCountdown();});
+
+/* Startseite */
+function matches(it){
+  if(filter==="open"&&state.done[it.id]) return false;
+  if(filter==="again"&&!state.again[it.id]) return false;
+  if(filter==="notes"&&!hasNotes(it)) return false;
+  if(query){const q=query.toLowerCase(); if(!(it.q.toLowerCase().includes(q)||answerText(it).toLowerCase().includes(q)||it.cat.toLowerCase().includes(q))) return false;}
+  return true;
+}
+function hl(s){
+  const e=esc(s); if(!query) return e;
+  const q=esc(query).replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+  return e.replace(new RegExp("("+q+")","gi"),"<mark>$1</mark>");
+}
 
 function renderHome(){
-  const n=ALL.filter(x=>state.done[x.id]).length;
-  $("count").innerHTML="<b>"+n+"</b> von "+ALL.length+" Fragen geübt";
-  $("barfill").style.width=(n/ALL.length*100)+"%";
-  $("continueBtn").textContent = n===ALL.length ? "Alle geübt, von vorn" : (n===0 ? "Mit dem Üben beginnen" : "Weiter üben");
-  const wrap=$("cats"); wrap.innerHTML="";
-  DATA.forEach((c,ci)=>{
+  const n=ALL.filter(x=>state.done[x.id]).length, p=n/ALL.length;
+  const again=ALL.filter(x=>state.again[x.id]).length;
+  const open=ALL.filter(x=>!state.done[x.id]&&!state.again[x.id]).length;
+  $("count").textContent=n+"/"+ALL.length;
+  $("pct").textContent=Math.round(p*100)+"%";
+  $("ring").style.strokeDashoffset=138.23*(1-p);
+  $("progSub").innerHTML=again?'<span class="again-n">'+again+' nochmal üben</span>':(n===ALL.length?"Alles geübt":ALL.length-n+" offen");
+  $("continueBtn").textContent = open ? (n===0&&!again ? "Loslegen" : "Weiter üben") : (again ? "Nochmal üben" : "Von vorn");
+  $("msgCard").classList.toggle("hidden",state.hideMsg);
+  renderCountdown();
+
+  const wrap=$("cats"); wrap.innerHTML=""; let shown=0;
+  DATA.forEach(c=>{
     const items=ALL.filter(x=>x.cat===c.cat);
+    const vis=items.filter(matches);
+    if(!vis.length) return;
+    shown+=vis.length;
     const d=items.filter(x=>state.done[x.id]).length;
-    const sec=document.createElement("div"); sec.className="cat";
-    sec.innerHTML='<h2>'+esc(c.cat)+'<span class="'+(d===items.length?'full':'')+'">'+d+' von '+items.length+'</span></h2>';
-    const ul=document.createElement("ul"); ul.className="qlist";
-    items.forEach(it=>{
+    const sec=document.createElement("div"); sec.className="section";
+    sec.innerHTML='<div class="sec-head"><span>'+esc(c.cat)+'</span><span class="n'+(d===items.length?' full':'')+'">'+d+' von '+items.length+'</span></div>';
+    const ul=document.createElement("ul"); ul.className="list";
+    // Oben in jeder Kategorie: nur diese (ggf. gefilterten) Fragen üben
+    const pli=document.createElement("li");
+    const pb=document.createElement("button"); pb.className="row link practice";
+    const label=(filter==="all"&&!query)?"Nur diese Kategorie üben":(vis.length===1?"Diese Frage üben":"Diese "+vis.length+" Fragen üben");
+    pb.innerHTML='<span class="lead-ic" aria-hidden="true">'+ICON.play+'</span><span class="main"><span class="txt">'+label+'</span>'+ICON.chev+'</span>';
+    pb.onclick=()=>{const first=vis.find(x=>!state.done[x.id])||vis[0]; openQ(ALL.indexOf(first),idxs(vis));};
+    pli.appendChild(pb); ul.appendChild(pli);
+    vis.forEach(it=>{
       const li=document.createElement("li");
-      const b=document.createElement("button");
-      const isD=!!state.done[it.id];
-      const hasM=!!(state.memo[it.id]&&state.memo[it.id].trim());
-      b.innerHTML='<span class="dot'+(isD?' done':'')+'" aria-hidden="true"></span><span class="qt'+(isD?' done-t':'')+'">'+esc(it.q)+'</span>'+(hasM?'<span class="pen">Notiz</span>':'');
-      b.setAttribute("aria-label",it.q+(isD?", geübt":", offen"));
-      b.onclick=()=>openQ(ALL.indexOf(it));
+      const b=document.createElement("button"); b.className="row";
+      const isD=!!state.done[it.id], isA=!!state.again[it.id], hasM=hasNotes(it);
+      b.innerHTML='<span class="check'+(isD?' on':isA?' again':'')+'" aria-hidden="true">'+(isD?ICON.tick:isA?ICON.redo:'')+'</span><span class="main"><span class="txt'+(isD?' done-t':'')+'">'+hl(it.q)+'</span>'+(hasM?ICON.pencil:'')+ICON.chev+'</span>';
+      b.setAttribute("aria-label",it.q+(isD?", sitzt":isA?", nochmal üben":", offen")+(hasM?", mit Notiz":""));
+      b.onclick=()=>openQ(ALL.indexOf(it),idxs(vis));
       li.appendChild(b); ul.appendChild(li);
     });
     sec.appendChild(ul); wrap.appendChild(sec);
   });
+  $("empty").classList.toggle("hidden",shown>0);
 }
 
-function openQ(i){
-  current=i; const it=ALL[i];
-  $("home").classList.add("hidden"); $("card").classList.remove("hidden");
+function setFilter(f){
+  filter=f;
+  document.querySelectorAll(".seg button").forEach(b=>{const on=b.dataset.f===f; b.classList.toggle("on",on); b.setAttribute("aria-pressed",on);});
+  renderHome();
+}
+document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>setFilter(b.dataset.f));
+$("q").addEventListener("input",()=>{query=$("q").value.trim(); $("qClear").classList.toggle("hidden",!$("q").value); renderHome();});
+$("q").addEventListener("keydown",e=>{if(e.key==="Enter") $("q").blur();});
+$("qClear").onclick=()=>{$("q").value=""; query=""; $("qClear").classList.add("hidden"); renderHome(); $("q").focus();};
+$("progTile").onclick=()=>{
+  const again=ALL.some(x=>state.again[x.id]);
+  setFilter(again?"again":"open");
+  $("q").scrollIntoView({behavior:"smooth",block:"start"});
+};
+$("msgText").textContent=MSG;
+$("msgClose").onclick=()=>{state.hideMsg=true; save(); $("msgCard").classList.add("hidden");};
+$("msgShow").onclick=()=>{state.hideMsg=false; save(); showTab("home"); window.scrollTo({top:0,behavior:"smooth"});};
+
+/* Navigation */
+function setNav(onCard){
+  $("backBtn").classList.toggle("hidden",!onCard);
+  $("tabbar").classList.toggle("hidden",onCard);
+  $("toolbar").classList.toggle("hidden",!onCard);
+  $("nav").classList.toggle("always",onCard);
+  updateNav();
+}
+// Wie in iOS: Der kleine Titel erscheint erst, wenn der große Titel weggescrollt ist
+function updateNav(){
+  const onCard=!$("card").classList.contains("hidden");
+  const past = onCard ? window.scrollY>4 : $(tab).querySelector(".large").getBoundingClientRect().bottom < $("nav").offsetHeight;
+  $("nav").classList.toggle("solid",past);
+}
+addEventListener("scroll",updateNav,{passive:true});
+
+const tabScroll={home:0,read:0};
+function showTab(name){
+  if(name===tab){window.scrollTo({top:0,behavior:"smooth"});return;}
+  tabScroll[tab]=window.scrollY; tab=name;
+  $("home").classList.toggle("hidden",name!=="home");
+  $("read").classList.toggle("hidden",name!=="read");
+  $("tabTrain").classList.toggle("on",name==="home");
+  $("tabRead").classList.toggle("on",name==="read");
+  $("tabTrain").removeAttribute("aria-current"); $("tabRead").removeAttribute("aria-current");
+  $(name==="home"?"tabTrain":"tabRead").setAttribute("aria-current","page");
+  $("navTitle").textContent=name==="home"?"Gesprächstraining":"Nachlesen";
+  if(name==="home") renderHome();
+  window.scrollTo(0,tabScroll[name]);
+  updateNav();
+}
+$("tabTrain").onclick=()=>showTab("home");
+$("tabRead").onclick=()=>showTab("read");
+
+/* Frageansicht */
+function openQ(i,list){
+  if($("card").classList.contains("hidden")) homeScroll=window.scrollY;
+  if(list) seq=list;
+  if(!seq.includes(i)) seq=ALL.map((x,k)=>k);
+  current=i; const it=ALL[i], pos=seq.indexOf(i);
+  $("home").classList.add("hidden"); $("read").classList.add("hidden"); $("card").classList.remove("hidden");
+  $("card").classList.remove("push"); void $("card").offsetWidth; $("card").classList.add("push");
+  $("navTitle").textContent=(pos+1)+" von "+seq.length;
+  const last=seq.length<ALL.length&&pos===seq.length-1;
+  $("nextBtn").innerHTML=last?"Fertig":ICON.next;
+  $("nextBtn").setAttribute("aria-label",last?"Fertig, zurück zur Übersicht":"Nächste Frage");
   $("tab").textContent=it.cat;
-  $("pos").textContent="Frage "+(i+1)+" von "+ALL.length;
   $("qText").textContent=it.q;
   $("mine").value=state.notes[it.id]||"";
   $("saved").textContent="";
@@ -505,26 +819,104 @@ function openQ(i){
   $("aText").innerHTML = it.list
     ? '<ul>'+it.list.map(x=>'<li>'+fmt(x)+'</li>').join("")+'</ul>'
     : '<p class="text">'+fmt(it.a)+'</p>';
+  // Platzhalter wie [Monat] zählen und darauf hinweisen
+  const ph=(answerText(it).match(/\[[^\]]+\]/g)||[]).length;
+  $("aFoot").textContent = ph
+    ? (ph===1?"Die markierte Stelle":"Die "+ph+" markierten Stellen")+" mit eigenen Angaben füllen. Formuliere die Antwort in deinen eigenen Worten."
+    : "Nur ein Vorschlag. Formuliere die Antwort in deinen eigenen Worten und mit eigenen Beispielen.";
   if(it.t){$("tip").classList.remove("hidden");$("tipText").textContent=it.t;}else{$("tip").classList.add("hidden");}
   const ql=QL[it.q];
-  if(ql){$("qlinks").classList.remove("hidden");$("qlinks").innerHTML="<b>Zum Nachlesen</b>"+ql.map(l=>'<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+' ↗</a>').join("");}
-  else{$("qlinks").classList.add("hidden");$("qlinks").innerHTML="";}
-  updateMark(false);
+  $("qlinksWrap").classList.toggle("hidden",!ql);
+  $("qlinks").innerHTML=ql?ql.map(l=>linkRow(l[0],"",l[1])).join(""):"";
+  timerReset();
+  updateRate();
   window.scrollTo(0,0);
+  setNav(true);
 }
 
-function updateMark(animate){
-  const it=ALL[current], d=!!state.done[it.id];
-  const m=$("markBtn"); m.classList.toggle("is",d);
-  m.textContent=d?"Geübt ✓":"Als geübt markieren";
-  const st=$("stamp"); st.classList.remove("on");
-  if(d){ if(animate){void st.offsetWidth;} st.classList.add("on"); }
+function goHome(){
+  timerStop();
+  $("card").classList.add("hidden"); $("home").classList.remove("hidden");
+  $("home").classList.remove("pop-in"); void $("home").offsetWidth; $("home").classList.add("pop-in");
+  tab="home";
+  $("tabTrain").classList.add("on"); $("tabRead").classList.remove("on");
+  $("navTitle").textContent="Gesprächstraining";
+  renderHome();
+  window.scrollTo(0,homeScroll);
+  setNav(false);
 }
+
+function updateRate(animate){
+  const id=ALL[current].id, d=!!state.done[id], a=!!state.again[id];
+  const g=$("goodBtn"), n=$("againBtn");
+  g.classList.toggle("is",d); n.classList.toggle("is",a);
+  g.innerHTML=ICON.tick.replace('<svg','<svg style="width:15px;height:15px"')+"Sitzt";
+  n.innerHTML=ICON.redo.replace('<svg','<svg style="width:15px;height:15px"')+"Nochmal";
+  g.setAttribute("aria-pressed",d); n.setAttribute("aria-pressed",a);
+  if(animate){const b=animate==="good"?g:n; b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");}
+}
+function rate(kind){
+  const it=ALL[current], id=it.id;
+  if(kind==="good"){
+    if(state.done[id]){delete state.done[id];}
+    else{
+      state.done[id]=true; delete state.again[id];
+      const items=ALL.filter(x=>x.cat===it.cat);
+      if(ALL.every(x=>state.done[x.id])){save(); updateRate(kind); showFinal(); return;}
+      if(items.every(x=>state.done[x.id])){confetti(60); toast("„"+it.cat+"“ geschafft! 🎉");}
+    }
+  }else{
+    if(state.again[id]) delete state.again[id];
+    else{state.again[id]=true; delete state.done[id]; toast("Kommt auf die Nochmal-Liste");}
+  }
+  save(); updateRate(kind);
+}
+$("goodBtn").onclick=()=>rate("good");
+$("againBtn").onclick=()=>rate("again");
+
+function showFinal(){
+  confetti(140);
+  const o=document.createElement("div"); o.className="overlay"; o.setAttribute("role","dialog"); o.setAttribute("aria-modal","true");
+  o.innerHTML='<div class="sheet"><div class="big-check">'+ICON.tick+'</div><h2>Alle '+ALL.length+' Fragen geübt!</h2><p>Du bist bereit für das Gespräch.</p><div class="card msg"><div class="msg-top"><span>Von Finn 💙</span></div><p></p></div><button class="btn filled" style="width:100%">Schließen</button></div>';
+  o.querySelector(".msg p").textContent=MSG;
+  const close=()=>o.remove();
+  o.querySelector("button").onclick=close;
+  o.addEventListener("click",e=>{if(e.target===o) close();});
+  document.body.appendChild(o);
+  o.querySelector("button").focus();
+}
+
+/* Stoppuhr zum lauten Üben */
+let tStart=0, tAcc=0, tInt=null;
+function tElapsed(){return tAcc+(tInt?Date.now()-tStart:0);}
+function timerDraw(){
+  const s=Math.floor(tElapsed()/1000), target=TARGET[ALL[current].q];
+  $("timerTime").textContent=Math.floor(s/60)+":"+pad(s%60);
+  $("timerTime").classList.toggle("over",!!target&&s>target);
+  $("timerBtn").innerHTML=tInt?ICON.pause:ICON.play;
+  $("timerBtn").setAttribute("aria-label",tInt?"Zeit anhalten":"Zeit starten");
+  $("timerReset").classList.toggle("hidden",!!tInt||tElapsed()===0);
+}
+function timerStop(){if(tInt){tAcc+=Date.now()-tStart; clearInterval(tInt); tInt=null;}}
+function timerReset(){
+  timerStop(); tAcc=0;
+  const target=TARGET[ALL[current].q];
+  $("timerHint").textContent=target?"Ziel: etwa "+(target===60?"1 Minute":target+" Sekunden"):"Sprechen und Zeit messen";
+  timerDraw();
+}
+$("timerBtn").onclick=()=>{
+  if(tInt) timerStop(); else {tStart=Date.now(); tInt=setInterval(timerDraw,250);}
+  timerDraw();
+};
+$("timerReset").onclick=timerReset;
 
 $("revealBtn").onclick=()=>{$("answer").classList.remove("hidden");$("revealBtn").classList.add("hidden");};
-$("markBtn").onclick=()=>{const id=ALL[current].id; if(state.done[id]) delete state.done[id]; else state.done[id]=true; save(); updateMark(true);};
-$("nextBtn").onclick=()=>openQ((current+1)%ALL.length);
-$("backBtn").onclick=()=>{$("card").classList.add("hidden");$("home").classList.remove("hidden");renderHome();window.scrollTo(0,0);};
+$("nextBtn").onclick=()=>{
+  const pos=seq.indexOf(current);
+  if(seq.length<ALL.length&&pos===seq.length-1){goHome();return;}
+  openQ(seq[(pos+1)%seq.length]);
+};
+$("backBtn").onclick=goHome;
 $("mine").addEventListener("input",()=>{
   state.notes[ALL[current].id]=$("mine").value;
   clearTimeout(saveTimer); saveTimer=setTimeout(()=>{save();$("saved").textContent="Gespeichert";},500);
@@ -545,20 +937,52 @@ $("copyBtn").onclick=()=>{
   $("memo").focus();
 };
 $("continueBtn").onclick=()=>{
-  const open=ALL.findIndex(x=>!state.done[x.id]);
-  openQ(open===-1?0:open);
+  const all=ALL.map((x,k)=>k);
+  const open=ALL.findIndex(x=>!state.done[x.id]&&!state.again[x.id]);
+  if(open!==-1){openQ(open,all);return;}
+  const again=idxs(ALL.filter(x=>state.again[x.id]));
+  if(again.length){openQ(again[0],again);return;}
+  openQ(0,all);
 };
 $("randomBtn").onclick=()=>{
   const open=ALL.map((x,i)=>i).filter(i=>!state.done[ALL[i].id]);
   const pool=open.length?open:ALL.map((x,i)=>i);
-  openQ(pool[Math.floor(Math.random()*pool.length)]);
+  openQ(pool[Math.floor(Math.random()*pool.length)],ALL.map((x,k)=>k));
+};
+
+/* Sichern und Zurücksetzen */
+$("exportBtn").onclick=async()=>{
+  const withContent=ALL.filter(hasNotes);
+  if(!withContent.length){toast("Noch keine eigenen Antworten oder Notizen");return;}
+  let text="Gesprächstraining RP Kassel\nMeine Antworten und Notizen, Stand "+new Date().toLocaleDateString("de-DE")+"\n";
+  let cat="";
+  withContent.forEach(it=>{
+    if(it.cat!==cat){cat=it.cat; text+="\n\n== "+cat+" ==\n";}
+    text+="\nFrage: "+it.q+"\nStatus: "+(state.done[it.id]?"sitzt":state.again[it.id]?"nochmal üben":"offen")+"\n";
+    const m=(state.notes[it.id]||"").trim(), n=(state.memo[it.id]||"").trim();
+    if(m) text+="Meine Antwort:\n"+m+"\n";
+    if(n) text+="Meine Notizen:\n"+n+"\n";
+  });
+  if(navigator.share){
+    try{await navigator.share({title:"Gesprächstraining: meine Antworten",text});}catch(e){}
+    return;
+  }
+  try{await navigator.clipboard.writeText(text); toast("In die Zwischenablage kopiert");}
+  catch(e){
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([text],{type:"text/plain"}));
+    a.download="Gespraechstraining-Notizen.txt"; a.click();
+  }
 };
 $("resetBtn").onclick=()=>{
-  if(confirm("Fortschritt, eigene Antworten und Notizen löschen?")){state={done:{},notes:{},memo:{}};save();renderHome();}
+  if(confirm("Fortschritt, eigene Antworten und Notizen löschen?")){
+    state={done:{},notes:{},memo:{},again:{},hideMsg:state.hideMsg,date:state.date}; save(); renderHome(); toast("Zurückgesetzt");
+  }
 };
-renderHome();
-</script>
-<script>
+
+$("linksRP").innerHTML=LINKS_RP.map(l=>linkRow(...l)).join("");
+$("linksLaw").innerHTML=LINKS_LAW.map(l=>linkRow(...l)).join("");
+renderHome(); updateNav();
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>
 </body>
