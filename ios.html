@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="RP Training">
 <meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#11151C" media="(prefers-color-scheme: dark)">
-<title>RP Training</title>
+<title>Gesprächstraining RP Kassel</title>
 <style>
 /* Farben der bisherigen Seite: Weiß und RP-Blau, dunkel wie bisher */
 :root{
@@ -50,6 +50,8 @@ svg{display:block}
 .nav-back:active{opacity:.35}
 
 /* Startseite */
+.eyebrow{color:var(--tint);font-size:13px;font-weight:700;letter-spacing:.2px;text-transform:uppercase;margin:6px 0 0}
+.tabpage{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))}
 .large{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:.37px;line-height:41px;margin:2px 0 0}
 .subtitle{color:var(--label2);font-size:15px;letter-spacing:-.24px;margin:2px 0 20px}
 .card{background:var(--cell);border-radius:12px}
@@ -126,6 +128,14 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 .btn.mark.is{background:var(--green);color:var(--bg)}
 .btn.mark.pop{animation:pop .3s ease}
 
+/* Tab-Leiste unten */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--navbg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 -.5px 0 var(--sep);padding:6px 0 calc(4px + env(safe-area-inset-bottom,0px))}
+.tabbar .in{max-width:480px;margin:0 auto;display:flex}
+.tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--label2);font-size:10px;font-weight:500;letter-spacing:.1px;padding:2px 0 4px}
+.tabbar button svg{width:26px;height:26px}
+.tabbar button.on{color:var(--tint)}
+.tabbar button:active{opacity:.6}
+
 /* Übergänge wie beim Navigieren in iOS */
 .push{animation:push .35s cubic-bezier(.2,.8,.2,1)}
 .pop-in{animation:popin .35s cubic-bezier(.2,.8,.2,1)}
@@ -145,14 +155,15 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
     <button class="nav-back hidden" id="backBtn" aria-label="Zurück zu allen Fragen">
       <svg viewBox="0 0 13 21" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M11 2 2.5 10.5 11 19"/></svg>Fragen
     </button>
-    <div class="nav-title" id="navTitle">Training</div>
+    <div class="nav-title" id="navTitle">Gesprächstraining</div>
   </div>
 </header>
 
 <main>
-<section id="home" class="page">
-  <h1 class="large" id="largeTitle">Training</h1>
-  <p class="subtitle">Auswahlgespräch · Public Administration</p>
+<section id="home" class="page tabpage">
+  <p class="eyebrow">RP Kassel · Duales Studium</p>
+  <h1 class="large">Gesprächstraining</h1>
+  <p class="subtitle">Vorbereitung auf das persönliche Auswahlgespräch im Studiengang Public Administration</p>
 
   <div class="card summary">
     <div class="ring" aria-hidden="true">
@@ -174,15 +185,23 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
   <div id="cats"></div>
 
   <div class="section">
+    <ul class="list"><li><button class="row danger" id="resetBtn"><span class="main">Fortschritt und Notizen zurücksetzen</span></button></li></ul>
+  </div>
+  <p class="legal">Private Lernhilfe zur Gesprächsvorbereitung.<br>Kein Angebot des Regierungspräsidiums Kassel.</p>
+</section>
+
+<section id="read" class="page tabpage hidden">
+  <p class="eyebrow">RP Kassel · Duales Studium</p>
+  <h1 class="large">Nachlesen</h1>
+  <p class="subtitle">Wichtige Seiten zum Regierungspräsidium Kassel und Gesetze im Wortlaut</p>
+  <div class="section" style="margin-top:8px">
     <div class="sec-head"><span>Regierungspräsidium Kassel</span></div>
     <ul class="list" id="linksRP"></ul>
   </div>
   <div class="section">
     <div class="sec-head"><span>Gesetze im Wortlaut</span></div>
     <ul class="list" id="linksLaw"></ul>
-  </div>
-  <div class="section">
-    <ul class="list"><li><button class="row danger" id="resetBtn"><span class="main">Fortschritt und Notizen zurücksetzen</span></button></li></ul>
+    <div class="sec-foot">Die Links öffnen die jeweilige Website. Dafür ist eine Internetverbindung nötig.</div>
   </div>
   <p class="legal">Private Lernhilfe zur Gesprächsvorbereitung.<br>Kein Angebot des Regierungspräsidiums Kassel.</p>
 </section>
@@ -230,6 +249,16 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
   </div>
 </section>
 </main>
+<nav class="tabbar" id="tabbar" aria-label="Bereiche">
+  <div class="in">
+    <button class="on" id="tabTrain" aria-current="page">
+      <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5 6.8 8.3 10 5M5 13.5l1.8 1.8L10 12M5 20.5l1.8 1.8L10 19M13.5 7h8M13.5 14h8M13.5 21h8"/></svg>Training
+    </button>
+    <button id="tabRead">
+      <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7.5c-2.2-1.6-5.2-2.3-9-2.2v14.4c3.8-.1 6.8.6 9 2.2 2.2-1.6 5.2-2.3 9-2.2V5.3c-3.8-.1-6.8.6-9 2.2ZM13 7.5v14.4"/></svg>Nachlesen
+    </button>
+  </div>
+</nav>
 <script>
 const DATA = [
 {cat:"Einstieg und Selbstvorstellung", items:[
@@ -467,7 +496,7 @@ try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||loca
 function save(){const j=JSON.stringify(state);try{localStorage.setItem(KEY,j);}catch(e){}try{window.webkit.messageHandlers.rpstore.postMessage(j);}catch(e){}}
 
 const $=id=>document.getElementById(id);
-let current=0, saveTimer=null, homeScroll=0;
+let current=0, saveTimer=null, homeScroll=0, tab="home";
 
 const ICON={
  chev:'<svg class="chev" viewBox="0 0 8 13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1.5 1.5 6.5 6.5 1.5 11.5"/></svg>',
@@ -512,13 +541,14 @@ function renderHome(){
 
 function setNav(onCard){
   $("backBtn").classList.toggle("hidden",!onCard);
+  $("tabbar").classList.toggle("hidden",onCard);
   $("nav").classList.toggle("always",onCard);
   updateNav();
 }
 // Wie in iOS: Der kleine Titel erscheint erst, wenn der große Titel weggescrollt ist
 function updateNav(){
   const onCard=!$("card").classList.contains("hidden");
-  const past = onCard ? window.scrollY>4 : $("largeTitle").getBoundingClientRect().bottom < $("nav").offsetHeight;
+  const past = onCard ? window.scrollY>4 : $(tab).querySelector(".large").getBoundingClientRect().bottom < $("nav").offsetHeight;
   $("nav").classList.toggle("solid",past||onCard&&window.scrollY>4);
 }
 addEventListener("scroll",updateNav,{passive:true});
@@ -553,7 +583,7 @@ function openQ(i){
 function goHome(){
   $("card").classList.add("hidden"); $("home").classList.remove("hidden");
   $("home").classList.remove("pop-in"); void $("home").offsetWidth; $("home").classList.add("pop-in");
-  $("navTitle").textContent="Training";
+  $("navTitle").textContent="Gesprächstraining";
   renderHome();
   window.scrollTo(0,homeScroll);
   setNav(false);
@@ -602,6 +632,24 @@ $("randomBtn").onclick=()=>{
 $("resetBtn").onclick=()=>{
   if(confirm("Fortschritt, eigene Antworten und Notizen löschen?")){state={done:{},notes:{},memo:{}};save();renderHome();}
 };
+// Tab-Leiste: Training und Nachlesen, jeweils mit eigener Scrollposition
+const tabScroll={home:0,read:0};
+function showTab(name){
+  if(name===tab){window.scrollTo({top:0,behavior:"smooth"});return;}
+  tabScroll[tab]=window.scrollY; tab=name;
+  $("home").classList.toggle("hidden",name!=="home");
+  $("read").classList.toggle("hidden",name!=="read");
+  $("tabTrain").classList.toggle("on",name==="home");
+  $("tabRead").classList.toggle("on",name==="read");
+  $("tabTrain").removeAttribute("aria-current"); $("tabRead").removeAttribute("aria-current");
+  $(name==="home"?"tabTrain":"tabRead").setAttribute("aria-current","page");
+  $("navTitle").textContent=name==="home"?"Gesprächstraining":"Nachlesen";
+  if(name==="home") renderHome();
+  window.scrollTo(0,tabScroll[name]);
+  updateNav();
+}
+$("tabTrain").onclick=()=>showTab("home");
+$("tabRead").onclick=()=>showTab("read");
 $("linksRP").innerHTML=LINKS_RP.map(l=>linkRow(...l)).join("");
 $("linksLaw").innerHTML=LINKS_LAW.map(l=>linkRow(...l)).join("");
 renderHome(); updateNav();
