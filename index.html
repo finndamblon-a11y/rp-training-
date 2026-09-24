@@ -713,7 +713,21 @@ function toast(text){
   const t=$("toast"); t.textContent=text; t.classList.add("on");
   clearTimeout(toast.t); toast.t=setTimeout(()=>t.classList.remove("on"),2200);
 }
+// Kurzes Vibrieren: Android kann navigator.vibrate, iPhones (ab iOS 18) geben beim
+// Umschalten eines Schalters ein haptisches Feedback, das wir unsichtbar auslösen
+function haptic(){
+  if(navigator.vibrate){navigator.vibrate(12); return;}
+  try{
+    const l=document.createElement("label"), i=document.createElement("input");
+    i.type="checkbox"; i.setAttribute("switch",""); l.setAttribute("aria-hidden","true"); l.style.display="none";
+    l.appendChild(i); document.head.appendChild(l); l.click(); l.remove();
+  }catch(e){}
+}
+// Mehrere kurze Stöße, passend zum Konfetti
+function hapticBurst(n){haptic(); for(let k=1;k<n;k++) setTimeout(haptic,k*110);}
+
 function confetti(n){
+  hapticBurst(n>=100?4:n>=60?3:2);
   if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   const box=document.createElement("div"); box.className="confetti";
   const cs=getComputedStyle(document.documentElement);
