@@ -93,6 +93,8 @@ svg{display:block}
 .btn.filled{background:var(--tint);color:var(--bg)}
 .btn.tinted{background:var(--tintsoft);color:var(--tint)}
 
+.msg .msg-sub{font-family:var(--font);font-size:15px;font-weight:400;letter-spacing:-.24px;color:var(--label2);margin-top:6px}
+
 /* Suche und Filter */
 .search{position:relative;margin-top:24px}
 .search svg{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--label2)}
@@ -106,6 +108,7 @@ svg{display:block}
 .seg button{height:30px;border-radius:7px;font-size:13px;font-weight:500;letter-spacing:-.08px;color:var(--label)}
 .seg button.on{background:var(--bg);font-weight:600;box-shadow:0 3px 8px rgba(0,0,0,.12),0 3px 1px rgba(0,0,0,.04)}
 @media (prefers-color-scheme: dark){.seg button.on{background:#3A4454}}
+.tipline{color:var(--label2);font-size:13px;letter-spacing:-.08px;padding:10px 16px 0;text-align:center}
 .empty{text-align:center;color:var(--label2);padding:40px 16px 8px;font-size:15px}
 
 /* Gruppierte Listen */
@@ -132,6 +135,13 @@ svg{display:block}
 .check.again svg{width:12px;height:12px;color:var(--bg)}
 .pencil{flex:none;width:17px;height:17px;color:var(--orange)}
 .row.link{color:var(--tint)}
+/* Wischen nach links und Abhaken direkt in der Liste */
+.swipe{position:relative;overflow:hidden}
+.swipe-act{position:absolute;top:0;bottom:0;right:0;width:96px;background:var(--orange);color:var(--bg);font-size:15px;font-weight:600;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.swipe-act svg{width:18px;height:18px}
+.swipe-front{position:relative;z-index:1;background:var(--cell);transition:transform .28s cubic-bezier(.2,.8,.2,1);touch-action:pan-y}
+.tick-hit{position:absolute;left:0;top:0;bottom:0;width:54px;z-index:2}
+.check.pop{animation:pop .3s ease}
 .row.practice{font-weight:600}
 .lead-ic{flex:none;width:22px;height:22px;display:grid;place-items:center;color:var(--tint)}
 .lead-ic svg{width:17px;height:17px}
@@ -167,6 +177,7 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 .tip svg{flex:none;width:22px;height:22px;color:var(--orange);margin-top:1px}
 .tip b{display:block;font-weight:600;margin-bottom:2px}
 .tip span{color:var(--label);font-size:15px;letter-spacing:-.24px;line-height:1.4}
+.freenotes{min-height:55vh;font-size:17px;line-height:1.45;resize:none;overflow:hidden}
 .textbtn{color:var(--tint);font-size:15px;letter-spacing:-.24px;padding:7px 16px 0}
 .textbtn:active{opacity:.35}
 
@@ -183,11 +194,18 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 
 /* Tab-Leiste */
 .tabbar{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--navbg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 -.5px 0 var(--sep);padding:6px 0 calc(4px + env(safe-area-inset-bottom,0px))}
-.tabbar .in{max-width:480px;margin:0 auto;display:flex}
+.tabbar .in{max-width:560px;margin:0 auto;display:flex}
 .tabbar button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--label2);font-size:10px;font-weight:500;letter-spacing:.1px;padding:2px 0 4px}
 .tabbar button svg{width:26px;height:26px}
 .tabbar button.on{color:var(--tint)}
 .tabbar button:active{opacity:.6}
+
+/* Rückgängig-Leiste */
+.undo{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);z-index:41;display:flex;align-items:center;gap:14px;background:var(--label);color:var(--bg);font-size:15px;letter-spacing:-.24px;padding:8px 8px 8px 18px;border-radius:24px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:calc(100% - 32px);white-space:nowrap}
+.undo.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.undo span{overflow:hidden;text-overflow:ellipsis}
+.undo button{font-weight:600;color:var(--bg);background:rgba(255,255,255,.18);border-radius:16px;padding:6px 12px;flex:none}
+@media (prefers-color-scheme: dark){.undo button{background:rgba(0,0,0,.12)}}
 
 /* Hinweis, Konfetti und Abschlussfenster */
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,20px);z-index:40;background:var(--label);color:var(--bg);font-size:15px;font-weight:600;letter-spacing:-.24px;padding:10px 18px;border-radius:22px;opacity:0;transition:opacity .25s,transform .25s;pointer-events:none;max-width:calc(100% - 32px);text-align:center}
@@ -202,6 +220,10 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
 .sheet h2{font-family:var(--display);font-size:24px;font-weight:700;margin:0 0 6px}
 .sheet p{margin:0 0 14px;color:var(--label2);font-size:15px;letter-spacing:-.24px}
 .sheet .msg{text-align:left;margin:0 0 18px}
+.sheet .big-check.sun{background:var(--orange)}
+.sheet .big-check.star{background:var(--tint)}
+.sheet .choices{display:grid;gap:8px}
+.sheet .choices .btn{min-height:48px}
 
 /* Übergänge wie beim Navigieren in iOS */
 .push{animation:push .35s cubic-bezier(.2,.8,.2,1)}
@@ -238,6 +260,7 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
       <button class="msg-x" id="msgClose" aria-label="Nachricht ausblenden"><svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1.5 1.5l7 7M8.5 1.5l-7 7"/></svg></button>
     </div>
     <p id="msgText"></p>
+    <p class="msg-sub" id="msgSub"></p>
   </div>
 
   <div class="tiles">
@@ -281,6 +304,7 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
     <button data-f="notes" aria-pressed="false">Notizen</button>
   </div>
 
+  <p class="tipline" id="tipline">Tipp: Kreis antippen zum Abhaken, Frage nach links wischen für „Nochmal“.</p>
   <div id="cats"></div>
   <p class="empty hidden" id="empty">Keine passenden Fragen.</p>
   <p class="legal">Private Lernhilfe zur Gesprächsvorbereitung.<br>Kein Angebot des Regierungspräsidiums Kassel.</p>
@@ -309,6 +333,17 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
     <div class="sec-foot">Alles wird nur auf diesem iPhone gespeichert. Sichere deine Antworten ab und zu, zum Beispiel in der Notizen-App.</div>
   </div>
   <p class="legal">Private Lernhilfe zur Gesprächsvorbereitung.<br>Kein Angebot des Regierungspräsidiums Kassel.</p>
+</section>
+
+<section id="notes" class="page tabpage hidden">
+  <p class="eyebrow">RP Kassel · Duales Studium</p>
+  <h1 class="large">Notizen</h1>
+  <p class="subtitle">Platz für alles, was dir sonst noch einfällt</p>
+  <div class="section" style="margin-top:8px">
+    <div class="sec-head"><label for="freeNotes">Meine Notizen</label><span class="n saved" id="freeSaved"></span></div>
+    <textarea class="freenotes" id="freeNotes" placeholder="Zum Beispiel Fragen an die Kommission, Stichpunkte, Anfahrt oder was du nicht vergessen willst"></textarea>
+    <div class="sec-foot">Wird automatisch gespeichert und beim Sichern im Tab „Nachlesen“ mitgenommen.</div>
+  </div>
 </section>
 
 <section id="card" class="page hidden">
@@ -368,12 +403,16 @@ textarea:focus{outline:none;box-shadow:0 0 0 2px var(--tint)}
     <button class="on" id="tabTrain" aria-current="page">
       <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6.5 6.8 8.3 10 5M5 13.5l1.8 1.8L10 12M5 20.5l1.8 1.8L10 19M13.5 7h8M13.5 14h8M13.5 21h8"/></svg>Training
     </button>
+    <button id="tabNotes">
+      <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 4.5H7.5a3 3 0 0 0-3 3v11a3 3 0 0 0 3 3h11a3 3 0 0 0 3-3v-11a3 3 0 0 0-3-3ZM8.5 10h9M8.5 14h9M8.5 18h5"/></svg>Notizen
+    </button>
     <button id="tabRead">
       <svg viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M13 7.5c-2.2-1.6-5.2-2.3-9-2.2v14.4c3.8-.1 6.8.6 9 2.2 2.2-1.6 5.2-2.3 9-2.2V5.3c-3.8-.1-6.8.6-9 2.2ZM13 7.5v14.4"/></svg>Nachlesen
     </button>
   </div>
 </nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="undo" id="undo" role="status" aria-live="polite"><span id="undoText"></span><button id="undoBtn">Rückgängig</button></div>
 <script>
 const DATA = [
 {cat:"Einstieg und Selbstvorstellung", items:[
@@ -602,6 +641,24 @@ const LINKS_LAW=[
 
 // Persönliche Nachricht und Termin des Gesprächs
 const MSG="Hab dich lieb. Ich glaube an dich. Viel Erfolg!";
+// Kurze Tagesnachricht von Finn, nach Tagen bis zum Gespräch
+const DAILY={
+ 6:"Du schaffst das!",
+ 5:"Ich denke an dich.",
+ 4:"Hab dich lieb.",
+ 3:"Ich bin stolz auf dich.",
+ 2:"Ich glaube an dich.",
+ 1:"Morgen ist dein Tag. Du schaffst das!"
+};
+const TODAY_LINE="Heute ist dein Tag! Ich denke an dich.";
+const AFTER_LINE="Ich bin so stolz auf dich.";
+const MORNING={title:"Heute ist dein Tag!",msg:"Du schaffst das. Ich denke an dich. Hab dich lieb.",button:"Los geht's"};
+const AFTER={
+ good:{label:"Gut 😊",title:"Wusste ich's doch!",msg:"Ich bin so stolz auf dich."},
+ okay:{label:"Geht so 😐",title:"Du hast alles gegeben",msg:"Ich bin stolz auf dich."},
+ hard:{label:"Schwer 😬",title:"Du hast alles gegeben",msg:"Ich bin stolz auf dich, egal was kommt. Hab dich lieb."}
+};
+const HALF={title:"Halbzeit!",msg:"Weiter so, du schaffst das!"};
 const DEFAULT_DATE="2026-09-30T11:45";
 // Fragen mit Zielzeit für das laute Üben, in Sekunden
 const TARGET={"Stellen Sie sich bitte kurz vor.":60};
@@ -612,8 +669,8 @@ DATA.forEach((c,ci)=>c.items.forEach((it,ii)=>ALL.push({...it,cat:c.cat,id:(c.ke
 
 // Gleicher Speicher wie die bisherige Version, damit Fortschritt und Notizen erhalten bleiben
 const KEY="rp-kassel-training-v1";
-let state={done:{},notes:{},memo:{},again:{},hideMsg:false,date:""};
-try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||localStorage.getItem(KEY); if(raw){const s=JSON.parse(raw); state.done=s.done||{}; state.notes=s.notes||{}; state.memo=s.memo||{}; state.again=s.again||{}; state.hideMsg=!!s.hideMsg; state.date=s.date||"";}}catch(e){}
+let state={done:{},notes:{},memo:{},again:{},hideMsgDay:"",date:"",seen:{},free:""};
+try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||localStorage.getItem(KEY); if(raw){const s=JSON.parse(raw); state.done=s.done||{}; state.notes=s.notes||{}; state.memo=s.memo||{}; state.again=s.again||{}; state.hideMsgDay=s.hideMsgDay||""; state.date=s.date||""; state.seen=s.seen||{}; state.free=s.free||"";}}catch(e){}
 function save(){const j=JSON.stringify(state);try{localStorage.setItem(KEY,j);}catch(e){}try{window.webkit.messageHandlers.rpstore.postMessage(j);}catch(e){}}
 
 const $=id=>document.getElementById(id);
@@ -639,6 +696,18 @@ function linkRow(title,sub,url){
 const hasNotes=it=>!!((state.memo[it.id]||"").trim()||(state.notes[it.id]||"").trim());
 const answerText=it=>it.list?it.list.join(" "):(it.a||"");
 const idxs=list=>list.map(x=>ALL.indexOf(x));
+
+function dayKey(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());}
+const todayKey=()=>dayKey(new Date());
+const interview=()=>new Date(state.date||DEFAULT_DATE);
+function daysLeft(){const d=interview(), n=new Date(); return Math.round((new Date(d.getFullYear(),d.getMonth(),d.getDate())-new Date(n.getFullYear(),n.getMonth(),n.getDate()))/864e5);}
+
+// Rückgängig-Leiste wie in Apple Mail
+function showUndo(text,fn){
+  const u=$("undo"); $("undoText").textContent=text; u.classList.add("on");
+  $("undoBtn").onclick=()=>{u.classList.remove("on"); fn();};
+  clearTimeout(showUndo.t); showUndo.t=setTimeout(()=>u.classList.remove("on"),4500);
+}
 
 function toast(text){
   const t=$("toast"); t.textContent=text; t.classList.add("on");
@@ -682,10 +751,10 @@ function pad(n){return String(n).padStart(2,"0");}
 $("dateInput").addEventListener("click",()=>{try{$("dateInput").showPicker();}catch(e){}});
 $("dateInput").addEventListener("change",()=>{
   if(!$("dateInput").value) return;
-  state.date=$("dateInput").value; save(); renderCountdown(); toast("Termin gespeichert");
+  state.date=$("dateInput").value; save(); renderCountdown(); renderMsg(); toast("Termin gespeichert");
 });
-setInterval(renderCountdown,60000);
-document.addEventListener("visibilitychange",()=>{if(!document.hidden) renderCountdown();});
+setInterval(()=>{renderCountdown(); renderMsg();},60000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden){renderCountdown(); renderMsg();}});
 
 /* Startseite */
 function matches(it){
@@ -710,7 +779,8 @@ function renderHome(){
   $("ring").style.strokeDashoffset=138.23*(1-p);
   $("progSub").innerHTML=again?'<span class="again-n">'+again+' nochmal üben</span>':(n===ALL.length?"Alles geübt":ALL.length-n+" offen");
   $("continueBtn").textContent = open ? (n===0&&!again ? "Loslegen" : "Weiter üben") : (again ? "Nochmal üben" : "Von vorn");
-  $("msgCard").classList.toggle("hidden",state.hideMsg);
+  renderMsg();
+  $("tipline").classList.toggle("hidden",!!state.seen.tip);
   renderCountdown();
 
   const wrap=$("cats"); wrap.innerHTML=""; let shown=0;
@@ -730,19 +800,72 @@ function renderHome(){
     pb.innerHTML='<span class="lead-ic" aria-hidden="true">'+ICON.play+'</span><span class="main"><span class="txt">'+label+'</span>'+ICON.chev+'</span>';
     pb.onclick=()=>{const first=vis.find(x=>!state.done[x.id])||vis[0]; openQ(ALL.indexOf(first),idxs(vis));};
     pli.appendChild(pb); ul.appendChild(pli);
-    vis.forEach(it=>{
-      const li=document.createElement("li");
-      const b=document.createElement("button"); b.className="row";
-      const isD=!!state.done[it.id], isA=!!state.again[it.id], hasM=hasNotes(it);
-      b.innerHTML='<span class="check'+(isD?' on':isA?' again':'')+'" aria-hidden="true">'+(isD?ICON.tick:isA?ICON.redo:'')+'</span><span class="main"><span class="txt'+(isD?' done-t':'')+'">'+hl(it.q)+'</span>'+(hasM?ICON.pencil:'')+ICON.chev+'</span>';
-      b.setAttribute("aria-label",it.q+(isD?", sitzt":isA?", nochmal üben":", offen")+(hasM?", mit Notiz":""));
-      b.onclick=()=>openQ(ALL.indexOf(it),idxs(vis));
-      li.appendChild(b); ul.appendChild(li);
-    });
+    vis.forEach(it=>ul.appendChild(questionRow(it,vis)));
     sec.appendChild(ul); wrap.appendChild(sec);
   });
   $("empty").classList.toggle("hidden",shown>0);
 }
+
+function questionRow(it,vis){
+  const li=document.createElement("li"); li.className="swipe"; li.dataset.id=it.id;
+  const isD=!!state.done[it.id], isA=!!state.again[it.id], hasM=hasNotes(it);
+  // Hinter der Zeile: Knopf "Nochmal", sichtbar nach Wischen nach links
+  const act=document.createElement("button"); act.className="swipe-act"; act.tabIndex=-1;
+  act.innerHTML=ICON.redo+(isA?"Entfernen":"Nochmal");
+  act.onclick=()=>listRate(it,"again");
+  const front=document.createElement("div"); front.className="swipe-front";
+  const b=document.createElement("button"); b.className="row";
+  b.innerHTML='<span class="check'+(isD?' on':isA?' again':'')+'" aria-hidden="true">'+(isD?ICON.tick:isA?ICON.redo:'')+'</span><span class="main"><span class="txt'+(isD?' done-t':'')+'">'+hl(it.q)+'</span>'+(hasM?ICON.pencil:'')+ICON.chev+'</span>';
+  b.setAttribute("aria-label",it.q+(isD?", sitzt":isA?", nochmal üben":", offen")+(hasM?", mit Notiz":""));
+  b.onclick=()=>{if(swipeMoved) return; openQ(ALL.indexOf(it),idxs(vis));};
+  // Eigener, großer Tippbereich über dem Kreis zum Abhaken
+  const tick=document.createElement("button"); tick.className="tick-hit";
+  tick.setAttribute("aria-label",isD?"Haken entfernen: "+it.q:"Als sitzt markieren: "+it.q);
+  tick.onclick=()=>{if(swipeMoved) return; listRate(it,"good");};
+  front.appendChild(b); front.appendChild(tick);
+  li.appendChild(act); li.appendChild(front);
+  addSwipe(li,front,()=>listRate(it,"again"));
+  return li;
+}
+
+// Bewerten direkt aus der Liste, mit Rückgängig
+function listRate(it,kind){
+  const snap=applyRate(it.id,kind);
+  state.seen.tip=1; save();
+  const y=window.scrollY; renderHome(); window.scrollTo(0,y);
+  const c=document.querySelector('.swipe[data-id="'+it.id+'"] .check'); if(c) c.classList.add("pop");
+  const text=kind==="good"?(state.done[it.id]?"Als „sitzt“ markiert":"Haken entfernt"):(state.again[it.id]?"Auf der Nochmal-Liste":"Von der Nochmal-Liste genommen");
+  if(!snap.big) showUndo(text,()=>{restoreRate(it.id,snap); const y2=window.scrollY; renderHome(); window.scrollTo(0,y2);});
+}
+
+// Wischen nach links wie in Apples Erinnerungen-App
+const ACT=96; let swipeMoved=false, openSwipe=null;
+function closeSwipe(li){if(!li) return; li.querySelector(".swipe-front").style.transform=""; if(openSwipe===li) openSwipe=null;}
+function addSwipe(li,front,fullAction){
+  let sx=0, sy=0, dx=0, dir=null, base=0;
+  front.addEventListener("touchstart",e=>{
+    if(openSwipe&&openSwipe!==li) closeSwipe(openSwipe);
+    const p=e.touches[0]; sx=p.clientX; sy=p.clientY; dx=0; dir=null; swipeMoved=false;
+    base=openSwipe===li?-ACT:0;
+  },{passive:true});
+  front.addEventListener("touchmove",e=>{
+    const p=e.touches[0], mx=p.clientX-sx, my=p.clientY-sy;
+    if(!dir&&(Math.abs(mx)>8||Math.abs(my)>8)) dir=Math.abs(mx)>Math.abs(my)?"h":"v";
+    if(dir!=="h") return;
+    e.preventDefault(); swipeMoved=true;
+    dx=Math.min(0,Math.max(-li.offsetWidth,base+mx));
+    front.style.transition="none"; front.style.transform="translateX("+dx+"px)";
+  },{passive:false});
+  front.addEventListener("touchend",()=>{
+    front.style.transition="";
+    if(dir!=="h"){return;}
+    if(dx<-li.offsetWidth*.6){front.style.transform=""; openSwipe=null; setTimeout(fullAction,120);}
+    else if(dx<-ACT/2){front.style.transform="translateX(-"+ACT+"px)"; openSwipe=li;}
+    else closeSwipe(li);
+    setTimeout(()=>swipeMoved=false,350);
+  });
+}
+document.addEventListener("touchstart",e=>{if(openSwipe&&!openSwipe.contains(e.target)) closeSwipe(openSwipe);},{passive:true});
 
 function setFilter(f){
   filter=f;
@@ -758,9 +881,21 @@ $("progTile").onclick=()=>{
   setFilter(again?"again":"open");
   $("q").scrollIntoView({behavior:"smooth",block:"start"});
 };
-$("msgText").textContent=MSG;
-$("msgClose").onclick=()=>{state.hideMsg=true; save(); $("msgCard").classList.add("hidden");};
-$("msgShow").onclick=()=>{state.hideMsg=false; save(); showTab("home"); window.scrollTo({top:0,behavior:"smooth"});};
+// Nachricht von Finn: jeden Tag eine neue kurze Zeile bis zum Gespräch
+function renderMsg(){
+  const left=daysLeft(), before=new Date()<interview();
+  let line=MSG, sub="";
+  if(DAILY[left]) line=DAILY[left];
+  else if(left===0&&before) line=TODAY_LINE;
+  else if(!before&&left>-14){line=AFTER_LINE;}
+  $("msgText").textContent=line;
+  $("msgSub").textContent=sub; $("msgSub").classList.toggle("hidden",!sub);
+  $("msgCard").classList.toggle("hidden",state.hideMsgDay===todayKey());
+}
+// Ausblenden gilt nur für heute, morgen kommt die nächste Nachricht
+$("msgClose").onclick=()=>{state.hideMsgDay=todayKey(); save(); $("msgCard").classList.add("hidden");};
+$("msgShow").onclick=()=>{state.hideMsgDay=""; save(); showTab("home"); window.scrollTo({top:0,behavior:"smooth"});};
+
 
 /* Navigation */
 function setNav(onCard){
@@ -778,23 +913,36 @@ function updateNav(){
 }
 addEventListener("scroll",updateNav,{passive:true});
 
-const tabScroll={home:0,read:0};
+// Tabs: Seite, Knopf in der Tab-Leiste und Titel oben
+const TABS={home:["tabTrain","Gesprächstraining"],notes:["tabNotes","Notizen"],read:["tabRead","Nachlesen"]};
+const tabScroll={home:0,notes:0,read:0};
+function markTab(name){
+  Object.keys(TABS).forEach(k=>{
+    const b=$(TABS[k][0]); b.classList.toggle("on",k===name);
+    if(k===name) b.setAttribute("aria-current","page"); else b.removeAttribute("aria-current");
+  });
+}
 function showTab(name){
   if(name===tab){window.scrollTo({top:0,behavior:"smooth"});return;}
   tabScroll[tab]=window.scrollY; tab=name;
-  $("home").classList.toggle("hidden",name!=="home");
-  $("read").classList.toggle("hidden",name!=="read");
-  $("tabTrain").classList.toggle("on",name==="home");
-  $("tabRead").classList.toggle("on",name==="read");
-  $("tabTrain").removeAttribute("aria-current"); $("tabRead").removeAttribute("aria-current");
-  $(name==="home"?"tabTrain":"tabRead").setAttribute("aria-current","page");
-  $("navTitle").textContent=name==="home"?"Gesprächstraining":"Nachlesen";
+  Object.keys(TABS).forEach(k=>$(k).classList.toggle("hidden",k!==name));
+  markTab(name);
+  $("navTitle").textContent=TABS[name][1];
   if(name==="home") renderHome();
+  if(name==="notes") growFree();
   window.scrollTo(0,tabScroll[name]);
   updateNav();
 }
-$("tabTrain").onclick=()=>showTab("home");
-$("tabRead").onclick=()=>showTab("read");
+Object.keys(TABS).forEach(k=>$(TABS[k][0]).onclick=()=>showTab(k));
+
+// Freie Notizen: wächst mit dem Text und speichert automatisch
+function growFree(){const f=$("freeNotes"); f.style.height="auto"; f.style.height=Math.max(f.scrollHeight,innerHeight*.55)+"px";}
+let freeTimer=null;
+$("freeNotes").value=state.free;
+$("freeNotes").addEventListener("input",()=>{
+  state.free=$("freeNotes").value; growFree(); $("freeSaved").textContent="";
+  clearTimeout(freeTimer); freeTimer=setTimeout(()=>{save();$("freeSaved").textContent="Gespeichert";},500);
+});
 
 /* Frageansicht */
 function openQ(i,list){
@@ -802,7 +950,7 @@ function openQ(i,list){
   if(list) seq=list;
   if(!seq.includes(i)) seq=ALL.map((x,k)=>k);
   current=i; const it=ALL[i], pos=seq.indexOf(i);
-  $("home").classList.add("hidden"); $("read").classList.add("hidden"); $("card").classList.remove("hidden");
+  Object.keys(TABS).forEach(k=>$(k).classList.add("hidden")); $("card").classList.remove("hidden");
   $("card").classList.remove("push"); void $("card").offsetWidth; $("card").classList.add("push");
   $("navTitle").textContent=(pos+1)+" von "+seq.length;
   const last=seq.length<ALL.length&&pos===seq.length-1;
@@ -839,7 +987,7 @@ function goHome(){
   $("card").classList.add("hidden"); $("home").classList.remove("hidden");
   $("home").classList.remove("pop-in"); void $("home").offsetWidth; $("home").classList.add("pop-in");
   tab="home";
-  $("tabTrain").classList.add("on"); $("tabRead").classList.remove("on");
+  markTab("home");
   $("navTitle").textContent="Gesprächstraining";
   renderHome();
   window.scrollTo(0,homeScroll);
@@ -855,24 +1003,80 @@ function updateRate(animate){
   g.setAttribute("aria-pressed",d); n.setAttribute("aria-pressed",a);
   if(animate){const b=animate==="good"?g:n; b.classList.remove("pop"); void b.offsetWidth; b.classList.add("pop");}
 }
-function rate(kind){
-  const it=ALL[current], id=it.id;
-  if(kind==="good"){
-    if(state.done[id]){delete state.done[id];}
-    else{
-      state.done[id]=true; delete state.again[id];
-      const items=ALL.filter(x=>x.cat===it.cat);
-      if(ALL.every(x=>state.done[x.id])){save(); updateRate(kind); showFinal(); return;}
-      if(items.every(x=>state.done[x.id])){confetti(60); toast("„"+it.cat+"“ geschafft! 🎉");}
-    }
-  }else{
-    if(state.again[id]) delete state.again[id];
-    else{state.again[id]=true; delete state.done[id]; toast("Kommt auf die Nochmal-Liste");}
+// Setzt "Sitzt" oder "Nochmal" (erneutes Tippen nimmt es zurück) und löst Konfetti und
+// Nachrichten aus. Gibt den vorherigen Stand fürs Rückgängigmachen zurück.
+function applyRate(id,kind){
+  const snap={done:!!state.done[id],again:!!state.again[id],big:false};
+  if(kind==="good"){ if(snap.done) delete state.done[id]; else{state.done[id]=true; delete state.again[id];} }
+  else{ if(snap.again) delete state.again[id]; else{state.again[id]=true; delete state.done[id];} }
+  save();
+  snap.big=celebrate(id,snap);
+  return snap;
+}
+function restoreRate(id,snap){
+  if(snap.done) state.done[id]=true; else delete state.done[id];
+  if(snap.again) state.again[id]=true; else delete state.again[id];
+  save();
+}
+function celebrate(id,snap){
+  const it=ALL.find(x=>x.id===id), newlyDone=!!state.done[id]&&!snap.done;
+  const doneN=ALL.filter(x=>state.done[x.id]).length;
+  if(newlyDone&&doneN===ALL.length){showFinal(); return true;}
+  if(newlyDone&&doneN>=Math.ceil(ALL.length/2)&&!state.seen.half){
+    state.seen.half=1; save(); confetti(80);
+    showSheet({icon:"star",title:HALF.title,sub:doneN+" von "+ALL.length+" Fragen sitzen.",msg:HALF.msg,button:"Weiter"});
+    return true;
   }
-  save(); updateRate(kind);
+  if(newlyDone&&ALL.filter(x=>x.cat===it.cat).every(x=>state.done[x.id])){confetti(60); toast("„"+it.cat+"“ geschafft! 🎉"); return false;}
+  return false;
+}
+function rate(kind){
+  const id=ALL[current].id;
+  applyRate(id,kind);
+  if(kind==="again"&&state.again[id]) toast("Kommt auf die Nochmal-Liste");
+  updateRate(kind);
 }
 $("goodBtn").onclick=()=>rate("good");
 $("againBtn").onclick=()=>rate("again");
+
+// Fenster in der Mitte, z. B. für Halbzeit, Gesprächsmorgen und "Wie lief's?"
+function showSheet(o){
+  const ov=document.createElement("div"); ov.className="overlay"; ov.setAttribute("role","dialog"); ov.setAttribute("aria-modal","true");
+  const icon=o.icon==="sun"?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>'
+    :o.icon==="star"?'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9Z"/></svg>':ICON.tick;
+  ov.innerHTML='<div class="sheet"><div class="big-check '+(o.icon||"")+'">'+icon+'</div><h2></h2><p class="sub"></p><div class="card msg"><div class="msg-top"><span>Von Finn</span></div><p class="m"></p></div><div class="choices"></div></div>';
+  ov.querySelector("h2").textContent=o.title;
+  const sub=ov.querySelector(".sub"); if(o.sub) sub.textContent=o.sub; else sub.remove();
+  const msg=ov.querySelector(".msg"); if(o.msg) ov.querySelector(".m").textContent=o.msg; else msg.remove();
+  const close=()=>ov.remove();
+  const box=ov.querySelector(".choices");
+  (o.choices||[{label:o.button||"Schließen",filled:true,fn:close}]).forEach(c=>{
+    const b=document.createElement("button"); b.className="btn "+(c.filled?"filled":"tinted"); b.textContent=c.label;
+    b.onclick=()=>c.fn(ov,close); box.appendChild(b);
+  });
+  if(!o.choices) ov.addEventListener("click",e=>{if(e.target===ov) close();});
+  document.body.appendChild(ov);
+  box.querySelector("button").focus();
+  return ov;
+}
+
+// Einmalige Momente rund um den Gesprächstermin
+function checkMoments(){
+  if(document.querySelector(".overlay")) return;
+  const d=interview(), now=new Date(), k=dayKey(d);
+  if(dayKey(now)===k&&now<d&&!state.seen["morning-"+k]){
+    state.seen["morning-"+k]=1; save(); confetti(50);
+    showSheet({icon:"sun",title:MORNING.title,sub:"Um "+d.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"})+" Uhr im RP Kassel",msg:MORNING.msg,button:MORNING.button});
+  }else if(now>=d&&now-d<14*864e5&&!state.seen["after-"+k]){
+    state.seen["after-"+k]=1; save();
+    showSheet({icon:"star",title:"Wie lief's?",sub:"Das Gespräch ist geschafft!",choices:Object.keys(AFTER).map(key=>({label:AFTER[key].label,fn:(ov,close)=>{
+      close(); if(key==="good") confetti(120);
+      showSheet({icon:key==="good"?"":"star",title:AFTER[key].title,msg:AFTER[key].msg});
+    }}))});
+  }
+}
+setInterval(checkMoments,60000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden) checkMoments();});
 
 function showFinal(){
   confetti(140);
@@ -952,9 +1156,10 @@ $("randomBtn").onclick=()=>{
 
 /* Sichern und Zurücksetzen */
 $("exportBtn").onclick=async()=>{
-  const withContent=ALL.filter(hasNotes);
-  if(!withContent.length){toast("Noch keine eigenen Antworten oder Notizen");return;}
+  const withContent=ALL.filter(hasNotes), free=(state.free||"").trim();
+  if(!withContent.length&&!free){toast("Noch keine eigenen Antworten oder Notizen");return;}
   let text="Gesprächstraining RP Kassel\nMeine Antworten und Notizen, Stand "+new Date().toLocaleDateString("de-DE")+"\n";
+  if(free) text+="\n\n== Meine Notizen ==\n\n"+free+"\n";
   let cat="";
   withContent.forEach(it=>{
     if(it.cat!==cat){cat=it.cat; text+="\n\n== "+cat+" ==\n";}
@@ -975,14 +1180,14 @@ $("exportBtn").onclick=async()=>{
   }
 };
 $("resetBtn").onclick=()=>{
-  if(confirm("Fortschritt, eigene Antworten und Notizen löschen?")){
-    state={done:{},notes:{},memo:{},again:{},hideMsg:state.hideMsg,date:state.date}; save(); renderHome(); toast("Zurückgesetzt");
+  if(confirm("Fortschritt, eigene Antworten und Notizen zu den Fragen löschen? Deine Notizen im Tab „Notizen“ bleiben erhalten.")){
+    state={done:{},notes:{},memo:{},again:{},hideMsgDay:state.hideMsgDay,date:state.date,seen:state.seen,free:state.free}; save(); renderHome(); toast("Zurückgesetzt");
   }
 };
 
 $("linksRP").innerHTML=LINKS_RP.map(l=>linkRow(...l)).join("");
 $("linksLaw").innerHTML=LINKS_LAW.map(l=>linkRow(...l)).join("");
-renderHome(); updateNav();
+renderHome(); updateNav(); checkMoments();
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>
 </body>
