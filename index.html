@@ -453,6 +453,22 @@ label.row{cursor:pointer}
       <button class="btn filled" id="mockNext"></button>
       <button class="btn tinted" id="mockSay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9.5v5h3.5L12 19V5L7.5 9.5ZM16 9a4 4 0 0 1 0 6M18.5 6.5a7.5 7.5 0 0 1 0 11"/></svg>Nochmal vorlesen</button>
     </div>
+
+    <button class="btn tinted reveal" id="mockReveal">Musterantwort zeigen</button>
+    <div class="answer hidden" id="mockAns">
+      <div class="section">
+        <div class="sec-head"><span id="mockAHead">Mögliche Antwort</span></div>
+        <div class="card answer-body" id="mockAText"></div>
+      </div>
+      <div class="section hidden" id="mockTip">
+        <div class="card tip"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2Zm-2.5 18h5a.5.5 0 0 1 .5.5v.5a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-.5a.5.5 0 0 1 .5-.5Z"/></svg><div><b>Worauf es ankommt</b><span id="mockTipText"></span></div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="sec-head"><label for="mockMemo">Meine Notizen</label><span class="n saved" id="mockMemoSaved"></span></div>
+      <textarea id="mockMemo" placeholder="Was du dir zu dieser Antwort merken willst"></textarea>
+      <div class="sec-foot">Erscheint auch bei der Frage unter „Meine Notizen“.</div>
+    </div>
   </div>
 
   <div id="mockEnd" class="hidden">
@@ -1163,9 +1179,7 @@ function openQ(i,list){
   $("memoSaved").textContent="";
   $("answer").classList.add("hidden");
   $("revealBtn").classList.remove("hidden");
-  $("aText").innerHTML = it.list
-    ? '<ul>'+it.list.map(x=>'<li>'+fmt(x)+'</li>').join("")+'</ul>'
-    : '<p class="text">'+(it.a?fmt(it.a):'<span style="color:var(--label2)">Noch keine Antwort hinterlegt. Über „Frage bearbeiten“ kannst du eine ergänzen.</span>')+'</p>';
+  $("aText").innerHTML = answerHTML(it);
   // Platzhalter wie [Monat] zählen und darauf hinweisen
   const ph=(answerText(it).match(/\[[^\]]+\]/g)||[]).length;
   $("aFoot").textContent = ph
@@ -1181,6 +1195,12 @@ function openQ(i,list){
   updateRate();
   window.scrollTo(0,0);
   setNav(true);
+}
+
+function answerHTML(it){
+  return it.list
+    ? '<ul>'+it.list.map(x=>'<li>'+fmt(x)+'</li>').join("")+'</ul>'
+    : '<p class="text">'+(it.a?fmt(it.a):'<span style="color:var(--label2)">Noch keine Antwort hinterlegt. Über „Frage bearbeiten“ kannst du eine ergänzen.</span>')+'</p>';
 }
 
 function goHome(){
@@ -1564,6 +1584,12 @@ function mockQ(){
   $("mockPos").textContent="Frage "+(mock.i+1)+" von "+n;
   $("navTitle").textContent=(mock.i+1)+" von "+n;
   $("mockQ").textContent=it.q;
+  $("mockAns").classList.add("hidden");
+  $("mockReveal").textContent=it.custom?"Hinterlegte Antwort zeigen":"Musterantwort zeigen";
+  $("mockAHead").textContent=it.custom?"Deine hinterlegte Antwort":"Mögliche Antwort";
+  $("mockAText").innerHTML=answerHTML(it);
+  $("mockTip").classList.toggle("hidden",!it.t); $("mockTipText").textContent=it.t||"";
+  $("mockMemo").value=state.memo[it.id]||""; $("mockMemoSaved").textContent="";
   $("mockTime").textContent="0:00"; $("mockTime").classList.remove("over");
   $("mockNext").textContent=last?"Zur Auswertung":"Nächste Frage";
   $("mockSay").classList.toggle("hidden",!state.mockVoice||!("speechSynthesis" in window));
@@ -1578,10 +1604,22 @@ function mockQ(){
     mockInt=setInterval(()=>{const s=(Date.now()-t0)/1000; $("mockTime").textContent=fmtS(s); $("mockTime").classList.toggle("over",!!target&&s>target);},250);
   });
 }
+$("mockReveal").onclick=()=>{
+  const open=$("mockAns").classList.toggle("hidden")===false;
+  const it=ALL[mock.list[mock.i]];
+  $("mockReveal").textContent=open?(it.custom?"Hinterlegte Antwort ausblenden":"Musterantwort ausblenden"):(it.custom?"Hinterlegte Antwort zeigen":"Musterantwort zeigen");
+};
+let mockMemoTimer=null;
+$("mockMemo").addEventListener("input",()=>{
+  if(!mock) return;
+  const id=ALL[mock.list[mock.i]].id; state.memo[id]=$("mockMemo").value; $("mockMemoSaved").textContent="";
+  clearTimeout(mockMemoTimer); mockMemoTimer=setTimeout(()=>{save();$("mockMemoSaved").textContent="Gespeichert";},500);
+});
 $("mockSay").onclick=()=>{if(mock) speak(ALL[mock.list[mock.i]].q);};
 $("mockNext").onclick=()=>{
   if(!mock) return;
   mock.times[mock.i]=mock.t0?(Date.now()-mock.t0)/1000:0; mock.t0=0;
+  clearTimeout(mockMemoTimer); save();
   mockStop();
   if(mock.i<mock.list.length-1){mock.i++; mockQ();} else mockEnd();
 };
