@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="RP Training">
+<meta name="theme-color" content="#ffffff">
+<title>Gesprächstraining RP Kassel</title>
+
+
+
+<style>
+:root{
+  --bg:#FFFFFF; --band:#F1F2F4; --card:#FFFFFF; --ink:#1A1F29; --muted:#5B6472; --line:#D9DDE3;
+  --red:#120169; --redhover:#0B0047; --redsoft:#EEECF7; --done:#1F7A4D; --donesoft:#E5F2EA; --chip:#E9ECF0;
+  --font:"Source Sans 3", -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11151C; --band:#181D26; --card:#1D232E; --ink:#E9ECF1; --muted:#A0A9B7; --line:#2E3644;
+    --red:#A99EFF; --redhover:#C2BAFF; --redsoft:#221C44; --done:#55C08A; --donesoft:#1B3327; --chip:#29313F;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11151C; --band:#181D26; --card:#1D232E; --ink:#E9ECF1; --muted:#A0A9B7; --line:#2E3644;
+  --red:#A99EFF; --redhover:#C2BAFF; --redsoft:#221C44; --done:#55C08A; --donesoft:#1B3327; --chip:#29313F;
+}
+:root{box-sizing:border-box;padding-bottom:env(safe-area-inset-bottom,0px);}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(64px + env(safe-area-inset-top,0px));-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:17px;line-height:1.55}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,textarea:focus-visible{outline:3px solid var(--red);outline-offset:2px}
+.hidden{display:none!important}
+
+/* Kopfzeile */
+.masthead{position:sticky;top:0;z-index:10;background:var(--bg);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.masthead .in{max-width:720px;margin:0 auto;padding:12px 18px;display:flex;align-items:center;gap:12px}
+.mark{display:flex;flex-direction:column;gap:3px;flex:none}
+.mark i{display:block;width:26px;height:6px;background:var(--red)}
+.mark i:nth-child(2){width:18px}
+.mark i:nth-child(3){width:10px}
+.brand{line-height:1.1;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.brand b{font-family:"Plus Jakarta Sans",var(--font);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;color:var(--red)}
+.brand span{font-size:.92rem;font-weight:600;color:var(--muted)}
+.redline{height:4px;background:var(--red)}
+
+.wrap{max-width:720px;margin:0 auto;padding:0 18px}
+
+/* Startbereich */
+.hero{background:var(--band);border-bottom:1px solid var(--line)}
+.hero .wrap{padding-top:26px;padding-bottom:26px}
+.kicker{display:inline-block;background:var(--red);color:var(--bg);font-size:.82rem;font-weight:600;padding:3px 10px;margin-bottom:12px}
+.hero h1{font-family:"Plus Jakarta Sans",var(--font);font-size:1.95rem;line-height:1.15;font-weight:800;margin:0 0 6px;letter-spacing:-.02em;color:var(--red)}
+.hero p{margin:0;color:var(--muted)}
+.progress{margin-top:22px;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--red);padding:14px 16px}
+.progress .count{font-size:.98rem;color:var(--muted)}
+.progress .count b{color:var(--ink);font-size:1.5rem;font-weight:700;margin-right:2px}
+.bar{height:8px;background:var(--chip);overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;background:var(--done);width:0;transition:width .4s ease}
+.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.btn{border:0;border-radius:3px;padding:13px 18px;font-weight:600;font-size:1rem;line-height:1.2}
+.btn.primary{background:var(--red);color:var(--bg);flex:1 1 180px}
+.btn.primary:hover{background:var(--redhover)}
+.btn.ghost{background:var(--card);border:2px solid var(--ink);color:var(--ink);flex:1 1 140px}
+
+/* Verzeichnis */
+.dir{padding-top:28px;padding-bottom:12px}
+.dir-title{font-size:1.35rem;font-weight:700;margin:0 0 18px;padding-left:12px;border-left:5px solid var(--red)}
+.cat{background:var(--card);border:1px solid var(--line);margin-bottom:18px}
+.cat h2{margin:0;padding:14px 16px;font-size:1.08rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid var(--line)}
+.cat h2 span{font-weight:600;font-size:.82rem;color:var(--muted);background:var(--chip);padding:2px 9px;white-space:nowrap}
+.cat h2 span.full{background:var(--donesoft);color:var(--done)}
+.qlist{list-style:none;margin:0;padding:0}
+.qlist li+li button{border-top:1px solid var(--line)}
+.qlist li button{display:flex;gap:12px;align-items:flex-start;width:100%;text-align:left;background:none;border:0;padding:13px 16px}
+.qlist li button:hover{background:var(--band)}
+.dot{flex:none;width:20px;height:20px;border-radius:50%;border:2px solid var(--line);margin-top:3px;display:grid;place-items:center}
+.dot.done{background:var(--done);border-color:var(--done)}
+.dot.done::after{content:"";width:9px;height:5px;border:2px solid #fff;border-top:0;border-right:0;transform:rotate(-45deg) translate(1px,-1px)}
+.qt{font-size:1rem}
+.done-t{color:var(--muted)}
+.pen{flex:none;margin-left:auto;font-size:.75rem;font-weight:600;color:var(--red);background:var(--redsoft);padding:2px 7px;margin-top:2px}
+.foot{border-top:1px solid var(--line);background:var(--band);margin-top:20px}
+.foot .wrap{padding-top:18px;padding-bottom:28px;font-size:.88rem;color:var(--muted)}
+.reset{background:none;border:0;color:var(--red);text-decoration:underline;font-size:.92rem;padding:4px 0;margin-bottom:10px;font-weight:600}
+
+/* Frageansicht */
+.crumbs{padding-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:.92rem}
+.back{background:none;border:0;padding:6px 0;font-weight:600;color:var(--red)}
+.pos{color:var(--muted)}
+.qcard{background:var(--card);border:1px solid var(--line);border-top:5px solid var(--red);margin-top:12px;position:relative;overflow:hidden}
+.qhead{padding:18px 18px 4px}
+.tab{display:inline-block;background:var(--chip);font-size:.82rem;font-weight:600;padding:3px 10px;margin-bottom:12px;color:var(--muted)}
+.question{font-size:1.45rem;line-height:1.3;font-weight:700;margin:0 0 6px;padding-right:70px}
+.qbody{padding:12px 18px 18px}
+label.lbl{display:block;font-size:.95rem;font-weight:600;margin-bottom:6px}
+textarea{width:100%;min-height:140px;resize:vertical;border:1px solid var(--muted);border-radius:3px;padding:12px;font:inherit;font-size:16px;background:var(--bg);color:var(--ink);line-height:1.5}
+.saved{font-size:.8rem;color:var(--done);height:1.2em;margin-top:4px;font-weight:600}
+.reveal{width:100%;margin-top:12px;background:var(--ink);color:var(--bg)}
+.answer{margin-top:18px;animation:open .3s ease}
+.answer-box{background:var(--redsoft);border-left:5px solid var(--red);padding:14px 16px}
+.answer-box h3{margin:0 0 4px;font-size:1rem;font-weight:700}
+.note{font-size:.88rem;font-style:italic;color:var(--muted);margin:0 0 10px}
+.answer p.text{margin:0;font-size:1.05rem;line-height:1.65}
+.answer ul{margin:4px 0 0;padding-left:20px;font-size:1.05rem;line-height:1.65}
+.ph{background:var(--chip);padding:0 5px;font-size:.92em;color:var(--muted)}
+.tip{margin-top:12px;background:var(--band);border:1px solid var(--line);padding:12px 14px;font-size:.95rem}
+.tip b{display:block;margin-bottom:2px}
+.memo{margin-top:18px}
+.memo textarea{min-height:120px}
+.memo-hint{font-size:.88rem;color:var(--muted);margin:0 0 8px}
+.memo-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:6px}
+.copy{background:none;border:0;padding:4px 0;color:var(--red);font-size:.9rem;font-weight:600;text-align:left;text-decoration:underline}
+.links{padding-top:8px;padding-bottom:12px}
+.lgroup{background:var(--card);border:1px solid var(--line);margin-bottom:18px}
+.lgroup h3{margin:0;padding:12px 16px;font-size:1rem;font-weight:700;border-bottom:1px solid var(--line)}
+.lgroup a{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;color:var(--red);text-decoration:none;font-weight:600}
+.lgroup a+a{border-top:1px solid var(--line)}
+.lgroup a small{display:block;font-weight:400;color:var(--muted);font-size:.85rem}
+.lgroup a:hover{background:var(--band)}
+.lgroup a::after{content:"↗";flex:none}
+.qlinks{margin-top:12px;font-size:.95rem}
+.qlinks b{display:block;margin-bottom:4px}
+.qlinks a{display:block;color:var(--red);font-weight:600;padding:3px 0}
+@keyframes open{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+.stamp{position:absolute;top:22px;right:14px;border:2.5px solid var(--done);color:var(--done);font-weight:700;font-size:.8rem;letter-spacing:.04em;padding:3px 9px;border-radius:3px;transform:rotate(-8deg);opacity:0;pointer-events:none}
+.stamp.on{opacity:.9;animation:stamp .35s ease}
+@keyframes stamp{from{transform:rotate(-8deg) scale(1.6);opacity:0}to{transform:rotate(-8deg) scale(1);opacity:.9}}
+.footer-actions{display:flex;gap:10px;margin:16px 0 36px}
+.footer-actions .btn{flex:1}
+.btn.mark{background:var(--donesoft);color:var(--done);border:2px solid var(--done)}
+.btn.mark.is{background:var(--done);color:#fff}
+.btn.next{background:var(--red);color:var(--bg)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="icon-192.png">
+</head>
+<body>
+<header class="masthead">
+  <div class="in">
+    <div class="brand"><b>RP Kassel</b><span>Gesprächstraining</span></div>
+  </div>
+</header>
+
+<main>
+<section id="home">
+  <div class="hero">
+    <div class="wrap">
+      <span class="kicker">Duales Studium</span>
+      <h1>Public Administration</h1>
+      <p>Vorbereitung auf das persönliche Auswahlgespräch</p>
+      <div class="progress">
+        <div class="count" id="count"></div>
+        <div class="bar"><i id="barfill"></i></div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="continueBtn">Weiter üben</button>
+        <button class="btn ghost" id="randomBtn">Zufällige Frage</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrap dir">
+    <h2 class="dir-title">Alle Fragen nach Themen</h2>
+    <div id="cats"></div>
+  </div>
+  <div class="wrap links">
+    <h2 class="dir-title">Zum Nachschauen</h2>
+    <div class="lgroup">
+      <h3>Regierungspräsidium Kassel</h3>
+      <a href="https://rp-kassel.hessen.de/arbeitgeber-rp-kassel/ausbildung-duales-studium-praktika-referendariat" target="_blank" rel="noopener"><span>Ausbildung und duales Studium<small>Ablauf, Voraussetzungen, Ansprechpersonen</small></span></a>
+      <a href="https://rp-kassel.hessen.de/ueber-uns/aufbau-und-struktur" target="_blank" rel="noopener"><span>Aufbau und Struktur<small>Abteilungen und Organigramm</small></span></a>
+      <a href="https://rp-kassel.hessen.de/arbeitgeber-rp-kassel/leitbild" target="_blank" rel="noopener"><span>Leitbild<small>Werte und Selbstverständnis der Behörde</small></span></a>
+      <a href="https://rp-kassel.hessen.de/nordosthessen/regierungsbezirk-kassel" target="_blank" rel="noopener"><span>Regierungsbezirk Kassel<small>Zuständigkeitsgebiet in Nordosthessen</small></span></a>
+      <a href="https://rp-kassel.hessen.de/ueber-uns/regierungspraesident" target="_blank" rel="noopener"><span>Behördenleitung<small>Regierungspräsident und Vizepräsident</small></span></a>
+      <a href="https://rp-kassel.hessen.de/Aktuelles" target="_blank" rel="noopener"><span>Aktuelle Meldungen<small>Gut für Gesprächseinstieg und Smalltalk</small></span></a>
+      <a href="https://rp-kassel.hessen.de/Themen-A-Z" target="_blank" rel="noopener"><span>Themen A bis Z<small>Alle Aufgabenbereiche im Überblick</small></span></a>
+    </div>
+    <div class="lgroup">
+      <h3>Gesetze im Wortlaut</h3>
+      <a href="https://www.gesetze-im-internet.de/gg/art_20.html" target="_blank" rel="noopener"><span>Art. 20 Grundgesetz<small>Gesetzmäßigkeit der Verwaltung</small></span></a>
+      <a href="https://www.gesetze-im-internet.de/vwvfg/__35.html" target="_blank" rel="noopener"><span>§ 35 VwVfG<small>Definition Verwaltungsakt</small></span></a>
+      <a href="https://www.gesetze-im-internet.de/vwgo/__70.html" target="_blank" rel="noopener"><span>§ 70 VwGO<small>Form und Frist des Widerspruchs</small></span></a>
+      <a href="https://www.gesetze-im-internet.de/beamtstg/" target="_blank" rel="noopener"><span>Beamtenstatusgesetz<small>Rechte und Pflichten, Remonstration in § 36</small></span></a>
+    </div>
+  </div>
+  <div class="foot">
+    <div class="wrap">
+      <button class="reset" id="resetBtn">Fortschritt und Notizen zurücksetzen</button>
+      <div>Private Lernhilfe zur Gesprächsvorbereitung. Kein Angebot des Regierungspräsidiums Kassel.</div>
+    </div>
+  </div>
+</section>
+
+<section id="card" class="hidden">
+  <div class="wrap">
+    <div class="crumbs">
+      <button class="back" id="backBtn">‹ Zum Verzeichnis</button>
+      <span class="pos" id="pos"></span>
+    </div>
+    <article class="qcard">
+      <div class="stamp" id="stamp">GEÜBT</div>
+      <div class="qhead">
+        <span class="tab" id="tab"></span>
+        <h2 class="question" id="qText"></h2>
+      </div>
+      <div class="qbody">
+        <label class="lbl" for="mine">Deine Antwort</label>
+        <textarea id="mine" placeholder="Erst selbst formulieren, dann vergleichen"></textarea>
+        <div class="saved" id="saved"></div>
+        <button class="btn reveal" id="revealBtn">Musterantwort zeigen</button>
+        <div class="answer hidden" id="answer">
+          <div class="answer-box">
+            <h3>Mögliche Antwort</h3>
+            <p class="note">Das ist nur eine mögliche Antwort. Formuliere sie in deinen eigenen Worten und mit eigenen Beispielen.</p>
+            <div id="aText"></div>
+          </div>
+          <div class="tip hidden" id="tip"><b>Worauf es ankommt</b><span id="tipText"></span></div>
+          <div class="qlinks hidden" id="qlinks"></div>
+          <div class="memo">
+            <label class="lbl" for="memo">Meine Notizen und meine Lernversion</label>
+            <p class="memo-hint">Hier kannst du festhalten, was du aus deiner Antwort und der Musterantwort mitnehmen willst, oder die Musterantwort in deine eigenen Worte bringen.</p>
+            <textarea id="memo" placeholder="Zum Beispiel eigene Beispiele, Stichpunkte oder deine überarbeitete Antwort"></textarea>
+            <div class="memo-row">
+              <button class="copy" id="copyBtn">Musterantwort als Vorlage übernehmen</button>
+              <span class="saved" id="memoSaved"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+    <div class="footer-actions">
+      <button class="btn mark" id="markBtn">Als geübt markieren</button>
+      <button class="btn next" id="nextBtn">Nächste Frage</button>
+    </div>
+  </div>
+</section>
+</main>
+<script>
+const DATA = [
+{cat:"Einstieg und Selbstvorstellung", items:[
+ {q:"Stellen Sie sich bitte kurz vor.",
+  a:"Mein Name ist Emilia Möller, ich bin 23 Jahre alt und mache zurzeit eine Ausbildung zur [Verwaltungsfachangestellten] beim Landkreis Hersfeld-Rotenburg, die ich im [Monat] nächsten Jahres abschließe. Davor habe ich Lehramt in Kassel und Forstwirtschaft in Göttingen begonnen und dabei gemerkt, dass beides nicht zu mir passt. In der Verwaltung habe ich gefunden, was mir liegt, nämlich strukturiertes Arbeiten mit rechtlicher Grundlage und einem echten Nutzen für die Bürgerinnen und Bürger. Nach meinem Abschluss möchte ich direkt mit dem dualen Studium beim RP Kassel weitermachen und mich im gehobenen Dienst weiterentwickeln.",
+  t:"Etwa eine Minute. Den roten Faden gleich selbst setzen, bevor die Kommission nach den Abbrüchen fragt."},
+ {q:"Wie sind Sie auf das duale Studium beim RP aufmerksam geworden?",
+  a:"Durch meine Ausbildung habe ich viel mit Stellen zu tun, die über dem Landkreis stehen, und habe dabei gesehen, welche Rolle das Regierungspräsidium spielt. Daraufhin habe ich mich über die Möglichkeiten informiert und bin auf den Studiengang Public Administration gestoßen."}
+]},
+{cat:"Motivation für Studium und Behörde", items:[
+ {q:"Warum wollen Sie Public Administration studieren?",
+  a:"Mich interessiert, wie Verwaltung funktioniert und wie Recht in der Praxis angewendet wird. In der Ausbildung lerne ich vor allem, Vorgänge korrekt zu bearbeiten. Im Studium möchte ich die Zusammenhänge dahinter verstehen, also Recht, Wirtschaft und Organisation, damit ich später Entscheidungen vorbereiten und selbst Verantwortung übernehmen kann. Die Verbindung von Theorie und Praxis passt zu mir, weil ich am besten lerne, wenn ich Dinge direkt anwenden kann."},
+ {q:"Was wissen Sie über den Ablauf des dualen Studiums?",
+  a:"Das Studium wechselt zwischen Theoriephasen an der Hochschule und Praxisphasen in der Behörde. Während des Studiums bin ich Beamtin auf Widerruf und erhalte Anwärterbezüge. Am Ende stehen der Bachelorabschluss und die Befähigung für die Laufbahn des gehobenen Dienstes.",
+  t:"Dauer, Hochschule und Ablauf vorher auf der Website des RP Kassel nachlesen und im Gespräch genau benennen können."},
+ {q:"Warum das Regierungspräsidium und nicht der Landkreis?",
+  a:"Beim Landkreis habe ich die kommunale Ebene kennengelernt. Das RP ist als Mittelbehörde zwischen den Ministerien und den Kommunen tätig und hat dadurch ein viel breiteres Aufgabenfeld, von Umwelt über Verkehr bis zur Kommunalaufsicht. Diese Vielfalt reizt mich, und ich kann mir gut vorstellen, in ganz unterschiedlichen Bereichen zu arbeiten."},
+ {q:"Was wissen Sie über das RP Kassel?",
+  a:"Das RP Kassel ist eines von drei Regierungspräsidien in Hessen und für Nordhessen zuständig. Es bündelt Aufgaben des Landes, zum Beispiel im Umwelt- und Naturschutz, im Verkehr, in der Wirtschaftsförderung, im Arbeitsschutz und in der Aufsicht über Landkreise und Kommunen. [Ein oder zwei konkrete Dinge nennen, die du auf der Website gelesen hast.]",
+  t:"Vorher die Website und das Organigramm anschauen. Hier fällt fehlende Vorbereitung am schnellsten auf."},
+ {q:"Welcher Bereich interessiert Sie besonders?",
+  a:"Mich interessiert besonders der Umwelt- und Naturschutzbereich. Durch mein Forststudium habe ich schon Grundlagenwissen über Waldwirtschaft und Ökologie, und ich fände es spannend, dieses Wissen mit dem Verwaltungsrecht zu verbinden. Ich bin aber offen für andere Bereiche, gerade weil das Studium verschiedene Stationen vorsieht."},
+ {q:"Warum wollen Sie Beamtin werden?",
+  a:"Mir ist wichtig, einen Beruf zu haben, der einen Sinn für die Gesellschaft hat. Als Beamtin arbeite ich für das Gemeinwohl und bin an Recht und Gesetz gebunden, nicht an wirtschaftliche Interessen. Natürlich spielt auch die Sicherheit eine Rolle, aber vor allem gefällt mir der Gedanke, neutral und fair für alle da zu sein.",
+  t:"Sicherheit ruhig ehrlich nennen, aber nicht als Hauptgrund."},
+ {q:"Warum sollten wir uns für Sie entscheiden?",
+  a:"Ich bringe zum Studienbeginn eine abgeschlossene Verwaltungsausbildung mit, kenne also die Praxis und weiß, dass mir die Arbeit liegt. Dazu kommt mein Grundwissen aus dem Forststudium, das zum Beispiel im Umweltbereich hilfreich sein kann. Und ich habe mich sehr bewusst für diesen Weg entschieden, deshalb werde ich ihn auch zu Ende gehen.",
+  t:"Selbstbewusst, aber ohne andere Bewerberinnen und Bewerber abzuwerten."}
+]},
+{cat:"Lebenslauf und Studienabbrüche", items:[
+ {q:"Warum haben Sie das Lehramtsstudium abgebrochen?",
+  a:"Ich habe Lehramt direkt nach dem Abitur begonnen, ohne mir genau zu überlegen, ob der Beruf zu mir passt. In den ersten Semestern und vor allem im Praktikum habe ich gemerkt, dass mir [die Arbeit vor der Klasse / die pädagogische Seite] nicht so liegt, wie ich gedacht hatte. Ich wollte nicht jahrelang auf einen Beruf hinstudieren, in dem ich mich nicht sehe, deshalb habe ich die Entscheidung früh getroffen."},
+ {q:"Und warum dann Forstwirtschaft?",
+  a:"Ich wollte etwas Praktischeres machen und hatte schon immer Interesse an Natur und Umwelt. Im Studium habe ich aber gemerkt, dass es sehr [naturwissenschaftlich-technisch] ausgerichtet ist und dass mich eher die organisatorische und rechtliche Seite interessiert, also wie man solche Themen verwaltet und regelt. Das war im Rückblick ein wichtiger Hinweis, der mich zur Verwaltung geführt hat."},
+ {q:"Was ist diesmal anders?",
+  a:"Diesmal entscheide ich mich nicht auf Basis einer Vorstellung, sondern nach [Zeitraum] täglicher Praxis in der Verwaltung. Ich weiß genau, worauf ich mich einlasse, auch mit den weniger spannenden Seiten. Außerdem ziehe ich meine Ausbildung bis zum Abschluss durch, bevor ich den nächsten Schritt gehe. Ich habe also einen Plan und halte mich daran.",
+  t:"Dass die Ausbildung beendet wird, ist das stärkste Argument gegen die Sorge, es könnte wieder einen Abbruch geben. Ruhig und selbstbewusst sagen, ohne sich zu rechtfertigen."},
+ {q:"Was machen Sie, wenn Ihnen auch dieses Studium nicht gefällt?",
+  a:"Das halte ich für sehr unwahrscheinlich, weil ich die Verwaltung bereits kenne und mir die Arbeit gefällt. Wenn einzelne Fächer schwierig werden, zum Beispiel [Recht oder Wirtschaft], ist das für mich kein Grund aufzuhören, sondern eine Herausforderung. Ich habe aus meinen früheren Entscheidungen gelernt, mich vorher gründlich zu informieren, und genau das habe ich diesmal getan."},
+ {q:"Was haben Sie aus den Abbrüchen gelernt?",
+  a:"Ich habe gelernt, ehrlich zu mir selbst zu sein und Entscheidungen zu korrigieren, wenn sie nicht passen, statt aus Bequemlichkeit weiterzumachen. Außerdem weiß ich jetzt viel genauer, was mir wichtig ist, nämlich Struktur, klare Regeln und Arbeit mit praktischem Nutzen."}
+]},
+{cat:"Ausbildung und Übergang ins Studium", items:[
+ {q:"Warum machen Sie erst die Ausbildung fertig und bewerben sich nicht sofort?",
+  a:"Mir ist wichtig, das zu Ende zu bringen, was ich angefangen habe, gerade nach meinen früheren Studienabbrüchen. Außerdem ist die Ausbildung eine sehr gute Grundlage für das Studium. Ich kenne die Abläufe in der Verwaltung, habe mit Bescheiden und Bürgerkontakt gearbeitet und kann das Gelernte im Studium direkt einordnen."},
+ {q:"Warum bewerben Sie sich nicht auf das duale Studium bei Ihrem Ausbildungsbetrieb?",
+  a:"Den Landkreis kenne ich inzwischen gut, und ich schätze die Arbeit dort sehr. Gerade deshalb möchte ich nach der Ausbildung eine andere Verwaltungsebene kennenlernen. Das RP hat als Mittelbehörde ein breiteres Aufgabenfeld und einen anderen Blickwinkel, weil es Landesaufgaben für ganz Nordhessen übernimmt und die Kommunen beaufsichtigt. So erweitere ich meine Erfahrung, statt sie nur zu vertiefen.",
+  t:"Nie schlecht über den Landkreis sprechen. Der Wechsel soll wie Neugier und Entwicklung wirken, nicht wie Flucht."},
+ {q:"Hat der Landkreis Ihnen eine Übernahme angeboten? Warum nehmen Sie die nicht an?",
+  a:"Ich freue mich über das Angebot, weil es zeigt, dass meine Arbeit geschätzt wird. Mein Ziel ist aber der gehobene Dienst, und dafür ist das duale Studium der richtige Weg.",
+  t:"Nur so antworten, wenn es wirklich ein Angebot gibt. Sonst ehrlich sagen, dass die Übernahme noch nicht besprochen wurde."},
+ {q:"Wissen Ihre Ausbilder von Ihrer Bewerbung?",
+  a:"[Ehrlich antworten.] Da ich die Ausbildung regulär abschließe, ist das für beide Seiten unproblematisch. [Falls der Landkreis Bescheid weiß und dich unterstützt, das ruhig erwähnen.]"},
+ {q:"Ist das nicht ein Umweg, erst Ausbildung und dann noch ein Studium?",
+  a:"Ich sehe das nicht als Umweg, sondern als Vorteil. Viele Studierende lernen die Verwaltungspraxis erst im Studium kennen, ich bringe sie schon mit. Das hilft mir, die Theorie schneller zu verstehen, und in den Praxisphasen kann ich von Anfang an mehr beitragen."},
+ {q:"Befürchten Sie nicht, sich in den ersten Semestern zu langweilen?",
+  a:"Einiges wird mir vertraut sein, aber im Studium geht es viel tiefer in die rechtlichen und wirtschaftlichen Hintergründe. Genau das fehlt mir in der Ausbildung manchmal, und darauf freue ich mich. Wo ich schon Vorwissen habe, kann ich außerdem Mitstudierende unterstützen."},
+ {q:"Was aus Ihrer Ausbildung wird Ihnen im Studium am meisten helfen?",
+  a:"Vor allem [der Umgang mit Gesetzestexten], weil ich [Beispiel]. Außerdem [das Erstellen von Bescheiden / die Erfahrung im Bürgerkontakt], zum Beispiel [Beispiel].",
+  t:"Zwei konkrete Dinge nennen, jeweils mit einem kurzen Beispiel aus dem Alltag beim Landkreis."},
+ {q:"Was machen Sie, wenn die Abschlussprüfung nicht so gut ausfällt wie erhofft?",
+  a:"Ich bereite mich gezielt auf die Prüfung vor, weil mir ein guter Abschluss wichtig ist. [Kurz sagen, wie du lernst.] Für das Studium ist aber vor allem die Erfahrung aus der Ausbildung wertvoll, und die bringe ich in jedem Fall mit."}
+]},
+{cat:"Fachliches Wissen", items:[
+ {q:"Was sind Ihre Aufgaben in der Ausbildung?",
+  a:"Ich bin zurzeit im Bereich [Fachbereich] eingesetzt. Dort [konkrete Aufgaben, etwa Anträge prüfen, Bescheide vorbereiten, Bürgeranfragen beantworten]. Besonders gut gefällt mir [Beispiel], weil [Grund].",
+  t:"Konkret werden. Ein echtes Beispiel wirkt stärker als jede allgemeine Aussage."},
+ {q:"Was ist der Unterschied zwischen Landkreis, Regierungspräsidium und Ministerium?",
+  a:"Das Ministerium ist die oberste Landesbehörde und gibt die politische Richtung vor. Das Regierungspräsidium ist die Mittelbehörde, die Landesaufgaben in der Region umsetzt und die Aufsicht über die Landkreise und kreisfreien Städte führt. Der Landkreis ist eine kommunale Gebietskörperschaft mit Selbstverwaltung und erledigt Aufgaben direkt für die Bürgerinnen und Bürger, teilweise auch als untere Landesbehörde."},
+ {q:"Wie unterscheidet sich die Arbeit beim RP von der beim Landkreis?",
+  a:"Beim Landkreis arbeitet man oft direkt mit den Bürgerinnen und Bürgern und setzt Aufgaben vor Ort um. Beim RP geht es stärker um übergeordnete Aufgaben, Genehmigungsverfahren, Aufsicht und Koordination für die ganze Region. Ich stelle mir die Arbeit dort komplexer vor, mit mehr Abstimmung zwischen verschiedenen Stellen."},
+ {q:"Was ist Kommunalaufsicht?",
+  a:"Die Kommunalaufsicht stellt sicher, dass Gemeinden und Landkreise bei ihrer Selbstverwaltung Recht und Gesetz einhalten. Bei Selbstverwaltungsaufgaben ist das eine reine Rechtsaufsicht, ob eine Entscheidung zweckmäßig ist, prüft die Aufsicht also nicht. Das RP Kassel ist die Aufsichtsbehörde für die Landkreise und die Stadt Kassel in seinem Bezirk."},
+ {q:"Was ist ein Verwaltungsakt?",
+  a:"Ein Verwaltungsakt ist eine hoheitliche Maßnahme einer Behörde zur Regelung eines Einzelfalls auf dem Gebiet des öffentlichen Rechts mit unmittelbarer Rechtswirkung nach außen. Geregelt ist das in § 35 des Verwaltungsverfahrensgesetzes. Ein typisches Beispiel ist ein Bescheid, etwa eine Baugenehmigung oder ein Gebührenbescheid."},
+ {q:"Was ist ein Widerspruch und welche Frist gilt?",
+  a:"Mit dem Widerspruch kann man einen Verwaltungsakt noch einmal von der Verwaltung überprüfen lassen, bevor man vor Gericht klagt. Er muss in der Regel innerhalb eines Monats nach Bekanntgabe des Bescheids eingelegt werden. Fehlt die Rechtsbehelfsbelehrung oder ist sie fehlerhaft, verlängert sich die Frist auf ein Jahr. In manchen Bereichen ist das Widerspruchsverfahren gesetzlich ausgeschlossen, dann ist direkt die Klage möglich."},
+ {q:"Welche Grundsätze gelten für das Verwaltungshandeln?",
+  a:"Der wichtigste ist die Gesetzmäßigkeit der Verwaltung aus Artikel 20 Absatz 3 Grundgesetz. Die Verwaltung darf nicht gegen Gesetze handeln und braucht für Eingriffe eine gesetzliche Grundlage. Dazu kommen der Gleichbehandlungsgrundsatz und der Grundsatz der Verhältnismäßigkeit, also dass eine Maßnahme geeignet, erforderlich und angemessen sein muss."},
+ {q:"Was bedeutet Ermessen?",
+  a:"Ermessen bedeutet, dass das Gesetz der Behörde einen Entscheidungsspielraum lässt. Dieser Spielraum muss pflichtgemäß genutzt werden, also im Sinne des Gesetzes und ohne sachfremde Erwägungen."},
+ {q:"Worin unterscheiden sich Beamte und Tarifbeschäftigte?",
+  a:"Beamtinnen und Beamte stehen in einem öffentlich-rechtlichen Dienst- und Treueverhältnis zu ihrem Dienstherrn. Sie erhalten Besoldung statt eines Gehalts nach Tarifvertrag, werden in der Regel auf Lebenszeit ernannt und haben kein Streikrecht. Tarifbeschäftigte haben einen privatrechtlichen Arbeitsvertrag, für Beschäftigte des Landes Hessen gilt der Tarifvertrag TV-H."},
+ {q:"Welche Pflichten haben Beamtinnen und Beamte?",
+  a:"Zum Beispiel die Pflicht zur Verfassungstreue, zur Neutralität und Unparteilichkeit, zur Verschwiegenheit, zur uneigennützigen Amtsführung und die Pflicht, Anweisungen von Vorgesetzten zu befolgen. Bei Bedenken gegen eine Anweisung muss man diese über die sogenannte Remonstration geltend machen."},
+ {q:"Welche Rolle spielt der Datenschutz in Ihrer Arbeit?",
+  a:"Eine sehr große, weil Behörden mit vielen persönlichen Daten arbeiten. Grundlage sind die Datenschutz-Grundverordnung und das Hessische Datenschutz- und Informationsfreiheitsgesetz. Im Alltag heißt das, nur die Daten zu verarbeiten, die wirklich nötig sind, Unterlagen nicht offen liegen zu lassen und am Telefon keine Auskünfte zu geben, ohne dass klar ist, mit wem ich spreche. [Beispiel aus der Ausbildung.]"}
+]},
+{cat:"Situative Fragen", items:[
+ {q:"Ein Bürger ist am Telefon sehr aufgebracht, weil sein Antrag abgelehnt wurde. Wie reagieren Sie?",
+  a:"Zuerst würde ich ruhig bleiben und ihn ausreden lassen, weil viele Menschen sich schon beruhigen, wenn sie merken, dass man zuhört. Dann würde ich Verständnis für seinen Ärger zeigen, ohne die Entscheidung infrage zu stellen, und ihm sachlich erklären, warum der Antrag abgelehnt wurde. Außerdem würde ich ihn auf seine Möglichkeiten hinweisen, zum Beispiel Widerspruch einzulegen. Wenn er beleidigend wird, würde ich ihn freundlich, aber bestimmt darauf hinweisen und das Gespräch im Notfall beenden.",
+  t:"Ideal ist ein echtes Beispiel aus der Ausbildung."},
+ {q:"Ihre Vorgesetzte gibt Ihnen eine Anweisung, die Sie für falsch halten. Was tun Sie?",
+  a:"Ich würde sie in einem ruhigen Moment ansprechen und meine Bedenken sachlich erklären, vielleicht habe ich ja nicht alle Informationen. Wenn ich die Anweisung für rechtswidrig halte, müsste ich das als Beamtin über den Dienstweg geltend machen, also remonstrieren. Wird die Anweisung dann bestätigt, führe ich sie aus, solange sie nicht strafbar ist oder die Menschenwürde verletzt."},
+ {q:"Eine Kollegin macht regelmäßig Fehler, die dann bei Ihnen landen. Was tun Sie?",
+  a:"Ich würde zuerst direkt und freundlich mit ihr sprechen, ohne Vorwürfe, und fragen, ob ich ihr helfen kann oder ob es einen Grund gibt. Oft lässt sich so etwas unter Kollegen klären. Nur wenn sich nichts ändert und die Arbeit darunter leidet, würde ich die Vorgesetzte einbeziehen."},
+ {q:"Zwei dringende Aufgaben kommen gleichzeitig. Wie gehen Sie vor?",
+  a:"Ich würde prüfen, welche Aufgabe eine echte Frist hat oder die größeren Folgen hätte, wenn sie liegen bleibt. Wenn ich das nicht selbst entscheiden kann, spreche ich mit meiner Vorgesetzten, damit die Priorität klar ist. Wichtig ist mir, dass am Ende nichts vergessen wird, deshalb arbeite ich mit [Listen / Wiedervorlagen]."},
+ {q:"Sie kommen bei einem Fall nicht weiter. Was tun Sie?",
+  a:"Zuerst versuche ich, es selbst zu klären, etwa über das Gesetz, Verwaltungsvorschriften oder ähnliche frühere Fälle. Wenn ich dann noch unsicher bin, frage ich rechtzeitig eine Kollegin oder meine Vorgesetzte, statt eine falsche Entscheidung zu riskieren."},
+ {q:"Ein Bekannter bittet Sie, seinen Antrag schneller zu bearbeiten.",
+  a:"Das würde ich freundlich, aber klar ablehnen. Alle Anträge werden gleich behandelt, und schon der Eindruck einer Bevorzugung würde das Vertrauen in die Verwaltung beschädigen. Wenn ich jemanden persönlich kenne, würde ich meiner Vorgesetzten Bescheid geben, damit eine Kollegin den Fall übernimmt und jede Befangenheit ausgeschlossen ist."},
+ {q:"Ein Bürger bietet Ihnen als Dankeschön einen Gutschein an.",
+  a:"Den würde ich höflich ablehnen. Beamtinnen und Beamte dürfen grundsätzlich keine Geschenke oder Vorteile in Bezug auf ihr Amt annehmen. Ich würde mich trotzdem für die nette Geste bedanken."},
+ {q:"Sie haben einen Fehler gemacht, der erst später auffällt. Was tun Sie?",
+  a:"Ich würde den Fehler sofort offen ansprechen und mich gleichzeitig um eine Lösung bemühen. Fehler zu verschweigen macht sie meistens schlimmer. Danach würde ich überlegen, wie ich so etwas künftig vermeide."},
+ {q:"In einer Gruppenarbeit im Studium macht ein Mitglied nichts. Wie reagieren Sie?",
+  a:"Ich würde die Person direkt ansprechen und nachfragen, ob es Probleme gibt. Oft hilft es, Aufgaben klar zu verteilen und Fristen festzulegen. Wenn sich trotzdem nichts ändert, würde ich das mit der Gruppe besprechen und notfalls die Lehrkraft informieren."}
+]},
+{cat:"Persönlichkeit und Selbsteinschätzung", items:[
+ {q:"Wie würden Kollegen Sie beschreiben?",
+  a:"Ich denke, sie würden mich als zuverlässig, freundlich und hilfsbereit beschreiben. [Beispiel, etwa dass du Kolleginnen bei neuen Aufgaben hilfst oder für Vertretungen einspringst.]"},
+ {q:"Nennen Sie drei Stärken.",
+  a:"Ich bin sorgfältig, weil ich weiß, dass Fehler in der Verwaltung Folgen für Menschen haben. Ich kann gut mit Menschen umgehen, auch in schwierigen Gesprächen. Und ich bin lernbereit, was man auch daran sieht, dass ich mich mit dem Studium bewusst weiterentwickeln möchte.",
+  t:"Jede Stärke mit einem kurzen Beispiel belegen."},
+ {q:"Was ist Ihre größte Schwäche?",
+  a:"Ich neige manchmal dazu, mich zu sehr in Details zu verlieren, weil ich alles richtig machen möchte. Dadurch dauern manche Aufgaben länger als nötig. Ich arbeite daran, indem ich mir klare Zeitrahmen setze und bei Unsicherheit früher nachfrage.",
+  t:"Eine echte Schwäche nennen, die nicht die Kernanforderungen betrifft, und zeigen, wie du daran arbeitest. Floskeln ohne Beispiel wirken auswendig gelernt."},
+ {q:"Was motiviert Sie?",
+  a:"Mich motiviert, wenn ich sehe, dass meine Arbeit etwas bewirkt, zum Beispiel wenn ein Antrag sauber bearbeitet ist und jemand schnell eine Antwort bekommt. Außerdem lerne ich gern Neues und übernehme gern Verantwortung. [Beispiel aus der Ausbildung.]"},
+ {q:"Wie gehen Sie mit Stress um?",
+  a:"Bei viel Arbeit mache ich einen Plan und arbeite die Aufgaben nacheinander ab, statt alles gleichzeitig zu wollen. Zum Ausgleich [Sport, Natur, Hobby]. In Prüfungsphasen fange ich früh mit dem Lernen an, damit der Druck am Ende nicht zu groß wird."},
+ {q:"Wie gehen Sie mit Routineaufgaben um?",
+  a:"Routineaufgaben gehören zur Verwaltung dazu, und ich erledige sie genauso sorgfältig wie andere Aufgaben, weil auch dort Fehler Folgen haben. Gerade bei wiederkehrenden Abläufen entdeckt man außerdem oft Möglichkeiten, etwas einfacher zu machen. [Beispiel, falls vorhanden.]"},
+ {q:"Erzählen Sie von einer Situation, in der Sie gescheitert sind.",
+  a:"Als ich mein erstes Studium abgebrochen habe, hat sich das zuerst wie ein Scheitern angefühlt. Ich habe mir dann aber genau angeschaut, woran es lag, und daraus gelernt, dass eine ehrliche Korrektur besser ist als ein Weitermachen ohne Überzeugung. Heute bin ich froh über diese Erfahrung, weil sie mich zur Verwaltung geführt hat.",
+  t:"Aufbau nach Situation, Reaktion und Lernerfolg. Wenn die Abbrüche schon ausführlich besprochen wurden, lieber ein anderes Beispiel wählen."},
+ {q:"Wie reagieren Sie auf Kritik?",
+  a:"Ich nehme Kritik als Chance, besser zu werden. Wenn ich sie nicht direkt verstehe, frage ich nach, damit ich weiß, was ich ändern kann. [Kurzes Beispiel aus der Ausbildung.]"},
+ {q:"Arbeiten Sie lieber allein oder im Team?",
+  a:"Beides hat Vorteile. Für konzentrierte Sachbearbeitung arbeite ich gern selbstständig. Bei komplexen Fällen finde ich den Austausch im Team sehr wertvoll, weil man gemeinsam oft bessere Lösungen findet. In der Ausbildung erlebe ich beides."},
+ {q:"Wo sehen Sie sich in fünf bis zehn Jahren?",
+  a:"In fünf Jahren möchte ich das duale Studium abgeschlossen haben und als Sachbearbeiterin im gehobenen Dienst beim RP arbeiten, idealerweise im Bereich [Wunschbereich]. Mit Ausbildung und Studium habe ich dann die praktische Grundlage und das theoretische Wissen, um langfristig mehr Verantwortung zu übernehmen, etwa in der Projektarbeit oder später in einer Führungsposition."},
+ {q:"Was machen Sie in Ihrer Freizeit?",
+  a:"[Ehrlich antworten.] Ehrenamt, Vereinssport oder anderes Engagement sind gern gesehen, weil sie Teamfähigkeit und Verantwortung zeigen."}
+]},
+{cat:"Werte und Gesellschaft", items:[
+ {q:"Was bedeutet Neutralität für Sie als Beamtin?",
+  a:"Ich behandle alle Menschen gleich, unabhängig von Herkunft, Religion, politischer Einstellung oder persönlicher Sympathie. Meine private Meinung spielt bei meinen Entscheidungen keine Rolle, entscheidend ist nur das Gesetz."},
+ {q:"Warum ist Verfassungstreue so wichtig?",
+  a:"Beamtinnen und Beamte handeln im Namen des Staates. Wenn sie nicht hinter der freiheitlich-demokratischen Grundordnung stehen, würde das Vertrauen der Menschen in den Staat verloren gehen."},
+ {q:"Welche Herausforderungen sehen Sie für die Verwaltung in den nächsten Jahren?",
+  a:"Vor allem die Digitalisierung, die viele Abläufe verändert und für Bürgerinnen und Bürger einfacher machen soll. Außerdem den Fachkräftemangel, weil viele Beschäftigte in den Ruhestand gehen. Das ist für mich auch ein Grund, warum ich mich für diesen Weg entscheide."},
+ {q:"Was halten Sie von der Digitalisierung der Verwaltung?",
+  a:"Ich halte sie für notwendig und sehe darin eine große Chance, Verfahren schneller und bürgerfreundlicher zu machen. Gleichzeitig muss man darauf achten, dass Menschen ohne digitale Kenntnisse nicht abgehängt werden. [Beispiel aus der Ausbildung, etwa E-Akte oder Online-Anträge.]"}
+]},
+{cat:"Rahmenbedingungen", items:[
+ {q:"Sind Sie bereit, für Praxisphasen oder Lehrveranstaltungen den Ort zu wechseln?",
+  a:"Ja, das ist für mich kein Problem. [Konkret sagen, wie du das organisieren würdest, etwa mit Auto oder Bahn.]"},
+ {q:"Wie gehen Sie mit der finanziellen Umstellung um?",
+  a:"[Kurz und ehrlich antworten.] Ich habe mich darüber informiert und das für mich geregelt.",
+  t:"Wichtig ist nur, dass es geklärt ist. Keine Details ausbreiten."},
+ {q:"Haben Sie sich auch woanders beworben?",
+  a:"[Ehrlich antworten.] Das RP Kassel ist aber ganz klar meine erste Wahl, weil [kurze Begründung].",
+  t:"Nicht lügen. Wichtig ist, dass die erste Wahl klar erkennbar ist."}
+]},
+{cat:"Fragen an die Kommission", items:[
+ {q:"Haben Sie noch Fragen an uns?",
+  list:["Welche Stationen durchlaufen die Anwärterinnen und Anwärter in den Praxisphasen?","Gibt es die Möglichkeit, eigene Wünsche für bestimmte Abteilungen einzubringen?","Werden Vorkenntnisse aus einer Verwaltungsausbildung berücksichtigt, etwa bei der Einsatzplanung?","Wann genau beginnt das Studium, damit ich den Übergang nach meinem Abschluss planen kann?","Wie sieht die Betreuung während des Studiums aus, gibt es feste Ansprechpersonen?","Wie sind die Perspektiven nach dem Abschluss?"],
+  t:"Zwei oder drei Fragen vorbereiten. Fragen nach Gehalt oder Urlaub lieber vermeiden."}
+]}
+];
+
+// flatten
+const RP="https://rp-kassel.hessen.de";
+const QL={
+ "Was wissen Sie über den Ablauf des dualen Studiums?":[["Ausbildung und duales Studium beim RP",RP+"/arbeitgeber-rp-kassel/ausbildung-duales-studium-praktika-referendariat"]],
+ "Was wissen Sie über das RP Kassel?":[["Aufbau und Struktur",RP+"/ueber-uns/aufbau-und-struktur"],["Aktuelle Meldungen",RP+"/Aktuelles"]],
+ "Welcher Bereich interessiert Sie besonders?":[["Obere Naturschutzbehörde",RP+"/natur/aufgaben-der-oberen-naturschutzbehoerde"],["Forsten",RP+"/forsten-und-landwirtschaft/forsten"]],
+ "Warum das Regierungspräsidium und nicht der Landkreis?":[["Themen A bis Z",RP+"/Themen-A-Z"]],
+ "Was ist der Unterschied zwischen Landkreis, Regierungspräsidium und Ministerium?":[["Regierungsbezirk Kassel",RP+"/nordosthessen/regierungsbezirk-kassel"]],
+ "Was ist Kommunalaufsicht?":[["Aufsicht beim RP Kassel",RP+"/aufsicht"]],
+ "Was ist ein Verwaltungsakt?":[["§ 35 VwVfG","https://www.gesetze-im-internet.de/vwvfg/__35.html"]],
+ "Was ist ein Widerspruch und welche Frist gilt?":[["§ 70 VwGO","https://www.gesetze-im-internet.de/vwgo/__70.html"]],
+ "Welche Grundsätze gelten für das Verwaltungshandeln?":[["Art. 20 Grundgesetz","https://www.gesetze-im-internet.de/gg/art_20.html"]],
+ "Welche Pflichten haben Beamtinnen und Beamte?":[["Beamtenstatusgesetz","https://www.gesetze-im-internet.de/beamtstg/"]],
+ "Ihre Vorgesetzte gibt Ihnen eine Anweisung, die Sie für falsch halten. Was tun Sie?":[["§ 36 Beamtenstatusgesetz","https://www.gesetze-im-internet.de/beamtstg/__36.html"]],
+ "Was halten Sie von der Digitalisierung der Verwaltung?":[["Digitalisierung beim RP Kassel",RP+"/ueber-uns/digitalisierung"]],
+ "Welche Herausforderungen sehen Sie für die Verwaltung in den nächsten Jahren?":[["Digitalisierung beim RP Kassel",RP+"/ueber-uns/digitalisierung"]],
+ "Warum wollen Sie Beamtin werden?":[["Leitbild des RP Kassel",RP+"/arbeitgeber-rp-kassel/leitbild"]]
+};
+const ALL = [];
+DATA.forEach((c,ci)=>c.items.forEach((it,ii)=>ALL.push({...it,cat:c.cat,id:ci+"-"+ii})));
+
+const KEY="rp-kassel-training-v1";
+let state={done:{},notes:{},memo:{}};
+try{const raw=(typeof window.NATIVE_STATE==='string'&&window.NATIVE_STATE)||localStorage.getItem(KEY); if(raw){const s=JSON.parse(raw); state.done=s.done||{}; state.notes=s.notes||{}; state.memo=s.memo||{};}}catch(e){}
+function save(){const j=JSON.stringify(state);try{localStorage.setItem(KEY,j);}catch(e){}try{window.webkit.messageHandlers.rpstore.postMessage(j);}catch(e){}}
+
+const $=id=>document.getElementById(id);
+let current=0, saveTimer=null;
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function fmt(s){return esc(s).replace(/\[([^\]]+)\]/g,'<span class="ph">$1</span>');}
+
+function renderHome(){
+  const n=ALL.filter(x=>state.done[x.id]).length;
+  $("count").innerHTML="<b>"+n+"</b> von "+ALL.length+" Fragen geübt";
+  $("barfill").style.width=(n/ALL.length*100)+"%";
+  $("continueBtn").textContent = n===ALL.length ? "Alle geübt, von vorn" : (n===0 ? "Mit dem Üben beginnen" : "Weiter üben");
+  const wrap=$("cats"); wrap.innerHTML="";
+  DATA.forEach((c,ci)=>{
+    const items=ALL.filter(x=>x.cat===c.cat);
+    const d=items.filter(x=>state.done[x.id]).length;
+    const sec=document.createElement("div"); sec.className="cat";
+    sec.innerHTML='<h2>'+esc(c.cat)+'<span class="'+(d===items.length?'full':'')+'">'+d+' von '+items.length+'</span></h2>';
+    const ul=document.createElement("ul"); ul.className="qlist";
+    items.forEach(it=>{
+      const li=document.createElement("li");
+      const b=document.createElement("button");
+      const isD=!!state.done[it.id];
+      const hasM=!!(state.memo[it.id]&&state.memo[it.id].trim());
+      b.innerHTML='<span class="dot'+(isD?' done':'')+'" aria-hidden="true"></span><span class="qt'+(isD?' done-t':'')+'">'+esc(it.q)+'</span>'+(hasM?'<span class="pen">Notiz</span>':'');
+      b.setAttribute("aria-label",it.q+(isD?", geübt":", offen"));
+      b.onclick=()=>openQ(ALL.indexOf(it));
+      li.appendChild(b); ul.appendChild(li);
+    });
+    sec.appendChild(ul); wrap.appendChild(sec);
+  });
+}
+
+function openQ(i){
+  current=i; const it=ALL[i];
+  $("home").classList.add("hidden"); $("card").classList.remove("hidden");
+  $("tab").textContent=it.cat;
+  $("pos").textContent="Frage "+(i+1)+" von "+ALL.length;
+  $("qText").textContent=it.q;
+  $("mine").value=state.notes[it.id]||"";
+  $("saved").textContent="";
+  $("memo").value=state.memo[it.id]||"";
+  $("memoSaved").textContent="";
+  $("answer").classList.add("hidden");
+  $("revealBtn").classList.remove("hidden");
+  $("aText").innerHTML = it.list
+    ? '<ul>'+it.list.map(x=>'<li>'+fmt(x)+'</li>').join("")+'</ul>'
+    : '<p class="text">'+fmt(it.a)+'</p>';
+  if(it.t){$("tip").classList.remove("hidden");$("tipText").textContent=it.t;}else{$("tip").classList.add("hidden");}
+  const ql=QL[it.q];
+  if(ql){$("qlinks").classList.remove("hidden");$("qlinks").innerHTML="<b>Zum Nachlesen</b>"+ql.map(l=>'<a href="'+l[1]+'" target="_blank" rel="noopener">'+esc(l[0])+' ↗</a>').join("");}
+  else{$("qlinks").classList.add("hidden");$("qlinks").innerHTML="";}
+  updateMark(false);
+  window.scrollTo(0,0);
+}
+
+function updateMark(animate){
+  const it=ALL[current], d=!!state.done[it.id];
+  const m=$("markBtn"); m.classList.toggle("is",d);
+  m.textContent=d?"Geübt ✓":"Als geübt markieren";
+  const st=$("stamp"); st.classList.remove("on");
+  if(d){ if(animate){void st.offsetWidth;} st.classList.add("on"); }
+}
+
+$("revealBtn").onclick=()=>{$("answer").classList.remove("hidden");$("revealBtn").classList.add("hidden");};
+$("markBtn").onclick=()=>{const id=ALL[current].id; if(state.done[id]) delete state.done[id]; else state.done[id]=true; save(); updateMark(true);};
+$("nextBtn").onclick=()=>openQ((current+1)%ALL.length);
+$("backBtn").onclick=()=>{$("card").classList.add("hidden");$("home").classList.remove("hidden");renderHome();window.scrollTo(0,0);};
+$("mine").addEventListener("input",()=>{
+  state.notes[ALL[current].id]=$("mine").value;
+  clearTimeout(saveTimer); saveTimer=setTimeout(()=>{save();$("saved").textContent="Gespeichert";},500);
+});
+let memoTimer=null;
+$("memo").addEventListener("input",()=>{
+  state.memo[ALL[current].id]=$("memo").value;
+  clearTimeout(memoTimer); memoTimer=setTimeout(()=>{save();$("memoSaved").textContent="Gespeichert";},500);
+});
+$("copyBtn").onclick=()=>{
+  const it=ALL[current];
+  const base=it.list?it.list.map(x=>"- "+x).join("\n"):it.a;
+  const cur=$("memo").value.trim();
+  if(cur && !confirm("Die Musterantwort unter deine bisherigen Notizen einfügen?")) return;
+  $("memo").value = cur ? cur+"\n\n"+base : base;
+  state.memo[it.id]=$("memo").value; save();
+  $("memoSaved").textContent="Gespeichert";
+  $("memo").focus();
+};
+$("continueBtn").onclick=()=>{
+  const open=ALL.findIndex(x=>!state.done[x.id]);
+  openQ(open===-1?0:open);
+};
+$("randomBtn").onclick=()=>{
+  const open=ALL.map((x,i)=>i).filter(i=>!state.done[ALL[i].id]);
+  const pool=open.length?open:ALL.map((x,i)=>i);
+  openQ(pool[Math.floor(Math.random()*pool.length)]);
+};
+$("resetBtn").onclick=()=>{
+  if(confirm("Fortschritt, eigene Antworten und Notizen löschen?")){state={done:{},notes:{},memo:{}};save();renderHome();}
+};
+renderHome();
+</script>
+<script>
+if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
+</script>
+</body>
+</html>
