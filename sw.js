@@ -1,8 +1,8 @@
 // Hält alle Dateien der App im Cache, damit sie ohne Internet startet.
 // Nach Änderungen an den Dateien die Versionsnummer erhöhen.
-const CACHE = 'rp-training-v15';
+const CACHE = 'rp-training-v16';
 const FILES = ['./', './index.html', './manifest.webmanifest',
-               './apple-touch-icon.png', './icon-192.png', './icon-512.png', './finn.jpg'];
+               './app-icon-180-v2.png', './app-icon-192-v2.png', './app-icon-512-v2.png', './finn.jpg'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(FILES)).then(() => self.skipWaiting()));
