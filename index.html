@@ -296,6 +296,7 @@ label.row{cursor:pointer}
 
 /* Übergänge wie beim Navigieren in iOS */
 .push{animation:push .35s cubic-bezier(.2,.8,.2,1)}
+.tabfade{animation:fade .18s ease-out}
 .pop-in{animation:popin .35s cubic-bezier(.2,.8,.2,1)}
 @keyframes push{from{transform:translateX(40%);opacity:0}to{transform:none;opacity:1}}
 @keyframes popin{from{transform:translateX(-25%);opacity:0}to{transform:none;opacity:1}}
@@ -1182,13 +1183,17 @@ function markTab(name){
 function showTab(name){
   if(name===tab){window.scrollTo({top:0,behavior:"smooth"});return;}
   tabScroll[tab]=window.scrollY; tab=name;
+  // Inhalt vorbereiten, solange die Seite noch verborgen ist
+  if(name==="home") renderHome();
+  if(name==="finn") renderFinn();
   Object.keys(TABS).forEach(k=>$(k).classList.toggle("hidden",k!==name));
   markTab(name);
   $("navTitle").textContent=TABS[name][1];
-  if(name==="home") renderHome();
   if(name==="notes") growFree();
-  if(name==="finn") renderFinn();
+  // Kurzes Einblenden zwingt Safari auf dem iPhone, die ganze Seite neu zu zeichnen
+  const page=$(name); page.classList.remove("tabfade"); void page.offsetWidth; page.classList.add("tabfade");
   window.scrollTo(0,tabScroll[name]);
+  requestAnimationFrame(()=>{window.scrollTo(0,tabScroll[name]); updateNav();});
   updateNav();
 }
 Object.keys(TABS).forEach(k=>$(TABS[k][0]).onclick=()=>showTab(k));
