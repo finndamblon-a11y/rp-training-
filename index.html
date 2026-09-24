@@ -50,7 +50,14 @@ svg{display:block}
 .nav-back svg{width:13px;height:21px}
 .nav-back:active{opacity:.35}
 
-/* Kopf */
+/* Kopf: Auf den Tab-Seiten bleibt der große Titel beim Scrollen oben stehen,
+   in gleicher Größe und linksbündig; dahinter erscheint nur ein Milchglas-Band */
+.lhead{position:sticky;top:0;z-index:15;margin:0 -16px;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 8px;background:var(--bg);transition:background .2s,box-shadow .2s}
+.lhead.stuck{background:var(--navbg);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);box-shadow:0 .5px 0 var(--sep)}
+.lhead .eyebrow{margin-top:0}
+/* Auf schmalen iPhones etwas kleiner, damit „Gesprächstraining“ in eine Zeile passt */
+.lhead .large{font-size:min(34px,8.6vw);line-height:1.2}
+.lhead + .subtitle{margin-top:0}
 .eyebrow{color:var(--tint);font-size:13px;font-weight:700;letter-spacing:.2px;text-transform:uppercase;margin:6px 0 0}
 .large{font-family:var(--display);font-size:34px;font-weight:700;letter-spacing:.37px;line-height:41px;margin:2px 0 0}
 .subtitle{color:var(--label2);font-size:15px;letter-spacing:-.24px;margin:2px 0 20px}
@@ -325,8 +332,10 @@ label.row{cursor:pointer}
 
 <main>
 <section id="home" class="page tabpage">
+<div class="lhead">
   <p class="eyebrow">RP Kassel · Duales Studium</p>
   <h1 class="large">Gesprächstraining</h1>
+  </div>
   <p class="subtitle">Vorbereitung auf das persönliche Auswahlgespräch im Studiengang Public Administration</p>
 
   <div class="card msg hidden" id="msgCard">
@@ -391,8 +400,10 @@ label.row{cursor:pointer}
 </section>
 
 <section id="read" class="page tabpage hidden">
+<div class="lhead">
   <p class="eyebrow">RP Kassel · Duales Studium</p>
   <h1 class="large">Nachlesen</h1>
+  </div>
   <p class="subtitle">Checkliste für den Gesprächstag, wichtige Seiten zum RP Kassel und Gesetze im Wortlaut</p>
   <div class="section" style="margin-top:8px">
     <div class="sec-head"><span>Am Gesprächstag</span><span class="n" id="checkCount"></span></div>
@@ -427,8 +438,10 @@ label.row{cursor:pointer}
 </section>
 
 <section id="notes" class="page tabpage hidden">
+<div class="lhead">
   <p class="eyebrow">RP Kassel · Duales Studium</p>
   <h1 class="large">Notizen</h1>
+  </div>
   <p class="subtitle">Platz für alles, was dir sonst noch einfällt</p>
   <div class="section" style="margin-top:8px">
     <div class="sec-head"><label for="freeNotes">Meine Notizen</label><span class="n saved" id="freeSaved"></span></div>
@@ -438,8 +451,10 @@ label.row{cursor:pointer}
 </section>
 
 <section id="finn" class="page tabpage hidden">
+<div class="lhead">
   <p class="eyebrow">RP Kassel · Duales Studium</p>
   <h1 class="large">Finn</h1>
+  </div>
   <p class="subtitle">Wenn was ist: schreib mir einfach.</p>
   <div id="finnBody"></div>
 </section>
@@ -1136,6 +1151,7 @@ $("msgShow").onclick=()=>{state.hideMsgDay=""; save(); showTab("home"); window.s
 // mode: false = Tabs, true = Frageansicht, "mock" = Probegespräch
 function setNav(mode){
   const inner=!!mode;
+  $("nav").classList.toggle("hidden",!inner);
   $("backBtn").classList.toggle("hidden",!inner);
   $("backLabel").textContent=mode==="mock"?"Beenden":"Fragen";
   $("tabbar").classList.toggle("hidden",inner);
@@ -1146,8 +1162,8 @@ function setNav(mode){
 // Wie in iOS: Der kleine Titel erscheint erst, wenn der große Titel weggescrollt ist
 function updateNav(){
   const onCard=!$("card").classList.contains("hidden")||!$("mock").classList.contains("hidden");
-  const past = onCard ? window.scrollY>4 : $(tab).querySelector(".large").getBoundingClientRect().bottom < $("nav").offsetHeight;
-  $("nav").classList.toggle("solid",past);
+  if(onCard){$("nav").classList.toggle("solid",window.scrollY>4); return;}
+  const h=$(tab).querySelector(".lhead"); if(h) h.classList.toggle("stuck",window.scrollY>2);
 }
 addEventListener("scroll",updateNav,{passive:true});
 
@@ -1748,7 +1764,7 @@ renderFinn();
 
 $("linksRP").innerHTML=LINKS_RP.map(l=>linkRow(...l)).join("");
 $("linksLaw").innerHTML=LINKS_LAW.map(l=>linkRow(...l)).join("");
-renderChecklist(); renderHome(); updateNav(); checkMoments();
+renderChecklist(); renderHome(); setNav(false); checkMoments();
 if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}
 </script>
 </body>
